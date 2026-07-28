@@ -1,0 +1,1766 @@
+{
+  "backupVersion": 1,
+  "createdAt": "2026-07-27T12:54:57.671823",
+  "users": [
+    {
+      "createdAt": "2026-07-16T14:32:05.661",
+      "email": "hamzali@gmail.com",
+      "isActive": true,
+      "name": "Hamza Ali",
+      "phone": "123456",
+      "profileImageUrl": "",
+      "role": "staff",
+      "_id": "2yTV45vD8jNDmMf5NzALCd3U1V83"
+    },
+    {
+      "createdAt": "2026-07-20T11:13:04.743324",
+      "email": "mughal@gmail.com",
+      "name": "Kamran Mughal",
+      "phone": "034566789",
+      "profileImageUrl": "",
+      "role": "staff",
+      "_id": "CB1NGEWg6nWCBzqrLjshsUgWb8e2"
+    },
+    {
+      "createdAt": "2026-07-16T11:12:00.178",
+      "email": "naveed@gmail.com",
+      "name": "Muhammad Naveed",
+      "phone": "03456782345",
+      "role": "staff",
+      "_id": "PiIQB4PPSLdLaX7ryi6FqZtCfvJ3"
+    },
+    {
+      "createdAt": "2026-07-15T15:03:21.220155",
+      "email": "waqas@gmail.com",
+      "name": "Waqas ali",
+      "phone": "085642385",
+      "role": "admin",
+      "_id": "Se6SXZsyJeXzrW8SoZ1YO9SP0Vc2"
+    },
+    {
+      "createdAt": "2026-07-17T18:38:29.590",
+      "email": "aaa@gmail.com",
+      "name": "aaaa",
+      "phone": "999",
+      "profileImageUrl": "",
+      "role": "admin",
+      "_id": "Sv10rVuO2PRlxV8tb77lBKUragX2"
+    },
+    {
+      "createdAt": "2026-07-17T16:49:06.387080",
+      "email": "iqbal@gmail.com",
+      "isActive": true,
+      "monthlySalary": 50000.0,
+      "name": "Iqbal",
+      "phone": "035289652478",
+      "profileImageUrl": "https://randomuser.me/api/portraits/men/67.jpg",
+      "role": "staff",
+      "_id": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2"
+    },
+    {
+      "createdAt": "2026-07-15T15:35:43.028830",
+      "email": "aslam@gmail.com",
+      "name": "Aslam",
+      "phone": "03585241752",
+      "role": "staff",
+      "_id": "llqm274p2DgAfFGumOGhobKyKXB2"
+    },
+    {
+      "createdAt": "2026-07-15T15:32:20.572072",
+      "email": "faheem@gmail.com",
+      "name": "Faheem",
+      "phone": "035874258523",
+      "role": "admin",
+      "_id": "qfH0AWHOVGT6YX5r2107rus1kry1"
+    },
+    {
+      "createdAt": "2026-07-16T12:10:37.449",
+      "email": "haseebali@gmail.com",
+      "name": "Haseeb Ali",
+      "phone": "123456789",
+      "profileImageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
+      "role": "admin",
+      "_id": "sajWkyNoZrRR2YVGiQPMqPc5Dig2"
+    }
+  ],
+  "products": [
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Twice-baked golden-crisp cake rusk. Light and crunchy, perfect for dunking in tea or coffee. A bakery staple.",
+      "imageUrl": "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400",
+      "name": "Plain Cake Rusk (350g)",
+      "price": 130.0,
+      "stockQty": 110,
+      "_id": "02OANRTKkwbAKle2jnOt"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Italian-inspired tiramisu with espresso-soaked ladyfingers, mascarpone cream, and a dusting of premium cocoa.",
+      "imageUrl": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400",
+      "name": "Tiramisu Dessert Box",
+      "price": 280.0,
+      "stockQty": 15,
+      "_id": "0c96wkrXG7khEYjzjAWZ"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Soft vanilla sponge cupcake topped with swirled vanilla buttercream frosting and rainbow sprinkles.",
+      "imageUrl": "https://images.unsplash.com/photo-1587668178277-295251f900ce?w=400",
+      "name": "Vanilla Cream Cupcake",
+      "price": 120.0,
+      "stockQty": 60,
+      "_id": "2KKmRkNoa087e8Gt8J7y"
+    },
+    {
+      "createdAt": "2026-07-15T16:05:19.412918",
+      "description": "Soft chocolate cake",
+      "imageUrl": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+      "name": "Chocolate Cupcake",
+      "price": 280.0,
+      "stockQty": 0,
+      "_id": "2LBxoLpWWk7D9nnK2BkH"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Silky smooth dark chocolate mousse served in an elegant dessert cup with chocolate shavings on top.",
+      "imageUrl": "https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?w=400",
+      "name": "Chocolate Mousse Cup",
+      "price": 200.0,
+      "stockQty": 25,
+      "_id": "2UETijdD0u2FstdiJiS2"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Buttery shortcrust pastry shell filled with smooth custard cream and topped with fresh mango slices and apricot glaze.",
+      "imageUrl": "https://images.unsplash.com/photo-1560180474-e8563fd75bab?w=400",
+      "name": "Mango Fruit Tart",
+      "price": 220.0,
+      "stockQty": 20,
+      "_id": "4NrgKdP4eytxr0lwjE50"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "American-style soft and chewy cookies loaded with dark chocolate chips and a sprinkle of sea salt on top.",
+      "imageUrl": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400",
+      "name": "Chocolate Chip Cookies (12 pcs)",
+      "price": 220.0,
+      "stockQty": 60,
+      "_id": "4e0yAkXEfryTiPrMRj2j"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "100% whole wheat bread packed with fiber and nutrients. Ideal for health-conscious customers. No artificial colors.",
+      "imageUrl": "https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=400",
+      "name": "Whole Wheat Brown Bread",
+      "price": 150.0,
+      "stockQty": 55,
+      "_id": "5OUKftz6Q1y3pmGi9AUF"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Triple-decker toasted club sandwich with grilled chicken, fresh lettuce, tomato, cheddar cheese, and mayo.",
+      "imageUrl": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400",
+      "name": "Chicken Club Sandwich",
+      "price": 350.0,
+      "stockQty": 33,
+      "_id": "6Fh8o9J8hjedpw1aNR2e"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Crispy golden puff pastry filled with spiced shredded chicken, onions, and green chilies. Baked fresh every 2 hours.",
+      "imageUrl": "https://images.unsplash.com/photo-1626078299034-694e5c3f25f9?w=400",
+      "name": "Chicken Puff Pastry",
+      "price": 80.0,
+      "stockQty": 120,
+      "_id": "7IKkHeMKuBXE7BJvyz2F"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Enriched milk bread made with fresh full-cream milk. Softer and sweeter than regular bread. Kids favorite.",
+      "imageUrl": "https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=400",
+      "name": "Milk Bread Loaf",
+      "price": 130.0,
+      "stockQty": 65,
+      "_id": "7o8ydmsVVK2GGXgB8p0G"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Classic egg mayonnaise sandwich on soft white bread with lettuce, black pepper, and a hint of mustard.",
+      "imageUrl": "https://images.unsplash.com/photo-1481070555726-e2fe8357725c?w=400",
+      "name": "Egg Mayo Sandwich",
+      "price": 150.0,
+      "stockQty": 44,
+      "_id": "8LVyzjBmRcSxc5Vs8oTB"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Crispy triangular pastry filled with spiced potato and green peas. Served with mint chutney. Always hot and fresh.",
+      "imageUrl": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400",
+      "name": "Vegetable Samosa (per piece)",
+      "price": 40.0,
+      "stockQty": 200,
+      "_id": "9PCCC1D4cZO8IQE4JPoe"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Premium buttery shortbread cookies with crushed pistachios and a hint of rose water. Beautifully packaged.",
+      "imageUrl": "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=400",
+      "name": "Pistachio Shortbread Cookies (8 pcs)",
+      "price": 260.0,
+      "stockQty": 40,
+      "_id": "AJBEfwYnYgbwh4YmqvOf"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Fluffy pull-apart dinner rolls brushed with garlic herb butter. Freshly baked and served warm. Best paired with soup.",
+      "imageUrl": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400",
+      "name": "Garlic Butter Dinner Rolls (6 pcs)",
+      "price": 160.0,
+      "stockQty": 40,
+      "_id": "AWOFcQzWnTLEEgn2Gc9K"
+    },
+    {
+      "createdAt": "2026-07-15T16:06:04.172096",
+      "description": "Light vanilla cupcake",
+      "imageUrl": "https://images.unsplash.com/photo-1542826438-bd32f43d626f",
+      "name": "Vanilla Cupcake",
+      "price": 260.0,
+      "stockQty": 2,
+      "_id": "AfU6mB58kbkuC2PAJnTe"
+    },
+    {
+      "createdAt": "2026-07-15T16:06:58.656757",
+      "description": "Freshly baked",
+      "imageUrl": "https://images.unsplash.com/photo-1607958996333-41aef7caefaa",
+      "name": "Blueberry Muffin",
+      "price": 250.0,
+      "stockQty": 5,
+      "_id": "DRtKvkf5LPbfxuQObA29"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Classic crispy cumin-flavored tea biscuits. Perfect to pair with evening chai. Made with pure desi ghee.",
+      "imageUrl": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400",
+      "name": "Zeera Biscuits (500g Pack)",
+      "price": 150.0,
+      "stockQty": 90,
+      "_id": "DovndxRmICgmIhD6kAkd"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Creamy New York-style cheesecake on a Graham cracker crust, topped with fresh strawberry compote.",
+      "imageUrl": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400",
+      "name": "Strawberry Cheesecake Slice",
+      "price": 250.0,
+      "stockQty": 18,
+      "_id": "FsP1Ev8IMzHrqyfwedBI"
+    },
+    {
+      "category": "Cakes & Sweets",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Soft, melt-in-mouth khoya gulab jamun soaked in aromatic rose-cardamom sugar syrup. Made fresh daily with pure milk solids. Perfect for celebrations and dessert tables.",
+      "imageUrl": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400",
+      "name": "Gulab Jamun Box (12 pcs)",
+      "price": 350.0,
+      "stockQty": 40,
+      "_id": "HTXzfU7g4b1R3NDxpClh"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Fluffy pull-apart dinner rolls brushed with garlic herb butter. Freshly baked and served warm. Best paired with soup.",
+      "imageUrl": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400",
+      "name": "Garlic Butter Dinner Rolls (6 pcs)",
+      "price": 160.0,
+      "stockQty": 40,
+      "_id": "IrIUeJ2TSXRWRbr6ZymQ"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Crispy golden puff pastry filled with spiced shredded chicken, onions, and green chilies. Baked fresh every 2 hours.",
+      "imageUrl": "https://images.unsplash.com/photo-1626078299034-694e5c3f25f9?w=400",
+      "name": "Chicken Puff Pastry",
+      "price": 80.0,
+      "stockQty": 120,
+      "_id": "JWc4CW7Hf2E68AcKGtcg"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Rich dense chocolate brownie with gooey caramel drizzle and crushed walnuts on top. Packed with cocoa goodness.",
+      "imageUrl": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
+      "name": "Caramel Fudge Brownie",
+      "price": 150.0,
+      "stockQty": 45,
+      "_id": "KA3ZmSKN5lo8HAwmOD9m"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Flaky puff pastry stuffed with spiced minced beef keema with fresh herbs. Crispy on the outside, juicy on the inside.",
+      "imageUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400",
+      "name": "Beef Patties (Qeema Puff)",
+      "price": 120.0,
+      "stockQty": 90,
+      "_id": "Lj8NnhDtMMVtVEbEd75r"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Traditional Pakistani shortbread biscuits made with flour, ghee, and sugar. Topped with whole almonds. Melt-in-mouth texture.",
+      "imageUrl": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400",
+      "name": "Almond Naankhatai (250g)",
+      "price": 180.0,
+      "stockQty": 75,
+      "_id": "McbQmE5iEsOXLH5TLECg"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Soft and fluffy large loaf perfect for sandwiches and toast. Baked fresh every morning. No preservatives.",
+      "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400",
+      "name": "Large Sandwich Bread",
+      "price": 120.0,
+      "stockQty": 76,
+      "_id": "Niu4UfSL54HU3AYjIiNJ"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "American-style soft and chewy cookies loaded with dark chocolate chips and a sprinkle of sea salt on top.",
+      "imageUrl": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400",
+      "name": "Chocolate Chip Cookies (12 pcs)",
+      "price": 220.0,
+      "stockQty": 60,
+      "_id": "O2cPCxsdmbTAeiGT6MFT"
+    },
+    {
+      "createdAt": "2026-07-15T16:09:03.317871",
+      "description": "Rich and fudy chocolate",
+      "imageUrl": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+      "name": "Chocolate Brownie",
+      "price": 320.0,
+      "stockQty": 7,
+      "_id": "PC90hmaixPhsV0FntmBP"
+    },
+    {
+      "category": "Cakes & Sweets",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Light and refreshing pineapple cake with fluffy vanilla sponge layers, fresh whipped cream, and chunks of juicy pineapple. Finished with cream rosettes and pineapple slices on top.",
+      "imageUrl": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400",
+      "name": "Pineapple Cream Cake (500g)",
+      "price": 950.0,
+      "stockQty": 12,
+      "_id": "S2fhWedrefpFBAzUGkIe"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Premium almond-studded cake rusk. Rich, crunchy, and packed with whole almonds in every bite. A luxury tea-time treat.",
+      "imageUrl": "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400",
+      "name": "Almond Rusk (400g)",
+      "price": 200.0,
+      "stockQty": 65,
+      "_id": "Ul9cOCZPxRM9VJqLx8Qp"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Classic crispy cumin-flavored tea biscuits. Perfect to pair with evening chai. Made with pure desi ghee.",
+      "imageUrl": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400",
+      "name": "Zeera Biscuits (500g Pack)",
+      "price": 150.0,
+      "stockQty": 90,
+      "_id": "V4ETYaGS5zQKipepebpX"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Long, soft hot dog rolls with a light golden crust. Freshly baked and ideal for cafes and home use.",
+      "imageUrl": "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=400",
+      "name": "Hot Dog Rolls (Pack of 6)",
+      "price": 100.0,
+      "stockQty": 70,
+      "_id": "V7uMtcNYPJnQcfLc3Cn3"
+    },
+    {
+      "category": "Cakes & Sweets",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Stunning red velvet cake slice with 3 layers of moist red sponge and rich cream cheese frosting between each layer. Velvety smooth texture with a subtle cocoa flavor.",
+      "imageUrl": "https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=400",
+      "name": "Red Velvet Wedding Cake Slice",
+      "price": 320.0,
+      "stockQty": 20,
+      "_id": "VUBbhtSFVPlAo0WybeYR"
+    },
+    {
+      "category": "Cakes & Sweets",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Elegant single-tier vanilla sponge birthday cake with silky vanilla buttercream frosting, decorated with fresh flowers and birthday message. Made to order with premium vanilla extract. Serves 8-10 people.",
+      "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400",
+      "name": "Classic Vanilla Birthday Cake (1 Kg)",
+      "price": 1800.0,
+      "stockQty": 10,
+      "_id": "WwYHXzfT5QUIJyJBFfgG"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Soft and fluffy large loaf perfect for sandwiches and toast. Baked fresh every morning. No preservatives.",
+      "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400",
+      "name": "Large Sandwich Bread",
+      "price": 120.0,
+      "stockQty": 80,
+      "_id": "XYTQy3MmbtI2R1p0oewJ"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Generous slice of freshly baked pizza with chicken tikka chunks, mozzarella cheese, capsicum, and tomato sauce.",
+      "imageUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400",
+      "name": "Cheese & Chicken Pizza Slice",
+      "price": 200.0,
+      "stockQty": 50,
+      "_id": "XaRf3mA3aNKUZkmseNT9"
+    },
+    {
+      "createdAt": "2026-07-16T12:29:14.965",
+      "description": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn  mmmmmmmmmmmmmmmmmm",
+      "imageUrl": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad",
+      "name": "cake",
+      "price": 409.0,
+      "stockQty": 9,
+      "_id": "ZQhTRtEk3xDMTC5M39wS"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Premium almond-studded cake rusk. Rich, crunchy, and packed with whole almonds in every bite. A luxury tea-time treat.",
+      "imageUrl": "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400",
+      "name": "Almond Rusk (400g)",
+      "price": 200.0,
+      "stockQty": 65,
+      "_id": "ZZQkTDLSdCU9AiYghhhc"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Rich dense chocolate brownie with gooey caramel drizzle and crushed walnuts on top. Packed with cocoa goodness.",
+      "imageUrl": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
+      "name": "Caramel Fudge Brownie",
+      "price": 150.0,
+      "stockQty": 45,
+      "_id": "bWeA4kHA3NRjW1LOByTy"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Silky smooth dark chocolate mousse served in an elegant dessert cup with chocolate shavings on top.",
+      "imageUrl": "https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?w=400",
+      "name": "Chocolate Mousse Cup",
+      "price": 200.0,
+      "stockQty": 21,
+      "_id": "boIbrzLcGEwl7r4WCkzx"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Crispy layered paratha roll filled with spiced chicken tikka, pickled onions, and raita. A Pakistani deli classic.",
+      "imageUrl": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400",
+      "name": "Chicken Roll (Paratha Style)",
+      "price": 180.0,
+      "stockQty": 60,
+      "_id": "bzyuSuc5qK2TcEHTqisw"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Crispy triangular pastry filled with spiced potato and green peas. Served with mint chutney. Always hot and fresh.",
+      "imageUrl": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400",
+      "name": "Vegetable Samosa (per piece)",
+      "price": 40.0,
+      "stockQty": 199,
+      "_id": "cD33G65f0rSTqeOsJ6DQ"
+    },
+    {
+      "category": "Cakes & Sweets",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Indulgent triple-layer dark chocolate fudge cake with a thick ganache filling and glossy chocolate glaze on top. Topped with chocolate curls. A chocoholic's dream. Serves 8-10 people.",
+      "imageUrl": "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=400",
+      "name": "Rich Chocolate Fudge Cake (1 Kg)",
+      "price": 2000.0,
+      "stockQty": 8,
+      "_id": "cJZzCoFx6lJ9YOuZIvnC"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Soft, pillowy burger buns topped with sesame seeds. Baked to golden perfection. Perfect for beef and chicken burgers.",
+      "imageUrl": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400",
+      "name": "Sesame Burger Buns (Pack of 4)",
+      "price": 90.0,
+      "stockQty": 100,
+      "_id": "cfcWXUhWRuREsgsXH7BH"
+    },
+    {
+      "category": "Cakes & Sweets",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Assorted traditional barfi box with kaju (cashew) barfi, pista barfi, and coconut barfi. Garnished with edible silver leaf (warq). Premium mithai for gifting and special occasions.",
+      "imageUrl": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400",
+      "name": "Barfi Mithai Box (250g)",
+      "price": 450.0,
+      "stockQty": 35,
+      "_id": "cmIXvKKN37PV2s3e2p5j"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Flaky puff pastry stuffed with spiced minced beef keema with fresh herbs. Crispy on the outside, juicy on the inside.",
+      "imageUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400",
+      "name": "Beef Patties (Qeema Puff)",
+      "price": 120.0,
+      "stockQty": 90,
+      "_id": "dQALQVTXW6ewHiYNdOPN"
+    },
+    {
+      "createdAt": "2026-07-15T16:08:09.135184",
+      "description": "Creamy cheesecake",
+      "imageUrl": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad",
+      "name": "Strawberry Cheesecake",
+      "price": 550.0,
+      "stockQty": 2,
+      "_id": "dSKYJlarER5Ib42UQ87L"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Classic German-style Black Forest pastry with layers of chocolate sponge, whipped cream, and cherry topping. Fresh baked daily.",
+      "imageUrl": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400",
+      "name": "Black Forest Pastry Slice",
+      "price": 180.0,
+      "stockQty": 30,
+      "_id": "fcetEbun7RiCAvMvs6oF"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Long, soft hot dog rolls with a light golden crust. Freshly baked and ideal for cafes and home use.",
+      "imageUrl": "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=400",
+      "name": "Hot Dog Rolls (Pack of 6)",
+      "price": 100.0,
+      "stockQty": 70,
+      "_id": "hCWMKM7TmFbUP3GmwYdz"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Chewy coconut macaroon cookies with a crisp golden exterior and soft coconut interior. Dipped in dark chocolate.",
+      "imageUrl": "https://images.unsplash.com/photo-1621236378699-8597faf6a11a?w=400",
+      "name": "Coconut Macaroons (6 pcs)",
+      "price": 190.0,
+      "stockQty": 55,
+      "_id": "iOlzg6OOqDKPxD6w5P7W"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Creamy New York-style cheesecake on a Graham cracker crust, topped with fresh strawberry compote.",
+      "imageUrl": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400",
+      "name": "Strawberry Cheesecake Slice",
+      "price": 250.0,
+      "stockQty": 18,
+      "_id": "igeNlzvlXjuAjHpVN5JY"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Classic egg mayonnaise sandwich on soft white bread with lettuce, black pepper, and a hint of mustard.",
+      "imageUrl": "https://images.unsplash.com/photo-1481070555726-e2fe8357725c?w=400",
+      "name": "Egg Mayo Sandwich",
+      "price": 150.0,
+      "stockQty": 40,
+      "_id": "iwc10LNN0XZVW7k1S8Fg"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Soft, pillowy burger buns topped with sesame seeds. Baked to golden perfection. Perfect for beef and chicken burgers.",
+      "imageUrl": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400",
+      "name": "Sesame Burger Buns (Pack of 4)",
+      "price": 90.0,
+      "stockQty": 98,
+      "_id": "jOcEkZnd9UP4zkYpTAAV"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Chewy coconut macaroon cookies with a crisp golden exterior and soft coconut interior. Dipped in dark chocolate.",
+      "imageUrl": "https://images.unsplash.com/photo-1621236378699-8597faf6a11a?w=400",
+      "name": "Coconut Macaroons (6 pcs)",
+      "price": 190.0,
+      "stockQty": 55,
+      "_id": "jYAfm67etHdyDdFWiap3"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Premium buttery shortbread cookies with crushed pistachios and a hint of rose water. Beautifully packaged.",
+      "imageUrl": "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=400",
+      "name": "Pistachio Shortbread Cookies (8 pcs)",
+      "price": 260.0,
+      "stockQty": 39,
+      "_id": "lkCwU4QRbvjYY9QXsAB6"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Enriched milk bread made with fresh full-cream milk. Softer and sweeter than regular bread. Kids favorite.",
+      "imageUrl": "https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=400",
+      "name": "Milk Bread Loaf",
+      "price": 130.0,
+      "stockQty": 65,
+      "_id": "mljA3kePFC29GCAbuEHK"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Triple-decker toasted club sandwich with grilled chicken, fresh lettuce, tomato, cheddar cheese, and mayo.",
+      "imageUrl": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400",
+      "name": "Chicken Club Sandwich",
+      "price": 350.0,
+      "stockQty": 35,
+      "_id": "o0MTDvezuHFGVEpSoayT"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Soft vanilla sponge cupcake topped with swirled vanilla buttercream frosting and rainbow sprinkles.",
+      "imageUrl": "https://images.unsplash.com/photo-1587668178277-295251f900ce?w=400",
+      "name": "Vanilla Cream Cupcake",
+      "price": 120.0,
+      "stockQty": 60,
+      "_id": "oGwUDb7MM20aCoNBFfKF"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Italian-inspired tiramisu with espresso-soaked ladyfingers, mascarpone cream, and a dusting of premium cocoa.",
+      "imageUrl": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400",
+      "name": "Tiramisu Dessert Box",
+      "price": 280.0,
+      "stockQty": 13,
+      "_id": "oZ7BLI1lamWOdGpL1aET"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Classic German-style Black Forest pastry with layers of chocolate sponge, whipped cream, and cherry topping. Fresh baked daily.",
+      "imageUrl": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400",
+      "name": "Black Forest Pastry Slice",
+      "price": 180.0,
+      "stockQty": 30,
+      "_id": "oZLYobFlCUvATPw87Vmh"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Traditional Pakistani shortbread biscuits made with flour, ghee, and sugar. Topped with whole almonds. Melt-in-mouth texture.",
+      "imageUrl": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400",
+      "name": "Almond Naankhatai (250g)",
+      "price": 180.0,
+      "stockQty": 75,
+      "_id": "rdVUmuttIeD3g9RkbXwy"
+    },
+    {
+      "category": "Fresh Bread & Buns",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "100% whole wheat bread packed with fiber and nutrients. Ideal for health-conscious customers. No artificial colors.",
+      "imageUrl": "https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=400",
+      "name": "Whole Wheat Brown Bread",
+      "price": 150.0,
+      "stockQty": 54,
+      "_id": "tFwXiLssloLaCNTJ6NnW"
+    },
+    {
+      "category": "Pastries & Desserts",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Buttery shortcrust pastry shell filled with smooth custard cream and topped with fresh mango slices and apricot glaze.",
+      "imageUrl": "https://images.unsplash.com/photo-1560180474-e8563fd75bab?w=400",
+      "name": "Mango Fruit Tart",
+      "price": 220.0,
+      "stockQty": 20,
+      "_id": "tX3EdvpSAd7g74oGOhNP"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Crispy layered paratha roll filled with spiced chicken tikka, pickled onions, and raita. A Pakistani deli classic.",
+      "imageUrl": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400",
+      "name": "Chicken Roll (Paratha Style)",
+      "price": 180.0,
+      "stockQty": 60,
+      "_id": "vmL6C9V4eOU8ED91V1TS"
+    },
+    {
+      "createdAt": "2026-07-15T16:10:16.878606",
+      "description": "Warm cinnamon roll topped with fresh",
+      "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+      "name": "Cinnamon Roll",
+      "price": 350.0,
+      "stockQty": 7,
+      "_id": "vseJjMbNPX7nNIRJJXbt"
+    },
+    {
+      "category": "Savories & Snacks",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Generous slice of freshly baked pizza with chicken tikka chunks, mozzarella cheese, capsicum, and tomato sauce.",
+      "imageUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400",
+      "name": "Cheese & Chicken Pizza Slice",
+      "price": 200.0,
+      "stockQty": 48,
+      "_id": "y138RnhsuOrkfDQxAlkZ"
+    },
+    {
+      "category": "Biscuits & Cookies",
+      "createdAt": "2026-07-25T15:05:48.008915",
+      "description": "Twice-baked golden-crisp cake rusk. Light and crunchy, perfect for dunking in tea or coffee. A bakery staple.",
+      "imageUrl": "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400",
+      "name": "Plain Cake Rusk (350g)",
+      "price": 130.0,
+      "stockQty": 109,
+      "_id": "ywEMAhS83sjKRMxHt6cu"
+    },
+    {
+      "category": "Cakes & Sweets",
+      "createdAt": "2026-07-25T15:22:45.335390",
+      "description": "Classic Latin-inspired tres leches (three milk) cake — ultra-moist sponge soaked in a mixture of whole milk, condensed milk, and heavy cream, topped with lightly sweetened whipped cream and cinnamon.",
+      "imageUrl": "https://images.unsplash.com/photo-1567171466295-4afa63d45416?w=400",
+      "name": "Tres Leches Cake Slice",
+      "price": 280.0,
+      "stockQty": 24,
+      "_id": "zBWX7Zrd4udj3fvPXl3I"
+    }
+  ],
+  "customers": [
+    {
+      "address": "Rawalpindi",
+      "balance": 0.0,
+      "createdAt": "2026-07-16T14:52:07.712",
+      "name": "Ali",
+      "phone": "12345",
+      "_id": "3F5947hs4Ey1mPPG4zzy"
+    },
+    {
+      "address": "Peshawar",
+      "balance": 0.0,
+      "createdAt": "2026-07-15T18:58:33.228222",
+      "name": "Nazi",
+      "phone": "06542865428",
+      "_id": "AaBnp0bcITN2ui7LbAJg"
+    },
+    {
+      "address": "Rawalpindi",
+      "balance": 0.0,
+      "createdAt": "2026-07-27T11:26:33.458232",
+      "name": "Mosin",
+      "phone": "034568765432",
+      "_id": "AaS7AaedzN3fYo6SqxHF"
+    },
+    {
+      "address": "Multan",
+      "balance": 0.0,
+      "createdAt": "2026-07-15T17:36:16.722138",
+      "name": "Waqas Anjum",
+      "phone": "08524785214",
+      "_id": "EsS1mwFBixyH4O1Dltg8"
+    },
+    {
+      "address": "vdgrvbdh",
+      "createdAt": "2026-07-15T18:58:52.810300",
+      "name": "Nazi khan",
+      "phone": "09562528",
+      "_id": "G1IG28fvBr2Yg9Hm1gYl"
+    },
+    {
+      "address": "Karachi",
+      "createdAt": "2026-07-15T17:37:29.967211",
+      "name": "Nazeer Allam",
+      "phone": "452844158",
+      "_id": "HdWP2iNUYgwC7egGoKlD"
+    },
+    {
+      "address": "Rawalpindi",
+      "createdAt": "2026-07-16T13:16:07.752",
+      "name": "Adnan",
+      "phone": "023456789",
+      "_id": "NDs02zHh3t3FFQTvG5Cl"
+    },
+    {
+      "address": "Rawalpindi",
+      "balance": 0.0,
+      "createdAt": "2026-07-15T17:35:38.906179",
+      "name": "Hamza Ali",
+      "phone": "0354285214752",
+      "_id": "SUMpQTDm2XoWoPXRlcTc"
+    },
+    {
+      "address": "Rawalpindi",
+      "balance": 0.0,
+      "createdAt": "2026-07-16T14:52:32.055",
+      "name": "Ali Ali",
+      "phone": "0347652345",
+      "_id": "Sj5X4qm3euLTzueWT9PM"
+    },
+    {
+      "address": "www",
+      "balance": 0.0,
+      "createdAt": "2026-07-20T11:15:58.603740",
+      "name": "hh",
+      "phone": "000000",
+      "_id": "cK8jyRgbzKKAv1rYzJQ4"
+    },
+    {
+      "address": "",
+      "balance": 240.0,
+      "createdAt": "2026-07-27T11:59:25.107995",
+      "name": "Nazeer Mughal",
+      "phone": "03498756455",
+      "_id": "npgJHf3nfcLw5WTos5rB"
+    }
+  ],
+  "invoices": [
+    {
+      "amountPaid": 400.0,
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "EsS1mwFBixyH4O1Dltg8",
+      "customerName": "Waqas Anjum",
+      "date": "2026-07-27T10:57:56.496512",
+      "dueAmount": 0.0,
+      "invoiceNumber": "INV-1785131873505",
+      "items": [
+        {
+          "price": 200.0,
+          "productId": "y138RnhsuOrkfDQxAlkZ",
+          "productName": "Cheese & Chicken Pizza Slice",
+          "quantity": 2,
+          "total": 400.0
+        }
+      ],
+      "totalAmount": 400.0,
+      "_id": "1htDaEu1xyxvrylWjSl0"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "HdWP2iNUYgwC7egGoKlD",
+      "customerName": "Nazeer Allam",
+      "date": "2026-07-16T16:08:43.278",
+      "invoiceNumber": "INV-1784200117119",
+      "items": [
+        {
+          "price": 550,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 2,
+          "total": 1100
+        }
+      ],
+      "totalAmount": 1100,
+      "_id": "2gZ6Z34XO9XXLf3jdLL6"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-18T14:11:39.627442",
+      "invoiceNumber": "INV-1784365896539",
+      "items": [
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 280.0,
+      "_id": "3Unrj5Km0LaunRmzv5Gw"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-24T18:32:43.107273",
+      "invoiceNumber": "INV-1784899962343",
+      "items": [
+        {
+          "price": 550.0,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 2,
+          "total": 1100.0
+        }
+      ],
+      "totalAmount": 1100.0,
+      "_id": "5JRjIkOcZpGpV9gk45g2"
+    },
+    {
+      "amountPaid": 200.0,
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-27T11:01:18.071613",
+      "dueAmount": 80.0,
+      "invoiceNumber": "INV-1785132075041",
+      "items": [
+        {
+          "price": 280.0,
+          "productId": "zBWX7Zrd4udj3fvPXl3I",
+          "productName": "Tres Leches Cake Slice",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 280.0,
+      "_id": "5SmNYSWwyrYqUwRcIRTX"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "NDs02zHh3t3FFQTvG5Cl",
+      "customerName": "Adnan",
+      "date": "2026-07-18T11:00:55.454",
+      "invoiceNumber": "INV-1784354443700",
+      "items": [
+        {
+          "price": 350,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 1,
+          "total": 350
+        }
+      ],
+      "totalAmount": 350,
+      "_id": "966t3ReGMrfblDiqkoxt"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "NDs02zHh3t3FFQTvG5Cl",
+      "customerName": "Adnan",
+      "date": "2026-07-21T15:03:14.960738",
+      "invoiceNumber": "INV-1784628191279",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 1,
+          "total": 250.0
+        },
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 2,
+          "total": 560.0
+        }
+      ],
+      "totalAmount": 810.0,
+      "_id": "GMmhssAfnChNvwq2tojw"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-16T16:29:08.246",
+      "invoiceNumber": "INV-1784201347573",
+      "items": [
+        {
+          "price": 320,
+          "productId": "PC90hmaixPhsV0FntmBP",
+          "productName": "Chocolate Brownie",
+          "quantity": 2,
+          "total": 640
+        }
+      ],
+      "totalAmount": 640,
+      "_id": "GQuW0vo5ayX1Vw6SyJdg"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-20T11:33:55.702221",
+      "invoiceNumber": "INV-1784529232612",
+      "items": [
+        {
+          "price": 409.0,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 1,
+          "total": 409.0
+        }
+      ],
+      "totalAmount": 409.0,
+      "_id": "OAmNAmry0EdF82p4ry1N"
+    },
+    {
+      "createdBy": "sajWkyNoZrRR2YVGiQPMqPc5Dig2",
+      "customerId": "SUMpQTDm2XoWoPXRlcTc",
+      "customerName": "Hamza Ali",
+      "date": "2026-07-25T15:18:16.151605",
+      "invoiceNumber": "INV-1784974689084",
+      "items": [
+        {
+          "price": 90.0,
+          "productId": "jOcEkZnd9UP4zkYpTAAV",
+          "productName": "Sesame Burger Buns (Pack of 4)",
+          "quantity": 2,
+          "total": 180.0
+        },
+        {
+          "price": 200.0,
+          "productId": "boIbrzLcGEwl7r4WCkzx",
+          "productName": "Chocolate Mousse Cup",
+          "quantity": 4,
+          "total": 800.0
+        },
+        {
+          "price": 150.0,
+          "productId": "8LVyzjBmRcSxc5Vs8oTB",
+          "productName": "Egg Mayo Sandwich",
+          "quantity": 1,
+          "total": 150.0
+        }
+      ],
+      "totalAmount": 1130.0,
+      "_id": "RzS5wnGhIy8aLqCi9ByJ"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-20T12:09:41.098122",
+      "invoiceNumber": "INV-1784531378078",
+      "items": [
+        {
+          "price": 320.0,
+          "productId": "PC90hmaixPhsV0FntmBP",
+          "productName": "Chocolate Brownie",
+          "quantity": 2,
+          "total": 640.0
+        }
+      ],
+      "totalAmount": 640.0,
+      "_id": "TgnvNQ4hQvSJuZuWGbnk"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-20T11:34:13.310408",
+      "invoiceNumber": "INV-1784529252691",
+      "items": [
+        {
+          "price": 409.0,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 1,
+          "total": 409.0
+        }
+      ],
+      "totalAmount": 409.0,
+      "_id": "UFCMQ3GY7SgRIvvSSbk4"
+    },
+    {
+      "amountPaid": 700.0,
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-27T11:54:10.900419",
+      "dueAmount": 0.0,
+      "invoiceNumber": "INV-1785135250132",
+      "items": [
+        {
+          "price": 350.0,
+          "productId": "6Fh8o9J8hjedpw1aNR2e",
+          "productName": "Chicken Club Sandwich",
+          "quantity": 2,
+          "total": 700.0
+        }
+      ],
+      "totalAmount": 700.0,
+      "_id": "XU7pXT9SYvwcWhE9tDDy"
+    },
+    {
+      "amountPaid": 750.0,
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "npgJHf3nfcLw5WTos5rB",
+      "customerName": "Nazeer Mughal",
+      "date": "2026-07-27T12:00:16.289994",
+      "dueAmount": 240.0,
+      "invoiceNumber": "INV-1785135612653",
+      "items": [
+        {
+          "price": 260.0,
+          "productId": "lkCwU4QRbvjYY9QXsAB6",
+          "productName": "Pistachio Shortbread Cookies (8 pcs)",
+          "quantity": 1,
+          "total": 260.0
+        },
+        {
+          "price": 150.0,
+          "productId": "iwc10LNN0XZVW7k1S8Fg",
+          "productName": "Egg Mayo Sandwich",
+          "quantity": 4,
+          "total": 600.0
+        },
+        {
+          "price": 130.0,
+          "productId": "ywEMAhS83sjKRMxHt6cu",
+          "productName": "Plain Cake Rusk (350g)",
+          "quantity": 1,
+          "total": 130.0
+        }
+      ],
+      "totalAmount": 990.0,
+      "_id": "ZAgcxx7PjpGdcl6Btlll"
+    },
+    {
+      "amountPaid": 440.0,
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "AaBnp0bcITN2ui7LbAJg",
+      "customerName": "Nazi",
+      "date": "2026-07-27T12:04:19.308683",
+      "discount": 100.0,
+      "dueAmount": 0.0,
+      "invoiceNumber": "INV-1785135856738",
+      "items": [
+        {
+          "price": 40.0,
+          "productId": "cD33G65f0rSTqeOsJ6DQ",
+          "productName": "Vegetable Samosa (per piece)",
+          "quantity": 1,
+          "total": 40.0
+        },
+        {
+          "price": 120.0,
+          "productId": "Niu4UfSL54HU3AYjIiNJ",
+          "productName": "Large Sandwich Bread",
+          "quantity": 4,
+          "total": 480.0
+        }
+      ],
+      "tax": 20.0,
+      "totalAmount": 440.0,
+      "_id": "a2NGxH4OB6CfS09pN3fo"
+    },
+    {
+      "amountPaid": 280.0,
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "SUMpQTDm2XoWoPXRlcTc",
+      "customerName": "Hamza Ali",
+      "date": "2026-07-27T11:09:55.427868",
+      "dueAmount": 0.0,
+      "invoiceNumber": "INV-1785132592430",
+      "items": [
+        {
+          "price": 280.0,
+          "productId": "oZ7BLI1lamWOdGpL1aET",
+          "productName": "Tiramisu Dessert Box",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 280.0,
+      "_id": "adzLypnzPaZmROFIc66M"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "G1IG28fvBr2Yg9Hm1gYl",
+      "customerName": "Nazi khan",
+      "date": "2026-07-18T14:57:06.940533",
+      "invoiceNumber": "INV-1784368623737",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 1,
+          "total": 250.0
+        }
+      ],
+      "totalAmount": 250.0,
+      "_id": "auIzZgcQCZ6CsPYYLDU8"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "SUMpQTDm2XoWoPXRlcTc",
+      "customerName": "Hamza Ali",
+      "date": "2026-07-16T16:23:33.717",
+      "invoiceNumber": "INV-1784201004607",
+      "items": [
+        {
+          "price": 280,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280
+        },
+        {
+          "price": 260,
+          "productId": "AfU6mB58kbkuC2PAJnTe",
+          "productName": "Vanilla Cupcake",
+          "quantity": 2,
+          "total": 520
+        }
+      ],
+      "totalAmount": 800,
+      "_id": "axjjFpjE4aceVdhPbkKV"
+    },
+    {
+      "amountPaid": 150.0,
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-27T12:12:57.188096",
+      "discount": 0.0,
+      "dueAmount": 0.0,
+      "dueDate": "2026-08-05T00:00:00.000",
+      "invoiceNumber": "INV-1785136374172",
+      "items": [
+        {
+          "price": 150.0,
+          "productId": "iwc10LNN0XZVW7k1S8Fg",
+          "productName": "Egg Mayo Sandwich",
+          "quantity": 1,
+          "total": 150.0
+        }
+      ],
+      "tax": 0.0,
+      "totalAmount": 150.0,
+      "_id": "bChCGeoQoO4CwtIDGy38"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "SUMpQTDm2XoWoPXRlcTc",
+      "customerName": "Hamza Ali",
+      "date": "2026-07-25T12:33:21.022531",
+      "invoiceNumber": "INV-1784964791456",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 2,
+          "total": 500.0
+        },
+        {
+          "price": 260.0,
+          "productId": "AfU6mB58kbkuC2PAJnTe",
+          "productName": "Vanilla Cupcake",
+          "quantity": 1,
+          "total": 260.0
+        },
+        {
+          "price": 320.0,
+          "productId": "PC90hmaixPhsV0FntmBP",
+          "productName": "Chocolate Brownie",
+          "quantity": 1,
+          "total": 320.0
+        },
+        {
+          "price": 350.0,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 1,
+          "total": 350.0
+        },
+        {
+          "price": 409.0,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 1,
+          "total": 409.0
+        },
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 2119.0,
+      "_id": "bxaI7z3YwMS3grk3ILCs"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "HdWP2iNUYgwC7egGoKlD",
+      "customerName": "Nazeer Allam",
+      "date": "2026-07-16T16:10:08.537",
+      "invoiceNumber": "INV-1784200205554",
+      "items": [
+        {
+          "price": 260,
+          "productId": "AfU6mB58kbkuC2PAJnTe",
+          "productName": "Vanilla Cupcake",
+          "quantity": 2,
+          "total": 520
+        },
+        {
+          "price": 280,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 2,
+          "total": 560
+        }
+      ],
+      "totalAmount": 1080,
+      "_id": "c9LSErXEIIjZsbvNxaMq"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "G1IG28fvBr2Yg9Hm1gYl",
+      "customerName": "Nazi khan",
+      "date": "2026-07-17T12:52:59.154",
+      "invoiceNumber": "INV-1784274772920",
+      "items": [
+        {
+          "price": 320,
+          "productId": "PC90hmaixPhsV0FntmBP",
+          "productName": "Chocolate Brownie",
+          "quantity": 3,
+          "total": 960
+        }
+      ],
+      "totalAmount": 960,
+      "_id": "d9Tn8xT1HvCoPlfApUnh"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "HdWP2iNUYgwC7egGoKlD",
+      "customerName": "Nazeer Allam",
+      "date": "2026-07-17T22:08:35.565812",
+      "invoiceNumber": "INV-1784308108943",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 1,
+          "total": 250.0
+        },
+        {
+          "price": 260.0,
+          "productId": "AfU6mB58kbkuC2PAJnTe",
+          "productName": "Vanilla Cupcake",
+          "quantity": 1,
+          "total": 260.0
+        },
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 790.0,
+      "_id": "e4I1aQ6U6nZgj3MnvnKo"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "Sj5X4qm3euLTzueWT9PM",
+      "customerName": "Ali Ali",
+      "date": "2026-07-16T16:28:16.990",
+      "invoiceNumber": "INV-1784201296340",
+      "items": [
+        {
+          "price": 320,
+          "productId": "PC90hmaixPhsV0FntmBP",
+          "productName": "Chocolate Brownie",
+          "quantity": 2,
+          "total": 640
+        }
+      ],
+      "totalAmount": 640,
+      "_id": "fsmDeeC4asy9DgRXvac4"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "NDs02zHh3t3FFQTvG5Cl",
+      "customerName": "Adnan",
+      "date": "2026-07-24T18:51:54.899837",
+      "invoiceNumber": "INV-1784901111272",
+      "items": [
+        {
+          "price": 550.0,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 2,
+          "total": 1100.0
+        },
+        {
+          "price": 260.0,
+          "productId": "AfU6mB58kbkuC2PAJnTe",
+          "productName": "Vanilla Cupcake",
+          "quantity": 2,
+          "total": 520.0
+        }
+      ],
+      "totalAmount": 1620.0,
+      "_id": "hlt5S0fwYu9oHHvbomdk"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "Sj5X4qm3euLTzueWT9PM",
+      "customerName": "Ali Ali",
+      "date": "2026-07-18T11:08:16.359321",
+      "invoiceNumber": "INV-1784354890061",
+      "items": [
+        {
+          "price": 350.0,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 2,
+          "total": 700.0
+        },
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 2,
+          "total": 500.0
+        },
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 1480.0,
+      "_id": "kMciDmGWks25bAFubjmw"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "EsS1mwFBixyH4O1Dltg8",
+      "customerName": "Waqas Anjum",
+      "date": "2026-07-17T13:15:48.767",
+      "invoiceNumber": "INV-1784276139487",
+      "items": [
+        {
+          "price": 350,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 2,
+          "total": 700
+        },
+        {
+          "price": 280,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 3,
+          "total": 840
+        },
+        {
+          "price": 550,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 1,
+          "total": 550
+        }
+      ],
+      "totalAmount": 2090,
+      "_id": "kh3GIs2g8yjvxXuT5pTZ"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "Sj5X4qm3euLTzueWT9PM",
+      "customerName": "Ali Ali",
+      "date": "2026-07-17T18:44:55.215276",
+      "invoiceNumber": "INV-1784295891974",
+      "items": [
+        {
+          "price": 409.0,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 3,
+          "total": 1227.0
+        }
+      ],
+      "totalAmount": 1227.0,
+      "_id": "lpGmrZvxSTHGQjRQpAAG"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "G1IG28fvBr2Yg9Hm1gYl",
+      "customerName": "Nazi khan",
+      "date": "2026-07-18T14:42:44.767087",
+      "invoiceNumber": "INV-1784367761498",
+      "items": [
+        {
+          "price": 350.0,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 1,
+          "total": 350.0
+        }
+      ],
+      "totalAmount": 350.0,
+      "_id": "m6Me3ygpKKNd2kz1umTA"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "AaBnp0bcITN2ui7LbAJg",
+      "customerName": "Nazi",
+      "date": "2026-07-18T11:51:07.333282",
+      "invoiceNumber": "INV-1784357464124",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 3,
+          "total": 750.0
+        }
+      ],
+      "totalAmount": 750.0,
+      "_id": "mKj880COYXw4Adf8Tiez"
+    },
+    {
+      "createdBy": "sajWkyNoZrRR2YVGiQPMqPc5Dig2",
+      "customerId": "Sj5X4qm3euLTzueWT9PM",
+      "customerName": "Ali Ali",
+      "date": "2026-07-24T23:01:06.360106",
+      "invoiceNumber": "INV-1784916063324",
+      "items": [
+        {
+          "price": 550.0,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 3,
+          "total": 1650.0
+        }
+      ],
+      "totalAmount": 1650.0,
+      "_id": "o2yZWuAGnHuLhQiNZmKK"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-18T14:35:51.484",
+      "invoiceNumber": "INV-1784367344682",
+      "items": [
+        {
+          "price": 350,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 1,
+          "total": 350
+        }
+      ],
+      "totalAmount": 350,
+      "_id": "oh9Pckd3jumpaew5GgkU"
+    },
+    {
+      "amountPaid": 100.0,
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "EsS1mwFBixyH4O1Dltg8",
+      "customerName": "Waqas Anjum",
+      "date": "2026-07-27T10:51:38.347200",
+      "dueAmount": 50.0,
+      "invoiceNumber": "INV-1785131495326",
+      "items": [
+        {
+          "price": 150.0,
+          "productId": "tFwXiLssloLaCNTJ6NnW",
+          "productName": "Whole Wheat Brown Bread",
+          "quantity": 1,
+          "total": 150.0
+        }
+      ],
+      "totalAmount": 150.0,
+      "_id": "pPSFlY5hk05Ep3vdIY3H"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-21T15:03:35.415534",
+      "invoiceNumber": "INV-1784628214778",
+      "items": [
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 280.0,
+      "_id": "rRirGZuf7b4ElVT4mHzD"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "NDs02zHh3t3FFQTvG5Cl",
+      "customerName": "Adnan",
+      "date": "2026-07-16T16:27:15.559",
+      "invoiceNumber": "INV-1784201234878",
+      "items": [
+        {
+          "price": 409,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 10,
+          "total": 4090
+        }
+      ],
+      "totalAmount": 4090,
+      "_id": "sCZKLAtAS9yBjbhUEQ5j"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "SUMpQTDm2XoWoPXRlcTc",
+      "customerName": "Hamza Ali",
+      "date": "2026-07-18T15:52:58.067311",
+      "invoiceNumber": "INV-1784371975030",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 2,
+          "total": 500.0
+        }
+      ],
+      "totalAmount": 500.0,
+      "_id": "tf6RYlvgjTh9o9Ve6Btv"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "AaBnp0bcITN2ui7LbAJg",
+      "customerName": "Nazi",
+      "date": "2026-07-18T11:06:52.293381",
+      "invoiceNumber": "INV-1784354808327",
+      "items": [
+        {
+          "price": 550.0,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 1,
+          "total": 550.0
+        },
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 1,
+          "total": 250.0
+        }
+      ],
+      "totalAmount": 800.0,
+      "_id": "u8EiMNCMI4eD2qKmJWH2"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "SUMpQTDm2XoWoPXRlcTc",
+      "customerName": "Hamza Ali",
+      "date": "2026-07-25T11:55:17.244291",
+      "invoiceNumber": "INV-1784962514186",
+      "items": [
+        {
+          "price": 260.0,
+          "productId": "AfU6mB58kbkuC2PAJnTe",
+          "productName": "Vanilla Cupcake",
+          "quantity": 1,
+          "total": 260.0
+        }
+      ],
+      "totalAmount": 260.0,
+      "_id": "ulr6KdOJRUOswFjb07eS"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-16T16:27:39.798",
+      "invoiceNumber": "INV-1784201259133",
+      "items": [
+        {
+          "price": 409,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 3,
+          "total": 1227
+        }
+      ],
+      "totalAmount": 1227,
+      "_id": "wF6GRrMFhq0k28gLalcl"
+    },
+    {
+      "amountPaid": 280.0,
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "AaS7AaedzN3fYo6SqxHF",
+      "customerName": "Mosin",
+      "date": "2026-07-27T11:27:02.136727",
+      "dueAmount": 0.0,
+      "invoiceNumber": "INV-1785133619165",
+      "items": [
+        {
+          "price": 280.0,
+          "productId": "oZ7BLI1lamWOdGpL1aET",
+          "productName": "Tiramisu Dessert Box",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 280.0,
+      "_id": "xpz8dDrg08C0QCx29MNh"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-24T18:26:11.399158",
+      "invoiceNumber": "INV-1784899567537",
+      "items": [
+        {
+          "price": 550.0,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 1,
+          "total": 550.0
+        },
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 830.0,
+      "_id": "yvTm06fXCqDggZRSxEIY"
+    }
+  ],
+  "totalRecords": 129
+}

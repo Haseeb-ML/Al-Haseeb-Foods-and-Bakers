@@ -1,0 +1,736 @@
+{
+  "backupVersion": 1,
+  "createdAt": "2026-07-23T11:58:21.356575",
+  "users": [
+    {
+      "createdAt": "2026-07-16T14:32:05.661",
+      "email": "hamzali@gmail.com",
+      "name": "Hamza Ali",
+      "phone": "123456",
+      "profileImageUrl": "",
+      "role": "staff",
+      "_id": "2yTV45vD8jNDmMf5NzALCd3U1V83"
+    },
+    {
+      "createdAt": "2026-07-20T11:13:04.743324",
+      "email": "mughal@gmail.com",
+      "name": "Kamran Mughal",
+      "phone": "034566789",
+      "profileImageUrl": "",
+      "role": "staff",
+      "_id": "CB1NGEWg6nWCBzqrLjshsUgWb8e2"
+    },
+    {
+      "createdAt": "2026-07-16T11:12:00.178",
+      "email": "naveed@gmail.com",
+      "name": "Muhammad Naveed",
+      "phone": "03456782345",
+      "role": "staff",
+      "_id": "PiIQB4PPSLdLaX7ryi6FqZtCfvJ3"
+    },
+    {
+      "createdAt": "2026-07-15T15:03:21.220155",
+      "email": "waqas@gmail.com",
+      "name": "Waqas ali",
+      "phone": "085642385",
+      "role": "admin",
+      "_id": "Se6SXZsyJeXzrW8SoZ1YO9SP0Vc2"
+    },
+    {
+      "createdAt": "2026-07-17T18:38:29.590",
+      "email": "aaa@gmail.com",
+      "name": "aaaa",
+      "phone": "999",
+      "profileImageUrl": "",
+      "role": "admin",
+      "_id": "Sv10rVuO2PRlxV8tb77lBKUragX2"
+    },
+    {
+      "createdAt": "2026-07-17T16:49:06.387080",
+      "email": "iqbal@gmail.com",
+      "name": "Iqbal",
+      "phone": "035289652478",
+      "profileImageUrl": "https://randomuser.me/api/portraits/men/67.jpg",
+      "role": "staff",
+      "_id": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2"
+    },
+    {
+      "createdAt": "2026-07-15T15:35:43.028830",
+      "email": "aslam@gmail.com",
+      "name": "Aslam",
+      "phone": "03585241752",
+      "role": "staff",
+      "_id": "llqm274p2DgAfFGumOGhobKyKXB2"
+    },
+    {
+      "createdAt": "2026-07-15T15:32:20.572072",
+      "email": "faheem@gmail.com",
+      "name": "Faheem",
+      "phone": "035874258523",
+      "role": "admin",
+      "_id": "qfH0AWHOVGT6YX5r2107rus1kry1"
+    },
+    {
+      "createdAt": "2026-07-16T12:10:37.449",
+      "email": "haseebali@gmail.com",
+      "name": "Haseeb Ali",
+      "phone": "123456789",
+      "profileImageUrl": "https://randomuser.me/api/portraits/men/67.jpg",
+      "role": "admin",
+      "_id": "sajWkyNoZrRR2YVGiQPMqPc5Dig2"
+    }
+  ],
+  "products": [
+    {
+      "createdAt": "2026-07-15T16:05:19.412918",
+      "description": "Soft chocolate cake",
+      "imageUrl": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+      "name": "Chocolate Cupcake",
+      "price": 280.0,
+      "stockQty": 2,
+      "_id": "2LBxoLpWWk7D9nnK2BkH"
+    },
+    {
+      "createdAt": "2026-07-15T16:06:04.172096",
+      "description": "Light vanilla cupcake",
+      "imageUrl": "https://images.unsplash.com/photo-1542826438-bd32f43d626f",
+      "name": "Vanilla Cupcake",
+      "price": 260.0,
+      "stockQty": 6,
+      "_id": "AfU6mB58kbkuC2PAJnTe"
+    },
+    {
+      "createdAt": "2026-07-15T16:06:58.656757",
+      "description": "Freshly baked",
+      "imageUrl": "https://images.unsplash.com/photo-1607958996333-41aef7caefaa",
+      "name": "Blueberry Muffin",
+      "price": 250.0,
+      "stockQty": 7,
+      "_id": "DRtKvkf5LPbfxuQObA29"
+    },
+    {
+      "createdAt": "2026-07-15T16:09:03.317871",
+      "description": "Rich and fudy chocolate",
+      "imageUrl": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+      "name": "Chocolate Brownie",
+      "price": 320.0,
+      "stockQty": 8,
+      "_id": "PC90hmaixPhsV0FntmBP"
+    },
+    {
+      "createdAt": "2026-07-16T12:29:14.965",
+      "description": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn  mmmmmmmmmmmmmmmmmm",
+      "imageUrl": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad",
+      "name": "cake",
+      "price": 409,
+      "stockQty": 5,
+      "_id": "ZQhTRtEk3xDMTC5M39wS"
+    },
+    {
+      "createdAt": "2026-07-15T16:08:09.135184",
+      "description": "Creamy cheesecake",
+      "imageUrl": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad",
+      "name": "Strawberry Cheesecake",
+      "price": 550.0,
+      "stockQty": 0,
+      "_id": "dSKYJlarER5Ib42UQ87L"
+    },
+    {
+      "createdAt": "2026-07-15T16:10:16.878606",
+      "description": "Warm cinnamon roll topped with fresh",
+      "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+      "name": "Cinnamon Roll",
+      "price": 350.0,
+      "stockQty": 5,
+      "_id": "vseJjMbNPX7nNIRJJXbt"
+    }
+  ],
+  "customers": [
+    {
+      "address": "Rawalpindi",
+      "createdAt": "2026-07-16T14:52:07.712",
+      "name": "Ali",
+      "phone": "12345",
+      "_id": "3F5947hs4Ey1mPPG4zzy"
+    },
+    {
+      "address": "Peshawar",
+      "createdAt": "2026-07-15T18:58:33.228222",
+      "name": "Nazi",
+      "phone": "06542865428",
+      "_id": "AaBnp0bcITN2ui7LbAJg"
+    },
+    {
+      "address": "Multan",
+      "createdAt": "2026-07-15T17:36:16.722138",
+      "name": "Waqas Anjum",
+      "phone": "08524785214",
+      "_id": "EsS1mwFBixyH4O1Dltg8"
+    },
+    {
+      "address": "vdgrvbdh",
+      "createdAt": "2026-07-15T18:58:52.810300",
+      "name": "Nazi khan",
+      "phone": "09562528",
+      "_id": "G1IG28fvBr2Yg9Hm1gYl"
+    },
+    {
+      "address": "Karachi",
+      "createdAt": "2026-07-15T17:37:29.967211",
+      "name": "Nazeer Allam",
+      "phone": "452844158",
+      "_id": "HdWP2iNUYgwC7egGoKlD"
+    },
+    {
+      "address": "Rawalpindi",
+      "createdAt": "2026-07-16T13:16:07.752",
+      "name": "Adnan",
+      "phone": "023456789",
+      "_id": "NDs02zHh3t3FFQTvG5Cl"
+    },
+    {
+      "address": "Rawalpindi",
+      "createdAt": "2026-07-15T17:35:38.906179",
+      "name": "Hamza Ali",
+      "phone": "0354285214752",
+      "_id": "SUMpQTDm2XoWoPXRlcTc"
+    },
+    {
+      "address": "Rawalpindi",
+      "createdAt": "2026-07-16T14:52:32.055",
+      "name": "Ali Ali",
+      "phone": "0347652345",
+      "_id": "Sj5X4qm3euLTzueWT9PM"
+    },
+    {
+      "address": "www",
+      "createdAt": "2026-07-20T11:15:58.603740",
+      "name": "hh",
+      "phone": "000000",
+      "_id": "cK8jyRgbzKKAv1rYzJQ4"
+    }
+  ],
+  "invoices": [
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "HdWP2iNUYgwC7egGoKlD",
+      "customerName": "Nazeer Allam",
+      "date": "2026-07-16T16:08:43.278",
+      "invoiceNumber": "INV-1784200117119",
+      "items": [
+        {
+          "price": 550,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 2,
+          "total": 1100
+        }
+      ],
+      "totalAmount": 1100,
+      "_id": "2gZ6Z34XO9XXLf3jdLL6"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-18T14:11:39.627442",
+      "invoiceNumber": "INV-1784365896539",
+      "items": [
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 280.0,
+      "_id": "3Unrj5Km0LaunRmzv5Gw"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "NDs02zHh3t3FFQTvG5Cl",
+      "customerName": "Adnan",
+      "date": "2026-07-18T11:00:55.454",
+      "invoiceNumber": "INV-1784354443700",
+      "items": [
+        {
+          "price": 350,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 1,
+          "total": 350
+        }
+      ],
+      "totalAmount": 350,
+      "_id": "966t3ReGMrfblDiqkoxt"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "NDs02zHh3t3FFQTvG5Cl",
+      "customerName": "Adnan",
+      "date": "2026-07-21T15:03:14.960738",
+      "invoiceNumber": "INV-1784628191279",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 1,
+          "total": 250.0
+        },
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 2,
+          "total": 560.0
+        }
+      ],
+      "totalAmount": 810.0,
+      "_id": "GMmhssAfnChNvwq2tojw"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-16T16:29:08.246",
+      "invoiceNumber": "INV-1784201347573",
+      "items": [
+        {
+          "price": 320,
+          "productId": "PC90hmaixPhsV0FntmBP",
+          "productName": "Chocolate Brownie",
+          "quantity": 2,
+          "total": 640
+        }
+      ],
+      "totalAmount": 640,
+      "_id": "GQuW0vo5ayX1Vw6SyJdg"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-20T11:33:55.702221",
+      "invoiceNumber": "INV-1784529232612",
+      "items": [
+        {
+          "price": 409.0,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 1,
+          "total": 409.0
+        }
+      ],
+      "totalAmount": 409.0,
+      "_id": "OAmNAmry0EdF82p4ry1N"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-20T12:09:41.098122",
+      "invoiceNumber": "INV-1784531378078",
+      "items": [
+        {
+          "price": 320.0,
+          "productId": "PC90hmaixPhsV0FntmBP",
+          "productName": "Chocolate Brownie",
+          "quantity": 2,
+          "total": 640.0
+        }
+      ],
+      "totalAmount": 640.0,
+      "_id": "TgnvNQ4hQvSJuZuWGbnk"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-20T11:34:13.310408",
+      "invoiceNumber": "INV-1784529252691",
+      "items": [
+        {
+          "price": 409.0,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 1,
+          "total": 409.0
+        }
+      ],
+      "totalAmount": 409.0,
+      "_id": "UFCMQ3GY7SgRIvvSSbk4"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "G1IG28fvBr2Yg9Hm1gYl",
+      "customerName": "Nazi khan",
+      "date": "2026-07-18T14:57:06.940533",
+      "invoiceNumber": "INV-1784368623737",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 1,
+          "total": 250.0
+        }
+      ],
+      "totalAmount": 250.0,
+      "_id": "auIzZgcQCZ6CsPYYLDU8"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "SUMpQTDm2XoWoPXRlcTc",
+      "customerName": "Hamza Ali",
+      "date": "2026-07-16T16:23:33.717",
+      "invoiceNumber": "INV-1784201004607",
+      "items": [
+        {
+          "price": 280,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280
+        },
+        {
+          "price": 260,
+          "productId": "AfU6mB58kbkuC2PAJnTe",
+          "productName": "Vanilla Cupcake",
+          "quantity": 2,
+          "total": 520
+        }
+      ],
+      "totalAmount": 800,
+      "_id": "axjjFpjE4aceVdhPbkKV"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "HdWP2iNUYgwC7egGoKlD",
+      "customerName": "Nazeer Allam",
+      "date": "2026-07-16T16:10:08.537",
+      "invoiceNumber": "INV-1784200205554",
+      "items": [
+        {
+          "price": 260,
+          "productId": "AfU6mB58kbkuC2PAJnTe",
+          "productName": "Vanilla Cupcake",
+          "quantity": 2,
+          "total": 520
+        },
+        {
+          "price": 280,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 2,
+          "total": 560
+        }
+      ],
+      "totalAmount": 1080,
+      "_id": "c9LSErXEIIjZsbvNxaMq"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "G1IG28fvBr2Yg9Hm1gYl",
+      "customerName": "Nazi khan",
+      "date": "2026-07-17T12:52:59.154",
+      "invoiceNumber": "INV-1784274772920",
+      "items": [
+        {
+          "price": 320,
+          "productId": "PC90hmaixPhsV0FntmBP",
+          "productName": "Chocolate Brownie",
+          "quantity": 3,
+          "total": 960
+        }
+      ],
+      "totalAmount": 960,
+      "_id": "d9Tn8xT1HvCoPlfApUnh"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "HdWP2iNUYgwC7egGoKlD",
+      "customerName": "Nazeer Allam",
+      "date": "2026-07-17T22:08:35.565812",
+      "invoiceNumber": "INV-1784308108943",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 1,
+          "total": 250.0
+        },
+        {
+          "price": 260.0,
+          "productId": "AfU6mB58kbkuC2PAJnTe",
+          "productName": "Vanilla Cupcake",
+          "quantity": 1,
+          "total": 260.0
+        },
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 790.0,
+      "_id": "e4I1aQ6U6nZgj3MnvnKo"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "Sj5X4qm3euLTzueWT9PM",
+      "customerName": "Ali Ali",
+      "date": "2026-07-16T16:28:16.990",
+      "invoiceNumber": "INV-1784201296340",
+      "items": [
+        {
+          "price": 320,
+          "productId": "PC90hmaixPhsV0FntmBP",
+          "productName": "Chocolate Brownie",
+          "quantity": 2,
+          "total": 640
+        }
+      ],
+      "totalAmount": 640,
+      "_id": "fsmDeeC4asy9DgRXvac4"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "Sj5X4qm3euLTzueWT9PM",
+      "customerName": "Ali Ali",
+      "date": "2026-07-18T11:08:16.359321",
+      "invoiceNumber": "INV-1784354890061",
+      "items": [
+        {
+          "price": 350.0,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 2,
+          "total": 700.0
+        },
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 2,
+          "total": 500.0
+        },
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 1480.0,
+      "_id": "kMciDmGWks25bAFubjmw"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "EsS1mwFBixyH4O1Dltg8",
+      "customerName": "Waqas Anjum",
+      "date": "2026-07-17T13:15:48.767",
+      "invoiceNumber": "INV-1784276139487",
+      "items": [
+        {
+          "price": 350,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 2,
+          "total": 700
+        },
+        {
+          "price": 280,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 3,
+          "total": 840
+        },
+        {
+          "price": 550,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 1,
+          "total": 550
+        }
+      ],
+      "totalAmount": 2090,
+      "_id": "kh3GIs2g8yjvxXuT5pTZ"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "Sj5X4qm3euLTzueWT9PM",
+      "customerName": "Ali Ali",
+      "date": "2026-07-17T18:44:55.215276",
+      "invoiceNumber": "INV-1784295891974",
+      "items": [
+        {
+          "price": 409.0,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 3,
+          "total": 1227.0
+        }
+      ],
+      "totalAmount": 1227.0,
+      "_id": "lpGmrZvxSTHGQjRQpAAG"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "G1IG28fvBr2Yg9Hm1gYl",
+      "customerName": "Nazi khan",
+      "date": "2026-07-18T14:42:44.767087",
+      "invoiceNumber": "INV-1784367761498",
+      "items": [
+        {
+          "price": 350.0,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 1,
+          "total": 350.0
+        }
+      ],
+      "totalAmount": 350.0,
+      "_id": "m6Me3ygpKKNd2kz1umTA"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "AaBnp0bcITN2ui7LbAJg",
+      "customerName": "Nazi",
+      "date": "2026-07-18T11:51:07.333282",
+      "invoiceNumber": "INV-1784357464124",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 3,
+          "total": 750.0
+        }
+      ],
+      "totalAmount": 750.0,
+      "_id": "mKj880COYXw4Adf8Tiez"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-18T14:35:51.484",
+      "invoiceNumber": "INV-1784367344682",
+      "items": [
+        {
+          "price": 350,
+          "productId": "vseJjMbNPX7nNIRJJXbt",
+          "productName": "Cinnamon Roll",
+          "quantity": 1,
+          "total": 350
+        }
+      ],
+      "totalAmount": 350,
+      "_id": "oh9Pckd3jumpaew5GgkU"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "cK8jyRgbzKKAv1rYzJQ4",
+      "customerName": "hh",
+      "date": "2026-07-21T15:03:35.415534",
+      "invoiceNumber": "INV-1784628214778",
+      "items": [
+        {
+          "price": 280.0,
+          "productId": "2LBxoLpWWk7D9nnK2BkH",
+          "productName": "Chocolate Cupcake",
+          "quantity": 1,
+          "total": 280.0
+        }
+      ],
+      "totalAmount": 280.0,
+      "_id": "rRirGZuf7b4ElVT4mHzD"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "NDs02zHh3t3FFQTvG5Cl",
+      "customerName": "Adnan",
+      "date": "2026-07-16T16:27:15.559",
+      "invoiceNumber": "INV-1784201234878",
+      "items": [
+        {
+          "price": 409,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 10,
+          "total": 4090
+        }
+      ],
+      "totalAmount": 4090,
+      "_id": "sCZKLAtAS9yBjbhUEQ5j"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "SUMpQTDm2XoWoPXRlcTc",
+      "customerName": "Hamza Ali",
+      "date": "2026-07-18T15:52:58.067311",
+      "invoiceNumber": "INV-1784371975030",
+      "items": [
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 2,
+          "total": 500.0
+        }
+      ],
+      "totalAmount": 500.0,
+      "_id": "tf6RYlvgjTh9o9Ve6Btv"
+    },
+    {
+      "createdBy": "VAU5TsjgJwSdREdMx8WRJWQbQ1f2",
+      "customerId": "AaBnp0bcITN2ui7LbAJg",
+      "customerName": "Nazi",
+      "date": "2026-07-18T11:06:52.293381",
+      "invoiceNumber": "INV-1784354808327",
+      "items": [
+        {
+          "price": 550.0,
+          "productId": "dSKYJlarER5Ib42UQ87L",
+          "productName": "Strawberry Cheesecake",
+          "quantity": 1,
+          "total": 550.0
+        },
+        {
+          "price": 250.0,
+          "productId": "DRtKvkf5LPbfxuQObA29",
+          "productName": "Blueberry Muffin",
+          "quantity": 1,
+          "total": 250.0
+        }
+      ],
+      "totalAmount": 800.0,
+      "_id": "u8EiMNCMI4eD2qKmJWH2"
+    },
+    {
+      "createdBy": "llqm274p2DgAfFGumOGhobKyKXB2",
+      "customerId": "3F5947hs4Ey1mPPG4zzy",
+      "customerName": "Ali",
+      "date": "2026-07-16T16:27:39.798",
+      "invoiceNumber": "INV-1784201259133",
+      "items": [
+        {
+          "price": 409,
+          "productId": "ZQhTRtEk3xDMTC5M39wS",
+          "productName": "cake",
+          "quantity": 3,
+          "total": 1227
+        }
+      ],
+      "totalAmount": 1227,
+      "_id": "wF6GRrMFhq0k28gLalcl"
+    }
+  ],
+  "totalRecords": 50
+}

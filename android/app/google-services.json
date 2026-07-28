@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "435773074886",
+    "project_id": "erp-shop-management",
+    "storage_bucket": "erp-shop-management.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435773074886:android:e662b746e903c9401616c7",
+        "android_client_info": {
+          "package_name": "com.example.erp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4gjBrFu1EgyMofgVavfXU41xpbPLTIVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
