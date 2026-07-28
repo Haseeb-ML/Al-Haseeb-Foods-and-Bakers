@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../utils/image_cache_manager.dart';
 import '../../models/product_model.dart';
 import '../../services/product_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -842,10 +843,15 @@ class _ProductRow extends StatelessWidget {
               child: ClipOval(
                 child: product.imageUrl.isNotEmpty
                     ? CachedNetworkImage(
+                        cacheManager: CustomImageCacheManager.instance,
                         imageUrl: product.imageUrl,
                         width: 48,
                         height: 48,
                         fit: BoxFit.cover,
+                        memCacheWidth: 100,
+                        memCacheHeight: 100,
+                        fadeInDuration: Duration.zero,
+                        fadeOutDuration: Duration.zero,
                         placeholder: (context, url) => Container(
                           color: accentController.value.withValues(alpha: 0.05),
                           child: Center(
@@ -1055,9 +1061,14 @@ class _ProductCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 child: product.imageUrl.isNotEmpty
                     ? CachedNetworkImage(
+                        cacheManager: CustomImageCacheManager.instance,
                         imageUrl: product.imageUrl,
                         fit: BoxFit.cover,
                         width: double.infinity,
+                        memCacheWidth: 350,
+                        memCacheHeight: 350,
+                        fadeInDuration: Duration.zero,
+                        fadeOutDuration: Duration.zero,
                         placeholder: (context, url) => Container(
                           color: accentController.value.withValues(alpha: 0.05),
                           child: Center(
