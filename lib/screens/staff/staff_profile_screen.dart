@@ -545,6 +545,10 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
                     );
                   },
                 ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
           // Recent Sales History Section
           Container(
             padding: const EdgeInsets.all(16),
