@@ -424,14 +424,12 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
                           currentRoute: 'Backup & Restore',
                         ),
                         Expanded(
-                          child: SafeArea(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 28,
-                                vertical: 16,
-                              ),
-                              child: content,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 28,
+                              vertical: 16,
                             ),
+                            child: content,
                           ),
                         ),
                       ],
@@ -474,6 +472,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
           //-------------------- HEADER --------------------
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Row(
