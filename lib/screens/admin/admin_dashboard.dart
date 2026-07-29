@@ -924,7 +924,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     final hasAlerts = count > 0;
 
                     return GestureDetector(
-                      onTap: () => _showAlertsListDialog(activeAlerts, isDark, textPrimary, textSecondary),
+                      onTap: () => _showAlertsListDialog(context, activeAlerts, isDark, textPrimary, textSecondary),
                       child: Stack(
                         clipBehavior: Clip.none,
                         children: [
@@ -2630,6 +2630,7 @@ class _InitialsAvatar extends StatelessWidget {
 }
 
   void _showAlertsListDialog(
+    BuildContext context,
     List<UrgentAlertModel> activeAlerts,
     bool isDark,
     Color textPrimary,
