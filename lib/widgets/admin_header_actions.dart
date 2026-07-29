@@ -222,8 +222,8 @@ class AdminHeaderActions extends StatelessWidget {
         //---------- ADMIN PROFILE AVATAR ----------
         StreamBuilder<UserModel?>(
           stream: AuthService().getUserStream(user.uid),
-          builder: (context, AsyncSnapshot<UserModel?> userSnap) {
-            final liveUser = userSnap.data ?? user;
+          builder: (context, userSnap) {
+            final liveUser = (userSnap.data ?? user) as UserModel;
             final imgUrl = liveUser.profileImageUrl;
 
             return GestureDetector(
