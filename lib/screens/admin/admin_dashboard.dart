@@ -2062,8 +2062,11 @@ class _MiniStatCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
             children: [
               Container(
                 width: 34,
@@ -2122,9 +2125,16 @@ class _MiniStatCard extends StatelessWidget {
               fontWeight: FontWeight.w700,
               color: textPrimary,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 2),
-          Text(label, style: TextStyle(fontSize: 12, color: textSecondary)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 12, color: textSecondary),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );
