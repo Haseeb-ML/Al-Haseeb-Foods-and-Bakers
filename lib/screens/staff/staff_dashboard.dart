@@ -1086,206 +1086,120 @@ class _StaffDashboardState extends State<StaffDashboard> {
         final textPrimary = isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
         final textSecondary = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
 
-        return DefaultTabController(
-          length: 2,
-          child: AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            backgroundColor: isDark ? AppColors.darkBg : Colors.white,
-            titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-            title: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.green.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(Icons.payments_outlined, color: Colors.green, size: 22),
-                    ),
-                    const SizedBox(width: 12),
-                    const Text('Salary & Sales Log', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  ],
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          backgroundColor: isDark ? AppColors.darkBg : Colors.white,
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.green.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                const SizedBox(height: 12),
-                TabBar(
-                  labelColor: accentController.value,
-                  unselectedLabelColor: textSecondary,
-                  indicatorColor: accentController.value,
-                  dividerColor: Colors.transparent,
-                  tabs: const [
-                    Tab(text: 'Salary Slips'),
-                    Tab(text: 'My Sales History'),
-                  ],
-                ),
-              ],
-            ),
-            content: SizedBox(
-              width: 420,
-              height: 380,
-              child: TabBarView(
-                children: [
-                  //------------------ SALARY SLIPS TAB ------------------
-                  StreamBuilder<List<PayrollModel>>(
-                    stream: PayrollService().getPayrollHistory(widget.user.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      final list = snapshot.data ?? [];
-                      if (list.isEmpty) {
-                        return Center(
-                          child: Text(
-                            'No payroll slips recorded yet.',
-                            style: TextStyle(color: textSecondary, fontSize: 13),
-                          ),
-                        );
-                      }
-                      return ListView.separated(
-                        itemCount: list.length,
-                        separatorBuilder: (context, idx) => Divider(color: border),
-                        itemBuilder: (context, index) {
-                          final item = list[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      item.month,
-                                      style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                      decoration: BoxDecoration(
-                                        color: Colors.green.withValues(alpha: 0.15),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: const Text(
-                                        'Paid',
-                                        style: TextStyle(color: Colors.green, fontSize: 10, fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 6),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Base Salary:', style: TextStyle(color: textSecondary, fontSize: 12)),
-                                    Text('Rs. ${item.baseSalary.toStringAsFixed(0)}', style: TextStyle(color: textPrimary, fontSize: 12)),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Bonus / Allowance:', style: TextStyle(color: textSecondary, fontSize: 12)),
-                                    Text('+Rs. ${item.bonus.toStringAsFixed(0)}', style: const TextStyle(color: Colors.green, fontSize: 12)),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Deductions / Advances:', style: TextStyle(color: textSecondary, fontSize: 12)),
-                                    Text('-Rs. ${item.deductions.toStringAsFixed(0)}', style: const TextStyle(color: Colors.red, fontSize: 12)),
-                                  ],
-                                ),
-                                const Divider(height: 10, thickness: 0.5),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Net Received:', style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
-                                    Text('Rs. ${item.netPaid.toStringAsFixed(0)}', style: TextStyle(color: accentController.value, fontWeight: FontWeight.bold, fontSize: 13)),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Paid on: ${DateFormat('dd MMM yyyy, hh:mm a').format(item.paidAt)}',
-                                  style: TextStyle(color: textSecondary, fontSize: 10),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-
-                  //------------------ MY SALES HISTORY TAB ------------------
-                  StreamBuilder<List<InvoiceModel>>(
-                    stream: InvoiceService().getInvoices(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      final allInvoices = snapshot.data ?? [];
-                      // Filter locally based on who created the invoice
-                      final mySales = allInvoices.where((inv) => inv.createdBy == widget.user.uid).toList();
-
-                      if (mySales.isEmpty) {
-                        return Center(
-                          child: Text(
-                            'No sales recorded by you yet.',
-                            style: TextStyle(color: textSecondary, fontSize: 13),
-                          ),
-                        );
-                      }
-                      return ListView.separated(
-                        itemCount: mySales.length,
-                        separatorBuilder: (context, idx) => Divider(color: border),
-                        itemBuilder: (context, index) {
-                          final inv = mySales[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      inv.invoiceNumber,
-                                      style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 13),
-                                    ),
-                                    Text(
-                                      'Rs. ${inv.totalAmount.toStringAsFixed(0)}',
-                                      style: TextStyle(color: accentController.value, fontWeight: FontWeight.bold, fontSize: 13),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Customer: ${inv.customerName}', style: TextStyle(color: textSecondary, fontSize: 12)),
-                                    Text(
-                                      DateFormat('dd MMM yyyy, hh:mm a').format(inv.date),
-                                      style: TextStyle(color: textSecondary, fontSize: 10),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
+                child: const Icon(Icons.payments_outlined, color: Colors.green, size: 22),
               ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
+              const SizedBox(width: 12),
+              const Text('Salary & Payroll History', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ],
           ),
+          content: SizedBox(
+            width: 400,
+            height: 350,
+            child: StreamBuilder<List<PayrollModel>>(
+              stream: PayrollService().getPayrollHistory(widget.user.uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final list = snapshot.data ?? [];
+                if (list.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No payroll slips recorded yet.',
+                      style: TextStyle(color: textSecondary, fontSize: 13),
+                    ),
+                  );
+                }
+                return ListView.separated(
+                  itemCount: list.length,
+                  separatorBuilder: (context, idx) => Divider(color: border),
+                  itemBuilder: (context, index) {
+                    final item = list[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                item.month,
+                                style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Text(
+                                  'Paid',
+                                  style: TextStyle(color: Colors.green, fontSize: 10, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Base Salary:', style: TextStyle(color: textSecondary, fontSize: 12)),
+                              Text('Rs. ${item.baseSalary.toStringAsFixed(0)}', style: TextStyle(color: textPrimary, fontSize: 12)),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Bonus / Allowance:', style: TextStyle(color: textSecondary, fontSize: 12)),
+                              Text('+Rs. ${item.bonus.toStringAsFixed(0)}', style: const TextStyle(color: Colors.green, fontSize: 12)),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Deductions / Advances:', style: TextStyle(color: textSecondary, fontSize: 12)),
+                              Text('-Rs. ${item.deductions.toStringAsFixed(0)}', style: const TextStyle(color: Colors.red, fontSize: 12)),
+                            ],
+                          ),
+                          const Divider(height: 10, thickness: 0.5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Net Received:', style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
+                              Text('Rs. ${item.netPaid.toStringAsFixed(0)}', style: TextStyle(color: accentController.value, fontWeight: FontWeight.bold, fontSize: 13)),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Paid on: ${DateFormat('dd MMM yyyy, hh:mm a').format(item.paidAt)}',
+                            style: TextStyle(color: textSecondary, fontSize: 10),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
         );
       },
     );
