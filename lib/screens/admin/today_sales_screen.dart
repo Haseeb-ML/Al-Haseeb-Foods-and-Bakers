@@ -15,6 +15,7 @@ import '../../models/user_model.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/staff_sidebar.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../widgets/admin_header_actions.dart';
 
 //-------------------- DESKTOP BREAKPOINT --------------------
 const double _kDesktopBreakpoint = 900;
@@ -146,14 +147,49 @@ class _TodaySalesScreenState extends State<TodaySalesScreen> {
                                 : const AdminSidebar(
                                     currentRoute: "Today's Sales",
                                   ),
-                            Expanded(
+                             Expanded(
                               child: SafeArea(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 24,
                                     vertical: 12,
                                   ),
-                                  child: content,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Overview',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: accent,
+                                                  letterSpacing: 0.5,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 2),
+                                              Text(
+                                                "Today's Sales",
+                                                style: TextStyle(
+                                                  fontSize: 26,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: textPrimary,
+                                                  fontFamily: isDark ? 'PlayfairDisplay' : null,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          if (!isStaff) AdminHeaderActions(isDesktop: isDesktop),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Expanded(child: content),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
