@@ -17,6 +17,7 @@ import '../../widgets/staff_sidebar.dart';
 import '../../widgets/admin_sidebar.dart';
 import '../../models/user_model.dart';
 import '../../services/auth_service.dart';
+import '../../widgets/admin_header_actions.dart';
 
 //-------------------- DESKTOP BREAKPOINT --------------------
 const double _kDesktopBreakpoint = 900;
@@ -1070,19 +1071,37 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
                   ),
                 ],
               ),
-              if (!isDesktop)
-                TextButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      _showCartView = !_showCartView;
-                    });
-                  },
-                  icon: Icon(_showCartView ? Icons.menu_book : Icons.shopping_cart, size: 18, color: accent),
-                  label: Text(
-                    _showCartView ? 'Show Menu' : 'View Cart (${_totalItems})',
-                    style: TextStyle(color: accent, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (!isDesktop)
+                    TextButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          _showCartView = !_showCartView;
+                        });
+                      },
+                      icon: Icon(_showCartView ? Icons.menu_book : Icons.shopping_cart, size: 18, color: accent),
+                      label: Text(
+                        _showCartView ? 'Show Menu' : 'View Cart (${_totalItems})',
+                        style: TextStyle(color: accent, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  StreamBuilder<UserModel?>(
+                    stream: AuthService().getUserStream(widget.currentUserUid),
+                    builder: (context, userSnap) {
+                      final liveUser = userSnap.data;
+                      if (liveUser != null && liveUser.role == 'admin') {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: AdminHeaderActions(isDesktop: isDesktop),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
                   ),
-                ),
+                ],
+              ),
             ],
           ),
         ),
