@@ -419,6 +419,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
                   return Scaffold(
                     backgroundColor: bg,
                     body: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const AdminSidebar(
                           currentRoute: 'Backup & Restore',
