@@ -1052,12 +1052,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         width: 1.2,
                       ),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(11),
-                      child: Image.asset(
-                        'assets/images/appearance_icon.png',
-                        fit: BoxFit.cover,
-                      ),
+                    child: Icon(
+                      Icons.palette_outlined,
+                      size: isDesktop ? 22 : 18,
+                      color: accentController.value,
                     ),
                   ),
                 ),
