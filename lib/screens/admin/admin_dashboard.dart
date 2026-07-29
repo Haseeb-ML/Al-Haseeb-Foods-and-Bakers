@@ -267,8 +267,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
           stream: _invoiceService.getInvoices(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
+              return SizedBox(
+                height: 240, // Match the typical height of 5 items list to prevent layout jump
                 child: Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
