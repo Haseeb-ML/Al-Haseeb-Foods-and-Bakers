@@ -915,6 +915,70 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     ),
                   ),
                 ),
+                const SizedBox(width: 8),
+                StreamBuilder<List<UrgentAlertModel>>(
+                  stream: AlertService().getActiveAlerts(),
+                  builder: (context, alertSnap) {
+                    final activeAlerts = alertSnap.data ?? [];
+                    final count = activeAlerts.length;
+                    final hasAlerts = count > 0;
+
+                    return GestureDetector(
+                      onTap: () => _showAlertsListDialog(activeAlerts, isDark, textPrimary, textSecondary),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            width: isDesktop ? 44 : 36,
+                            height: isDesktop ? 44 : 36,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: hasAlerts 
+                                  ? AppColors.danger.withValues(alpha: 0.12)
+                                  : accentController.value.withValues(alpha: 0.12),
+                              border: Border.all(
+                                color: hasAlerts 
+                                    ? AppColors.danger.withValues(alpha: 0.35)
+                                    : accentController.value.withValues(alpha: 0.35),
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Icon(
+                              hasAlerts ? Icons.notifications_active_outlined : Icons.notifications_outlined,
+                              size: isDesktop ? 24 : 19,
+                              color: hasAlerts ? AppColors.danger : accentController.value,
+                            ),
+                          ),
+                          if (hasAlerts)
+                            Positioned(
+                              top: -2,
+                              right: -2,
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: const BoxDecoration(
+                                  color: AppColors.danger,
+                                  shape: BoxShape.circle,
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 16,
+                                  minHeight: 16,
+                                ),
+                                child: Text(
+                                  '$count',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
                 const SizedBox(width: 10),
                 StreamBuilder<UserModel?>(
                   stream: AuthService().getUserStream(user.uid),
@@ -1447,8 +1511,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 ],
                               ),
                               const SizedBox(height: AppSpacing.xs),
-                              _buildUrgentStaffAlertsSection(isDark, textPrimary, textSecondary),
-                              const SizedBox(height: AppSpacing.xs),
 
                               //-------------------- ROW 2: REVENUE TREND + WEEKLY SALES --------------------
                               IntrinsicHeight(
@@ -1547,8 +1609,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             ),
                             const SizedBox(height: AppSpacing.xs),
                             staffPresentCard,
-                            const SizedBox(height: AppSpacing.xs),
-                            _buildUrgentStaffAlertsSection(isDark, textPrimary, textSecondary),
                           ],
                         );
                       },
@@ -2569,97 +2629,92 @@ class _InitialsAvatar extends StatelessWidget {
   }
 }
 
-Widget _buildUrgentStaffAlertsSection(bool isDark, Color textPrimary, Color textSecondary) {
-  return StreamBuilder<List<UrgentAlertModel>>(
-    stream: AlertService().getActiveAlerts(),
-    builder: (context, alertSnap) {
-      if (alertSnap.connectionState == ConnectionState.waiting) {
-        return const SizedBox.shrink();
-      }
-      final activeAlerts = alertSnap.data ?? [];
-      if (activeAlerts.isEmpty) {
-        return const SizedBox.shrink();
-      }
-
-      return Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: AppColors.danger.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: AppColors.danger.withValues(alpha: 0.35),
-            width: 1,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.warning_amber_rounded, color: AppColors.danger, size: 18),
-                const SizedBox(width: 8),
-                Text(
-                  'URGENT STAFF ALERTS (${activeAlerts.length})',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.danger,
-                    letterSpacing: 0.5,
-                  ),
+  void _showAlertsListDialog(
+    List<UrgentAlertModel> activeAlerts,
+    bool isDark,
+    Color textPrimary,
+    Color textSecondary,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final border = isDark ? AppColors.darkBorder : AppColors.lightBorder;
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          backgroundColor: isDark ? AppColors.darkBg : Colors.white,
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.danger.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Column(
-              children: activeAlerts.map((alert) {
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 6),
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkCard : Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                child: const Icon(Icons.warning_amber_rounded, color: AppColors.danger, size: 22),
+              ),
+              const SizedBox(width: 12),
+              const Text('Active Staff Alerts', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          content: SizedBox(
+            width: 400,
+            height: 300,
+            child: activeAlerts.isEmpty
+                ? Center(
+                    child: Text(
+                      'No active notifications found.',
+                      style: TextStyle(color: textSecondary, fontSize: 13),
+                    ),
+                  )
+                : ListView.separated(
+                    itemCount: activeAlerts.length,
+                    separatorBuilder: (context, idx) => Divider(color: border),
+                    itemBuilder: (context, index) {
+                      final alert = activeAlerts[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              alert.message,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: textPrimary,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    alert.message,
+                                    style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 13),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    'By ${alert.userName} at ${DateFormat('hh:mm a').format(alert.createdAt)}',
+                                    style: TextStyle(color: textSecondary, fontSize: 10),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              'By ${alert.userName} at ${DateFormat('hh:mm a').format(alert.createdAt)}',
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  color: textSecondary,
-                              ),
+                            IconButton(
+                              icon: const Icon(Icons.check_circle_outline, color: Colors.green, size: 18),
+                              tooltip: 'Acknowledge & Dismiss',
+                              onPressed: () async {
+                                await AlertService().markAsRead(alert.id);
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                }
+                              },
                             ),
                           ],
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.check_circle_outline, color: Colors.green, size: 18),
-                        tooltip: 'Acknowledge & Dismiss',
-                        onPressed: () async {
-                          await AlertService().markAsRead(alert.id);
-                        },
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                );
-              }).toList(),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
             ),
           ],
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
