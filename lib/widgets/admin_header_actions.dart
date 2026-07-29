@@ -222,7 +222,7 @@ class AdminHeaderActions extends StatelessWidget {
         //---------- ADMIN PROFILE AVATAR ----------
         StreamBuilder<UserModel?>(
           stream: AuthService().getUserStream(user.uid),
-          builder: (context, userSnap) {
+          builder: (context, AsyncSnapshot<UserModel?> userSnap) {
             final liveUser = userSnap.data ?? user;
             final imgUrl = liveUser.profileImageUrl;
 
