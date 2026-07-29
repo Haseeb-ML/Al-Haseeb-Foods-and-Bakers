@@ -63,7 +63,6 @@ class InvoicePdfService {
     buffer.writeln('Invoice No : ${invoice.invoiceNumber}');
     buffer.writeln('Date       : ${_formatDate(invoice.date)}');
     buffer.writeln('Customer   : ${invoice.customerName}');
-    buffer.writeln('Staff      : $staffName');
     buffer.writeln(_dashLine());
     buffer.writeln(
       '${_padRight("Product", 16)}${_padLeft("Qty", 6)}${_padLeft("Price", 10)}${_padLeft("Total", 10)}',

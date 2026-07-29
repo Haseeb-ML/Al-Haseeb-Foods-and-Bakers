@@ -22,6 +22,8 @@ class BackupService {
     'expenses',
     'customer_payments',
     'attendance',
+    'leave_requests',
+    'urgent_alerts',
   ];
 
   //-------------------- EXPORT BACKUP (Firestore -> JSON File) --------------------
