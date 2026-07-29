@@ -431,7 +431,10 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
                               top: 24,
                               bottom: 16,
                             ),
-                            child: content,
+                            child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: content,
+                            ),
                           ),
                         ),
                       ],
@@ -445,7 +448,10 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
                   body: SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.all(AppSpacing.sm),
-                      child: content,
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: content,
+                      ),
                     ),
                   ),
                 );
@@ -467,11 +473,9 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
     Color textSecondary,
     bool isDesktop,
   ) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.zero,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
           //-------------------- HEADER --------------------
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -827,7 +831,6 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
           ),
           const SizedBox(height: AppSpacing.sm),
         ],
-      ),
     );
   }
 }
