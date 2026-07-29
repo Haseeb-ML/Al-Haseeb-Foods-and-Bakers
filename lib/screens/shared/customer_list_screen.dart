@@ -961,6 +961,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
       children: [
         //-------------------- HEADER --------------------
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (!isDesktop)
               GestureDetector(

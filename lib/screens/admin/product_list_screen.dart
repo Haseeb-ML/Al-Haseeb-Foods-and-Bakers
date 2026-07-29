@@ -180,6 +180,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       children: [
         //-------------------- HEADER: (BACK on mobile) + TITLE + ADD BUTTON --------------------
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (!isDesktop)
               GestureDetector(

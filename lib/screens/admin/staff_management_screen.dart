@@ -1126,6 +1126,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
       children: [
         //-------------------- HEADER --------------------
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (!isDesktop)
               GestureDetector(

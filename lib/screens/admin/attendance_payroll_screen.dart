@@ -88,6 +88,7 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                       // Header
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
                             child: Column(

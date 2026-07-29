@@ -518,6 +518,7 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
                   //-------------------- HEADER & ACTION BAR --------------------
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Column(
