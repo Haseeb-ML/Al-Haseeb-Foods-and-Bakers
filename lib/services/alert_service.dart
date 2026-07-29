@@ -11,12 +11,14 @@ class AlertService {
   Stream<List<UrgentAlertModel>> getActiveAlerts() {
     return _alertsRef
         .where('isRead', isEqualTo: false)
-        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) {
-      return snap.docs.map((doc) {
+      final list = snap.docs.map((doc) {
         return UrgentAlertModel.fromMap(doc.data() as Map<String, dynamic>, doc.id);
       }).toList();
+      // Sort in memory by createdAt descending to bypass composite index requirement
+      list.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      return list;
     });
   }
 

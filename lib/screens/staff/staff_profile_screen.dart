@@ -545,6 +545,7 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
                     );
                   },
                 ),
+              ],
             ),
           ),
           const SizedBox(height: 24),
