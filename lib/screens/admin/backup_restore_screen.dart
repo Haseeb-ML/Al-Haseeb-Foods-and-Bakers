@@ -9,6 +9,7 @@ import 'staff_management_screen.dart';
 import 'theme_settings_screen.dart';
 import '../shared/customer_list_screen.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../widgets/admin_header_actions.dart';
 
 //-------------------- DESKTOP BREAKPOINT --------------------
 const double _kDesktopBreakpoint = 900;
@@ -472,40 +473,48 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
         children: [
           //-------------------- HEADER --------------------
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (!isDesktop)
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    margin: const EdgeInsets.only(right: AppSpacing.xs),
-                    decoration: BoxDecoration(
-                      color: card,
-                      borderRadius: BorderRadius.circular(AppRadius.button),
-                      border: Border.all(color: border, width: 0.8),
+              Expanded(
+                child: Row(
+                  children: [
+                    if (!isDesktop)
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          margin: const EdgeInsets.only(right: AppSpacing.xs),
+                          decoration: BoxDecoration(
+                            color: card,
+                            borderRadius: BorderRadius.circular(AppRadius.button),
+                            border: Border.all(color: border, width: 0.8),
+                          ),
+                          child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
+                        ),
+                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Settings',
+                          style: TextStyle(fontSize: 12, color: textSecondary),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Backup & Restore',
+                          style: TextStyle(
+                            fontSize: isDesktop ? 26 : 19,
+                            fontWeight: FontWeight.w600,
+                            color: textPrimary,
+                          ),
+                        ),
+                      ],
                     ),
-                    child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
-                  ),
+                  ],
                 ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Settings',
-                    style: TextStyle(fontSize: 12, color: textSecondary),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Backup & Restore',
-                    style: TextStyle(
-                      fontSize: isDesktop ? 26 : 19,
-                      fontWeight: FontWeight.w600,
-                      color: textPrimary,
-                    ),
-                  ),
-                ],
               ),
+              AdminHeaderActions(isDesktop: isDesktop),
             ],
           ),
           const SizedBox(height: 6),

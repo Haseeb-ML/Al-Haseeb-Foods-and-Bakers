@@ -15,6 +15,7 @@ import 'expense_list_screen.dart';
 import '../../models/user_model.dart';
 import '../../widgets/staff_sidebar.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../widgets/admin_header_actions.dart';
 
 //-------------------- DESKTOP BREAKPOINT --------------------
 const double kDesktopBreakpoint = 900;
@@ -1050,6 +1051,10 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                       : const Icon(Icons.add, color: Colors.white, size: 20),
                 ),
               ),
+            if (widget.isAdmin) ...[
+              const SizedBox(width: 12),
+              AdminHeaderActions(isDesktop: isDesktop),
+            ],
           ],
         ),
         const SizedBox(height: AppSpacing.sm),

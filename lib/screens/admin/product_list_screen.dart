@@ -16,6 +16,7 @@ import '../../theme/background_theme_controller.dart';
 import '../../theme/accent_controller.dart';
 import 'backup_restore_screen.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../widgets/admin_header_actions.dart';
 import '../../utils/bakery_data_seeder.dart';
 
 //-------------------- DESKTOP BREAKPOINT --------------------
@@ -329,6 +330,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     : const Icon(Icons.add, color: Colors.white, size: 20),
               ),
             ),
+            const SizedBox(width: 12),
+            AdminHeaderActions(isDesktop: isDesktop),
           ],
         ),
         const SizedBox(height: AppSpacing.sm),

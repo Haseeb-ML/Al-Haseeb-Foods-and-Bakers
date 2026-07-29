@@ -10,6 +10,7 @@ import '../../theme/app_theme.dart';
 import '../../theme/accent_controller.dart';
 import '../../theme/background_theme_controller.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../widgets/admin_header_actions.dart';
 import '../../models/leave_request_model.dart';
 import '../../services/leave_service.dart';
 
@@ -88,27 +89,30 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Attendance & Payroll',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w700,
-                                  color: textPrimary,
-                                  fontFamily: isDark ? 'PlayfairDisplay' : null,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Attendance & Payroll',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w700,
+                                    color: textPrimary,
+                                    fontFamily: isDark ? 'PlayfairDisplay' : null,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Track staff check-ins and process monthly salaries',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: textSecondary,
+                                Text(
+                                  'Track staff check-ins and process monthly salaries',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: textSecondary,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
+                          AdminHeaderActions(isDesktop: isDesktop),
                         ],
                       ),
                       const SizedBox(height: 20),

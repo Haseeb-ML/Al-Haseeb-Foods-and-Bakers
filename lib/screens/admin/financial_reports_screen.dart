@@ -9,6 +9,7 @@ import '../../theme/app_theme.dart';
 import '../../theme/accent_controller.dart';
 import '../../theme/background_theme_controller.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../widgets/admin_header_actions.dart';
 
 const double _kDesktopBreakpoint = 900;
 
@@ -250,24 +251,27 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Financial Performance',
-                            style: TextStyle(
-                              fontSize: isDesktop ? 22 : 18,
-                              fontWeight: FontWeight.bold,
-                              color: textPrimary,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Financial Performance',
+                              style: TextStyle(
+                                fontSize: isDesktop ? 22 : 18,
+                                fontWeight: FontWeight.bold,
+                                color: textPrimary,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            'Real-time Sales vs Expense Analytics',
-                            style: TextStyle(fontSize: 12, color: textSecondary),
-                          ),
-                        ],
+                            const SizedBox(height: 2),
+                            Text(
+                              'Real-time Sales vs Expense Analytics',
+                              style: TextStyle(fontSize: 12, color: textSecondary),
+                            ),
+                          ],
+                        ),
                       ),
+                      AdminHeaderActions(isDesktop: isDesktop),
                     ],
                   ),
                   const SizedBox(height: 14),

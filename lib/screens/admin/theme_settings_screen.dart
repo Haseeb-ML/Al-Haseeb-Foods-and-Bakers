@@ -13,6 +13,7 @@ import '../../models/user_model.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/staff_sidebar.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../widgets/admin_header_actions.dart';
 
 //-------------------- DESKTOP BREAKPOINT --------------------
 const double _kDesktopBreakpoint = 900;
@@ -160,40 +161,48 @@ class ThemeSettingsScreen extends StatelessWidget {
         children: [
           //-------------------- HEADER --------------------
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (!isDesktop || !isAdmin)
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    margin: const EdgeInsets.only(right: AppSpacing.xs),
-                    decoration: BoxDecoration(
-                      color: card,
-                      borderRadius: BorderRadius.circular(AppRadius.button),
-                      border: Border.all(color: border, width: 0.8),
+              Expanded(
+                child: Row(
+                  children: [
+                    if (!isDesktop || !isAdmin)
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          margin: const EdgeInsets.only(right: AppSpacing.xs),
+                          decoration: BoxDecoration(
+                            color: card,
+                            borderRadius: BorderRadius.circular(AppRadius.button),
+                            border: Border.all(color: border, width: 0.8),
+                          ),
+                          child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
+                        ),
+                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Settings',
+                          style: TextStyle(fontSize: 12, color: textSecondary),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Appearance',
+                          style: TextStyle(
+                            fontSize: isDesktop ? 26 : 19,
+                            fontWeight: FontWeight.w600,
+                            color: textPrimary,
+                          ),
+                        ),
+                      ],
                     ),
-                    child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
-                  ),
+                  ],
                 ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Settings',
-                    style: TextStyle(fontSize: 12, color: textSecondary),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Appearance',
-                    style: TextStyle(
-                      fontSize: isDesktop ? 26 : 19,
-                      fontWeight: FontWeight.w600,
-                      color: textPrimary,
-                    ),
-                  ),
-                ],
               ),
+              if (isAdmin) AdminHeaderActions(isDesktop: isDesktop),
             ],
           ),
           const SizedBox(height: AppSpacing.md),

@@ -8,6 +8,7 @@ import 'product_list_screen.dart';
 import 'theme_settings_screen.dart';
 import '../shared/customer_list_screen.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../widgets/admin_header_actions.dart';
 
 //-------------------- DESKTOP BREAKPOINT --------------------
 const double kDesktopBreakpoint = 900;
@@ -1214,6 +1215,8 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                     : const Icon(Icons.add, color: Colors.white, size: 20),
               ),
             ),
+            const SizedBox(width: 12),
+            AdminHeaderActions(isDesktop: isDesktop),
           ],
         ),
         const SizedBox(height: AppSpacing.sm),
