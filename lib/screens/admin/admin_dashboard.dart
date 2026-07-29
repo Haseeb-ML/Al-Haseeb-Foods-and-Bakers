@@ -1123,101 +1123,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ),
         SizedBox(height: isDesktop ? AppSpacing.lg : AppSpacing.md),
 
-        //-------------------- URGENT STAFF ALERTS BANNER --------------------
-        StreamBuilder<List<UrgentAlertModel>>(
-          stream: AlertService().getActiveAlerts(),
-          builder: (context, alertSnap) {
-            if (alertSnap.connectionState == ConnectionState.waiting) {
-              return const SizedBox.shrink();
-            }
-            final activeAlerts = alertSnap.data ?? [];
-            if (activeAlerts.isEmpty) {
-              return const SizedBox.shrink();
-            }
-
-            return Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColors.danger.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppColors.danger.withValues(alpha: 0.35),
-                  width: 1,
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.warning_amber_rounded, color: AppColors.danger, size: 18),
-                      const SizedBox(width: 8),
-                      Text(
-                        'URGENT STAFF ALERTS (${activeAlerts.length})',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.danger,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Column(
-                    children: activeAlerts.map((alert) {
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 6),
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkCard : Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    alert.message,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: textPrimary,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    'By ${alert.userName} at ${DateFormat('hh:mm a').format(alert.createdAt)}',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: textSecondary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.check_circle_outline, color: Colors.green, size: 18),
-                              tooltip: 'Acknowledge & Dismiss',
-                              onPressed: () async {
-                                await AlertService().markAsRead(alert.id);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-
         //-------------------- STATS --------------------
         StreamBuilder<List<InvoiceModel>>(
           stream: _invoiceService.getInvoices(),
@@ -1688,6 +1593,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 ],
                               ),
                               const SizedBox(height: AppSpacing.xs),
+                              _buildUrgentStaffAlertsSection(isDark, textPrimary, textSecondary),
+                              const SizedBox(height: AppSpacing.xs),
 
                               //-------------------- ROW 2: REVENUE TREND + WEEKLY SALES --------------------
                               IntrinsicHeight(
@@ -1786,6 +1693,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             ),
                             const SizedBox(height: AppSpacing.xs),
                             staffPresentCard,
+                            const SizedBox(height: AppSpacing.xs),
+                            _buildUrgentStaffAlertsSection(isDark, textPrimary, textSecondary),
                           ],
                         );
                       },
@@ -2804,4 +2713,99 @@ class _InitialsAvatar extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildUrgentStaffAlertsSection(bool isDark, Color textPrimary, Color textSecondary) {
+  return StreamBuilder<List<UrgentAlertModel>>(
+    stream: AlertService().getActiveAlerts(),
+    builder: (context, alertSnap) {
+      if (alertSnap.connectionState == ConnectionState.waiting) {
+        return const SizedBox.shrink();
+      }
+      final activeAlerts = alertSnap.data ?? [];
+      if (activeAlerts.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      return Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.danger.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: AppColors.danger.withValues(alpha: 0.35),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.warning_amber_rounded, color: AppColors.danger, size: 18),
+                const SizedBox(width: 8),
+                Text(
+                  'URGENT STAFF ALERTS (${activeAlerts.length})',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.danger,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Column(
+              children: activeAlerts.map((alert) {
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isDark ? AppColors.darkCard : Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              alert.message,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: textPrimary,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'By ${alert.userName} at ${DateFormat('hh:mm a').format(alert.createdAt)}',
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  color: textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.check_circle_outline, color: Colors.green, size: 18),
+                        tooltip: 'Acknowledge & Dismiss',
+                        onPressed: () async {
+                          await AlertService().markAsRead(alert.id);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
