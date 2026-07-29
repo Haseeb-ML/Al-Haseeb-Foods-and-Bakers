@@ -26,16 +26,19 @@ class PayrollService {
     await newDoc.set(toSave.toMap());
   }
 
-  //-------------------- GET EMPLOYEE PAYROLL HISTORY --------------------
   Stream<List<PayrollModel>> getPayrollHistory(String userId) {
     return _payrollRef
         .where('userId', isEqualTo: userId)
-        .orderBy('paidAt', descending: true)
         .snapshots()
-        .map((snap) => snap.docs
-            .map((doc) =>
-                PayrollModel.fromMap(doc.data() as Map<String, dynamic>, doc.id))
-            .toList());
+        .map((snap) {
+      final list = snap.docs
+          .map((doc) => PayrollModel.fromMap(
+              doc.data() as Map<String, dynamic>, doc.id))
+          .toList();
+      // Sort in memory by paidAt descending to bypass composite index requirement
+      list.sort((a, b) => b.paidAt.compareTo(a.paidAt));
+      return list;
+    });
   }
 
   //-------------------- GET ALL PAYROLL RECORDS (Admin) --------------------
