@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
+import '../../services/alert_service.dart';
+import '../../models/urgent_alert_model.dart';
 import '../../services/auth_service.dart';
 import '../../services/product_service.dart';
 import '../../services/customer_service.dart';
@@ -47,6 +50,150 @@ class _AdminDashboardState extends State<AdminDashboard> {
   final CustomerService _customerService = CustomerService();
   final InvoiceService _invoiceService = InvoiceService();
   final AttendanceService _attendanceService = AttendanceService();
+  StreamSubscription? _alertSubscription;
+  bool _isPopupOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to active alerts stream to trigger instant popup notifications
+    _alertSubscription = AlertService().getActiveAlerts().listen((alerts) {
+      if (alerts.isNotEmpty && !_isPopupOpen && mounted) {
+        _showUrgentAlertPopup(alerts.first);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _alertSubscription?.cancel();
+    super.dispose();
+  }
+
+  void _showUrgentAlertPopup(UrgentAlertModel alert) {
+    if (!mounted) return;
+    setState(() => _isPopupOpen = true);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Must acknowledge to dismiss
+      builder: (context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          backgroundColor: isDark ? AppColors.darkBg : Colors.white,
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.danger.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.warning_amber_rounded,
+                  color: AppColors.danger,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Urgent Staff Alert!',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.danger,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'A staff member has requested your immediate attention:',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: isDark ? Colors.grey[300] : Colors.grey[700],
+                ),
+              ),
+              const SizedBox(height: 14),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkCard : Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: isDark
+                        ? accentController.value.withValues(alpha: 0.1)
+                        : Colors.grey.shade200,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '"${alert.message}"',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.italic,
+                        color: isDark ? Colors.white : Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Sent by: ${alert.userName}',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: accentController.value,
+                      ),
+                    ),
+                    Text(
+                      'Time: ${DateFormat('hh:mm a').format(alert.createdAt)}',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: isDark ? Colors.grey[400] : Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            FilledButton.icon(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              icon: const Icon(Icons.check_circle_outline, size: 16),
+              label: const Text(
+                'Acknowledge & Clear',
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              onPressed: () async {
+                await AlertService().markAsRead(alert.id);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  setState(() => _isPopupOpen = false);
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   String _revenueRange = '7D'; // '7D' | '1M' | '3M'
 
@@ -975,6 +1122,101 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ],
         ),
         SizedBox(height: isDesktop ? AppSpacing.lg : AppSpacing.md),
+
+        //-------------------- URGENT STAFF ALERTS BANNER --------------------
+        StreamBuilder<List<UrgentAlertModel>>(
+          stream: AlertService().getActiveAlerts(),
+          builder: (context, alertSnap) {
+            if (alertSnap.connectionState == ConnectionState.waiting) {
+              return const SizedBox.shrink();
+            }
+            final activeAlerts = alertSnap.data ?? [];
+            if (activeAlerts.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
+            return Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.danger.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: AppColors.danger.withValues(alpha: 0.35),
+                  width: 1,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.warning_amber_rounded, color: AppColors.danger, size: 18),
+                      const SizedBox(width: 8),
+                      Text(
+                        'URGENT STAFF ALERTS (${activeAlerts.length})',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.danger,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Column(
+                    children: activeAlerts.map((alert) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: isDark ? AppColors.darkCard : Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    alert.message,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: textPrimary,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    'By ${alert.userName} at ${DateFormat('hh:mm a').format(alert.createdAt)}',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.check_circle_outline, color: Colors.green, size: 18),
+                              tooltip: 'Acknowledge & Dismiss',
+                              onPressed: () async {
+                                await AlertService().markAsRead(alert.id);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
 
         //-------------------- STATS --------------------
         StreamBuilder<List<InvoiceModel>>(

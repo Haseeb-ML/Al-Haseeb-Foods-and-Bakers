@@ -10,6 +10,8 @@ import '../../theme/app_theme.dart';
 import '../../theme/accent_controller.dart';
 import '../../theme/background_theme_controller.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../models/leave_request_model.dart';
+import '../../services/leave_service.dart';
 
 const double kDesktopBreakpoint = 900;
 
@@ -33,7 +35,7 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -120,6 +122,7 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                         dividerColor: Colors.transparent,
                         tabs: const [
                           Tab(text: 'Attendance Logs'),
+                          Tab(text: 'Leave Requests'),
                           Tab(text: 'Payroll Management'),
                           Tab(text: 'Payroll History'),
                         ],
@@ -132,6 +135,7 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                           controller: _tabController,
                           children: [
                             _buildAttendanceTab(card, border, textPrimary, textSecondary, isDark),
+                            _buildLeaveRequestsTab(card, border, textPrimary, textSecondary, isDark),
                             _buildPayrollTab(card, border, textPrimary, textSecondary, isDark),
                             _buildPayrollHistoryTab(card, border, textPrimary, textSecondary, isDark),
                           ],
@@ -792,6 +796,242 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
           ),
         ),
       ],
+    );
+  }
+
+  //-------------------- LEAVE REQUESTS TAB --------------------
+  Widget _buildLeaveRequestsTab(
+    Color cardColor,
+    Color borderColor,
+    Color textPrimary,
+    Color textSecondary,
+    bool isDark,
+  ) {
+    final LeaveService leaveService = LeaveService();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Pending Leave Applications',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: textPrimary,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Expanded(
+          child: StreamBuilder<List<LeaveRequestModel>>(
+            stream: leaveService.getLeaveRequests(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final allRequests = snapshot.data ?? [];
+              final pendingRequests = allRequests.where((r) => r.status == 'Pending').toList();
+              final processedRequests = allRequests.where((r) => r.status != 'Pending').toList();
+
+              if (allRequests.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No leave requests found.',
+                    style: TextStyle(color: textSecondary, fontSize: 13),
+                  ),
+                );
+              }
+
+              return ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  if (pendingRequests.isNotEmpty) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        'PENDING (${pendingRequests.length})',
+                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: accentController.value, letterSpacing: 0.5),
+                      ),
+                    ),
+                    ...pendingRequests.map((req) => _buildLeaveRequestCard(req, cardColor, borderColor, textPrimary, textSecondary, isDark, true)),
+                  ],
+                  if (processedRequests.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        'PROCESSED HISTORY',
+                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textSecondary, letterSpacing: 0.5),
+                      ),
+                    ),
+                    ...processedRequests.map((req) => _buildLeaveRequestCard(req, cardColor, borderColor, textPrimary, textSecondary, isDark, false)),
+                  ],
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLeaveRequestCard(
+    LeaveRequestModel req,
+    Color cardColor,
+    Color borderColor,
+    Color textPrimary,
+    Color textSecondary,
+    bool isDark,
+    bool isPending,
+  ) {
+    Color statusColor = Colors.blue;
+    if (req.status == 'Approved') statusColor = Colors.green;
+    if (req.status == 'Rejected') statusColor = AppColors.danger;
+
+    final formattedStart = DateFormat('dd MMM yyyy').format(req.startDate);
+    final formattedEnd = DateFormat('dd MMM yyyy').format(req.endDate);
+    final diffDays = req.endDate.difference(req.startDate).inDays + 1;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cardColor,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: borderColor, width: 0.8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              StreamBuilder<UserModel?>(
+                stream: AuthService().getUserStream(req.userId),
+                builder: (context, userSnap) {
+                  final staffUser = userSnap.data;
+                  final displayName = staffUser != null && staffUser.name.isNotEmpty 
+                      ? staffUser.name 
+                      : (req.userName.isNotEmpty ? req.userName : 'Staff Member');
+                      
+                  return Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundColor: accentController.value.withValues(alpha: 0.12),
+                        child: Text(
+                          displayName.isNotEmpty ? displayName[0].toUpperCase() : '?',
+                          style: TextStyle(color: accentController.value, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            displayName,
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textPrimary),
+                          ),
+                          Text(
+                            'Applied on ${DateFormat('dd MMM, hh:mm a').format(req.createdAt)}',
+                            style: TextStyle(fontSize: 10, color: textSecondary),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: statusColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  req.status,
+                  style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          const Divider(height: 20),
+          Row(
+            children: [
+              Icon(Icons.date_range_outlined, size: 14, color: textSecondary),
+              const SizedBox(width: 6),
+              Text(
+                'Leave Duration: $formattedStart to $formattedEnd ($diffDays ${diffDays == 1 ? "day" : "days"})',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: textPrimary),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Row(
+            children: [
+              Icon(Icons.label_outline_rounded, size: 14, color: textSecondary),
+              const SizedBox(width: 6),
+              Text(
+                'Leave Type: ${req.leaveType}',
+                style: TextStyle(fontSize: 12, color: textPrimary),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.notes_rounded, size: 14, color: textSecondary),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  'Reason: ${req.reason}',
+                  style: TextStyle(fontSize: 12, color: textSecondary),
+                ),
+              ),
+            ],
+          ),
+          if (isPending) ...[
+            const Divider(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.danger,
+                    side: const BorderSide(color: AppColors.danger, width: 0.8),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  icon: const Icon(Icons.close_rounded, size: 14),
+                  label: const Text('Reject', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                  onPressed: () async {
+                    await LeaveService().updateRequestStatus(req.id, 'Rejected');
+                  },
+                ),
+                const SizedBox(width: 10),
+                FilledButton.icon(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  icon: const Icon(Icons.check_rounded, size: 14),
+                  label: const Text('Approve', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+                  onPressed: () async {
+                    await LeaveService().updateRequestStatus(req.id, 'Approved');
+                  },
+                ),
+              ],
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../models/user_model.dart';
+import '../../services/invoice_service.dart';
+import '../../models/invoice_model.dart';
 import '../../services/auth_service.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/accent_controller.dart';
@@ -530,6 +532,82 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
                               ),
                               Text(
                                 'Rs. ${slip.netPaid.toStringAsFixed(0)}',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: accentController.value,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+          // Recent Sales History Section
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: card,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: border),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.receipt_long_outlined, color: accentController.value, size: 20),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Recent Sales History',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: textPrimary),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                StreamBuilder<List<InvoiceModel>>(
+                  stream: InvoiceService().getInvoices(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    final allInvoices = snapshot.data ?? [];
+                    final mySales = allInvoices.where((inv) => inv.createdBy == widget.user.uid).toList();
+
+                    if (mySales.isEmpty) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Text('No sales invoices created yet.', style: TextStyle(color: textMuted, fontSize: 12)),
+                      );
+                    }
+                    return Column(
+                      children: mySales.take(5).map((inv) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(color: border, width: 0.5)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    inv.invoiceNumber,
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: textPrimary),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    'Customer: ${inv.customerName} • ${DateFormat('dd MMM hh:mm a').format(inv.date)}',
+                                    style: TextStyle(color: textSecondary, fontSize: 11),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                'Rs. ${inv.totalAmount.toStringAsFixed(0)}',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
