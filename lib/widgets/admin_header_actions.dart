@@ -115,9 +115,17 @@ class AdminHeaderActions extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textPrimary = isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
     final textSecondary = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
-    final user = AuthService().currentUser;
+    final firebaseUser = AuthService().currentUser;
+    if (firebaseUser == null) return const SizedBox.shrink();
 
-    if (user == null) return const SizedBox.shrink();
+    final fallbackUserModel = UserModel(
+      uid: firebaseUser.uid,
+      name: firebaseUser.displayName ?? 'Admin',
+      email: firebaseUser.email ?? '',
+      role: 'admin',
+      phone: '',
+      createdAt: DateTime.now(),
+    );
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -221,9 +229,9 @@ class AdminHeaderActions extends StatelessWidget {
 
         //---------- ADMIN PROFILE AVATAR ----------
         StreamBuilder<UserModel?>(
-          stream: AuthService().getUserStream(user.uid),
+          stream: AuthService().getUserStream(firebaseUser.uid),
           builder: (context, userSnap) {
-            final liveUser = (userSnap.data ?? user) as UserModel;
+            final liveUser = userSnap.data ?? fallbackUserModel;
             final imgUrl = liveUser.profileImageUrl;
 
             return GestureDetector(
