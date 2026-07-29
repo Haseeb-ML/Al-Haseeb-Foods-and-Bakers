@@ -115,15 +115,13 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen> {
                           currentRoute: 'Profit & Loss',
                           user: currentUser,
                         ),
-                        Expanded(
-                          child: SafeArea(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 28,
-                                vertical: 16,
-                              ),
-                              child: content,
+                         Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 28,
+                              vertical: 16,
                             ),
+                            child: content,
                           ),
                         ),
                       ],

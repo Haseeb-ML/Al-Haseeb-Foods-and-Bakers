@@ -79,76 +79,71 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
             builder: (context, constraints) {
               final isDesktop = constraints.maxWidth >= kDesktopBreakpoint;
 
-              final content = SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              final mainColumn = Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Header
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Attendance & Payroll',
-                                  style: TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w700,
-                                    color: textPrimary,
-                                    fontFamily: isDark ? 'PlayfairDisplay' : null,
-                                  ),
-                                ),
-                                Text(
-                                  'Track staff check-ins and process monthly salaries',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: textSecondary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          AdminHeaderActions(isDesktop: isDesktop),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-
-                      // TabBar
-                      TabBar(
-                        controller: _tabController,
-                        labelColor: accentController.value,
-                        unselectedLabelColor: textSecondary,
-                        indicatorColor: accentController.value,
-                        dividerColor: Colors.transparent,
-                        tabs: const [
-                          Tab(text: 'Attendance Logs'),
-                          Tab(text: 'Leave Requests'),
-                          Tab(text: 'Payroll Management'),
-                          Tab(text: 'Payroll History'),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-
-                      // TabView Content
                       Expanded(
-                        child: TabBarView(
-                          controller: _tabController,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildAttendanceTab(card, border, textPrimary, textSecondary, isDark),
-                            _buildLeaveRequestsTab(card, border, textPrimary, textSecondary, isDark),
-                            _buildPayrollTab(card, border, textPrimary, textSecondary, isDark),
-                            _buildPayrollHistoryTab(card, border, textPrimary, textSecondary, isDark),
+                            Text(
+                              'Attendance & Payroll',
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w700,
+                                color: textPrimary,
+                                fontFamily: isDark ? 'PlayfairDisplay' : null,
+                              ),
+                            ),
+                            Text(
+                              'Track staff check-ins and process monthly salaries',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: textSecondary,
+                              ),
+                            ),
                           ],
                         ),
                       ),
+                      AdminHeaderActions(isDesktop: isDesktop),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 20),
+
+                  // TabBar
+                  TabBar(
+                    controller: _tabController,
+                    labelColor: accentController.value,
+                    unselectedLabelColor: textSecondary,
+                    indicatorColor: accentController.value,
+                    dividerColor: Colors.transparent,
+                    tabs: const [
+                      Tab(text: 'Attendance Logs'),
+                      Tab(text: 'Leave Requests'),
+                      Tab(text: 'Payroll Management'),
+                      Tab(text: 'Payroll History'),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+
+                  // TabView Content
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        _buildAttendanceTab(card, border, textPrimary, textSecondary, isDark),
+                        _buildLeaveRequestsTab(card, border, textPrimary, textSecondary, isDark),
+                        _buildPayrollTab(card, border, textPrimary, textSecondary, isDark),
+                        _buildPayrollHistoryTab(card, border, textPrimary, textSecondary, isDark),
+                      ],
+                    ),
+                  ),
+                ],
               );
 
               if (isDesktop) {
@@ -156,7 +151,15 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const AdminSidebar(currentRoute: 'Attendance & Payroll'),
-                    Expanded(child: content),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 28,
+                          vertical: 16,
+                        ),
+                        child: mainColumn,
+                      ),
+                    ),
                   ],
                 );
               }
@@ -169,7 +172,12 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                   foregroundColor: textPrimary,
                   title: const Text('Attendance & Payroll'),
                 ),
-                body: content,
+                body: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: mainColumn,
+                  ),
+                ),
               );
             },
           ),
