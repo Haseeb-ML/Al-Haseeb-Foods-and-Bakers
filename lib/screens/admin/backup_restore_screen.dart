@@ -425,9 +425,11 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 28,
-                              vertical: 16,
+                            padding: const EdgeInsets.only(
+                              left: 28,
+                              right: 28,
+                              top: 24,
+                              bottom: 16,
                             ),
                             child: content,
                           ),
@@ -466,6 +468,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
     bool isDesktop,
   ) {
     return SingleChildScrollView(
+      padding: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
