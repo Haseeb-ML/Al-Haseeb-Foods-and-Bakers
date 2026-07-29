@@ -1046,15 +1046,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     width: isDesktop ? 44 : 36,
                     height: isDesktop ? 44 : 36,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                      shape: BoxShape.circle,
+                      color: accentController.value.withValues(alpha: 0.12),
                       border: Border.all(
-                        color: accentController.value.withValues(alpha: 0.25),
-                        width: 1.2,
+                        color: accentController.value.withValues(alpha: 0.35),
+                        width: 1.5,
                       ),
                     ),
                     child: Icon(
                       Icons.palette_outlined,
-                      size: isDesktop ? 22 : 18,
+                      size: isDesktop ? 26 : 21,
                       color: accentController.value,
                     ),
                   ),
