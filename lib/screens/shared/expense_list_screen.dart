@@ -14,6 +14,7 @@ import '../staff/staff_dashboard.dart';
 import 'customer_list_screen.dart';
 import '../../widgets/staff_sidebar.dart';
 import '../../widgets/admin_sidebar.dart';
+import '../../widgets/admin_header_actions.dart';
 
 class ExpenseListScreen extends StatefulWidget {
   /// Nullable for compatibility with an already-open screen after hot reload.
@@ -341,6 +342,10 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                         ),
                       ),
                     ),
+                    if (widget.user != null && widget.user!.role == 'admin') ...[
+                      const SizedBox(width: 12),
+                      AdminHeaderActions(isDesktop: MediaQuery.of(context).size.width >= 900),
+                    ],
                   ],
                 ),
                 const SizedBox(height: 24),
