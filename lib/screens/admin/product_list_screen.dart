@@ -715,36 +715,20 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     .toList();
               }
 
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    //-------------------- STAT CARDS ROW --------------------
-                    Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () =>
-                                setState(() => _showLowStockOnly = false),
-                            child: _StatMiniCard(
-                              label: 'Total items',
-                              value: '$totalItems',
-                              icon: Icons.inventory_2_outlined,
-                              color: accentController.value,
-                              card: card,
-                              border: border,
-                              textPrimary: textPrimary,
-                              textSecondary: textSecondary,
-                              isDark: isDark,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
-                        Expanded(
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  //-------------------- STAT CARDS ROW --------------------
+                  Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () =>
+                              setState(() => _showLowStockOnly = false),
                           child: _StatMiniCard(
-                            label: 'Stock value',
-                            value: 'Rs. ${_formatCompact(stockValue)}',
-                            icon: Icons.attach_money,
+                            label: 'Total items',
+                            value: '$totalItems',
+                            icon: Icons.inventory_2_outlined,
                             color: accentController.value,
                             card: card,
                             border: border,
@@ -753,181 +737,182 @@ class _ProductListScreenState extends State<ProductListScreen> {
                             isDark: isDark,
                           ),
                         ),
-                        const SizedBox(width: AppSpacing.xs),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () =>
-                                setState(() => _showLowStockOnly = true),
-                            child: _StatMiniCard(
-                              label: _showLowStockOnly
-                                  ? 'Showing Low Stock'
-                                  : 'Low stock',
-                              value: '$lowStockCount',
-                              icon: Icons.warning_amber_rounded,
-                              color: lowStockCount > 0
-                                  ? const Color(0xFFEF4444)
-                                  : const Color(0xFF22C55E),
-                              card: card,
-                              border: border,
-                              textPrimary: textPrimary,
-                              textSecondary: textSecondary,
-                              isDark: isDark,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-
-                    //-------------------- SECTION LABEL --------------------
-                    Row(
-                      children: [
-                        Icon(
-                          _showLowStockOnly
-                              ? Icons.warning_amber_rounded
-                              : Icons.shopping_bag_outlined,
-                          size: 14,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Expanded(
+                        child: _StatMiniCard(
+                          label: 'Stock value',
+                          value: 'Rs. ${_formatCompact(stockValue)}',
+                          icon: Icons.attach_money,
                           color: accentController.value,
+                          card: card,
+                          border: border,
+                          textPrimary: textPrimary,
+                          textSecondary: textSecondary,
+                          isDark: isDark,
                         ),
-                        const SizedBox(width: 6),
-                        Text(
-                          _showLowStockOnly
-                              ? 'LOW STOCK PRODUCTS'
-                              : 'ALL PRODUCTS',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: accentController.value,
-                            letterSpacing: 0.8,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-
-                    //-------------------- PRODUCT LIST (mobile) / GRID (desktop) --------------------
-                    if (products.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
-                        child: Center(
-                          child: Text(
-                            'No products found',
-                            style: TextStyle(color: textMuted),
-                          ),
-                        ),
-                      )
-                    else if (isDesktop)
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: products.length,
-                        // Fixed max width per card (instead of a fixed
-                        // crossAxisCount) so the number of columns adapts to
-                        // the actual available width on any PC/monitor, and
-                        // a fixed mainAxisExtent (instead of childAspectRatio)
-                        // so the card height never shrinks below what the
-                        // name/price/Edit-Delete row needs — that's what was
-                        // causing the Edit/Delete buttons to get clipped off
-                        // on narrower screens.
-                        gridDelegate:
-                            const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 260,
-                              crossAxisSpacing: 18,
-                              mainAxisSpacing: 18,
-                              mainAxisExtent: 320,
-                            ),
-                        itemBuilder: (context, index) {
-                          final product = products[index];
-                          return _ProductCard(
-                            product: product,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () =>
+                              setState(() => _showLowStockOnly = true),
+                          child: _StatMiniCard(
+                            label: _showLowStockOnly
+                                ? 'Showing Low Stock'
+                                : 'Low stock',
+                            value: '$lowStockCount',
+                            icon: Icons.warning_amber_rounded,
+                            color: lowStockCount > 0
+                                ? const Color(0xFFEF4444)
+                                : const Color(0xFF22C55E),
                             card: card,
                             border: border,
                             textPrimary: textPrimary,
                             textSecondary: textSecondary,
-                            textMuted: textMuted,
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ProductDetailsScreen(
-                                  product: product,
-                                  isAdmin: true,
-                                ),
-                              ),
-                            ),
-                            onEdit: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => AddEditProductScreen(
-                                  existingProduct: product,
-                                ),
-                              ),
-                            ),
-                            onDelete: () => _confirmDelete(product),
-                          );
-                        },
-                      )
-                    else
-                      Container(
-                        decoration: BoxDecoration(
-                          color: card,
-                          borderRadius: BorderRadius.circular(AppRadius.card),
-                          border: Border.all(
-                            color: isDark
-                                ? accentController.value.withValues(alpha: 0.1)
-                                : border,
-                            width: 0.8,
+                            isDark: isDark,
                           ),
                         ),
-                        child: Column(
-                          children: List.generate(products.length, (index) {
-                            final product = products[index];
-                            final isLast = index == products.length - 1;
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
 
-                            return Column(
-                              children: [
-                                _ProductRow(
-                                  product: product,
-                                  textPrimary: textPrimary,
-                                  textSecondary: textSecondary,
-                                  textMuted: textMuted,
-                                  onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => ProductDetailsScreen(
-                                        product: product,
-                                        isAdmin: true,
-                                      ),
-                                    ),
-                                  ),
-                                  onEdit: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => AddEditProductScreen(
-                                        existingProduct: product,
-                                      ),
-                                    ),
-                                  ),
-                                  onDelete: () => _confirmDelete(product),
-                                ),
-                                if (!isLast)
-                                  Divider(
-                                    color: isDark
-                                        ? accentController.value.withValues(
-                                            alpha: 0.08,
-                                          )
-                                        : border,
-                                    height: 0.8,
-                                    indent: 14,
-                                    endIndent: 14,
-                                  ),
-                              ],
-                            );
-                          }),
+                  //-------------------- SECTION LABEL --------------------
+                  Row(
+                    children: [
+                      Icon(
+                        _showLowStockOnly
+                            ? Icons.warning_amber_rounded
+                            : Icons.shopping_bag_outlined,
+                        size: 14,
+                        color: accentController.value,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        _showLowStockOnly
+                            ? 'LOW STOCK PRODUCTS'
+                            : 'ALL PRODUCTS',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: accentController.value,
+                          letterSpacing: 0.8,
                         ),
                       ),
-                    const SizedBox(height: AppSpacing.sm),
-                  ],
-                ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+
+                  //-------------------- PRODUCT LIST (mobile) / GRID (desktop) --------------------
+                  Expanded(
+                    child: products.isEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40),
+                            child: Center(
+                              child: Text(
+                                'No products found',
+                                style: TextStyle(color: textMuted),
+                              ),
+                            ),
+                          )
+                        : (isDesktop
+                            ? GridView.builder(
+                                padding: EdgeInsets.zero,
+                                itemCount: products.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 260,
+                                  crossAxisSpacing: 18,
+                                  mainAxisSpacing: 18,
+                                  mainAxisExtent: 320,
+                                ),
+                                itemBuilder: (context, index) {
+                                  final product = products[index];
+                                  return _ProductCard(
+                                    product: product,
+                                    card: card,
+                                    border: border,
+                                    textPrimary: textPrimary,
+                                    textSecondary: textSecondary,
+                                    textMuted: textMuted,
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ProductDetailsScreen(
+                                          product: product,
+                                          isAdmin: true,
+                                        ),
+                                      ),
+                                    ),
+                                    onEdit: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => AddEditProductScreen(
+                                          existingProduct: product,
+                                        ),
+                                      ),
+                                    ),
+                                    onDelete: () => _confirmDelete(product),
+                                  );
+                                },
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  color: card,
+                                  borderRadius: BorderRadius.circular(AppRadius.card),
+                                  border: Border.all(
+                                    color: isDark
+                                        ? accentController.value.withValues(alpha: 0.1)
+                                        : border,
+                                    width: 0.8,
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(AppRadius.card),
+                                  child: ListView.separated(
+                                    padding: EdgeInsets.zero,
+                                    itemCount: products.length,
+                                    separatorBuilder: (context, index) => Divider(
+                                      color: isDark
+                                          ? accentController.value.withValues(alpha: 0.08)
+                                          : border,
+                                      height: 0.8,
+                                      indent: 14,
+                                      endIndent: 14,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      final product = products[index];
+                                      return _ProductRow(
+                                        product: product,
+                                        textPrimary: textPrimary,
+                                        textSecondary: textSecondary,
+                                        textMuted: textMuted,
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => ProductDetailsScreen(
+                                              product: product,
+                                              isAdmin: true,
+                                            ),
+                                          ),
+                                        ),
+                                        onEdit: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => AddEditProductScreen(
+                                              existingProduct: product,
+                                            ),
+                                          ),
+                                        ),
+                                        onDelete: () => _confirmDelete(product),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              )),
+                  ),
+                ],
               );
             },
           ),
