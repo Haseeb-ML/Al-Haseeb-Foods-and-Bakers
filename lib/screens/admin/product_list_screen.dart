@@ -10,6 +10,10 @@ import 'theme_settings_screen.dart';
 import '../shared/customer_list_screen.dart';
 import '../shared/new_sale_screen.dart';
 import '../../services/auth_service.dart';
+import '../../services/alert_service.dart';
+import '../../models/urgent_alert_model.dart';
+import '../../models/user_model.dart';
+import 'admin_profile_screen.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/theme_controller.dart';
 import '../../theme/background_theme_controller.dart';
@@ -41,6 +45,232 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  Widget _buildHeaderActions({
+    required BuildContext context,
+    required bool isDesktop,
+    required bool isDark,
+    required Color textPrimary,
+    required Color textSecondary,
+  }) {
+    final firebaseUser = AuthService().currentUser;
+    final user = UserModel(
+      uid: firebaseUser?.uid ?? '',
+      name: firebaseUser?.displayName ?? 'Admin Owner',
+      email: firebaseUser?.email ?? '',
+      role: 'admin',
+      phone: '',
+      createdAt: DateTime.now(),
+    );
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ThemeSettingsScreen(isAdmin: true),
+              ),
+            );
+          },
+          child: Container(
+            width: isDesktop ? 44 : 36,
+            height: isDesktop ? 44 : 36,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: accentController.value.withValues(alpha: 0.12),
+              border: Border.all(
+                color: accentController.value.withValues(alpha: 0.35),
+                width: 1.5,
+              ),
+            ),
+            child: Icon(
+              Icons.palette_outlined,
+              size: isDesktop ? 26 : 21,
+              color: accentController.value,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        StreamBuilder<List<UrgentAlertModel>>(
+          stream: AlertService().getActiveAlerts(),
+          builder: (context, alertSnap) {
+            final activeAlerts = alertSnap.data ?? [];
+            final count = activeAlerts.length;
+            final hasAlerts = count > 0;
+
+            return GestureDetector(
+              onTap: () => _showAlertsListDialog(context, activeAlerts, isDark, textPrimary, textSecondary),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    width: isDesktop ? 44 : 36,
+                    height: isDesktop ? 44 : 36,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: hasAlerts 
+                          ? AppColors.danger.withValues(alpha: 0.12)
+                          : accentController.value.withValues(alpha: 0.12),
+                      border: Border.all(
+                        color: hasAlerts 
+                            ? AppColors.danger.withValues(alpha: 0.35)
+                            : accentController.value.withValues(alpha: 0.35),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Icon(
+                      hasAlerts ? Icons.notifications_active_outlined : Icons.notifications_outlined,
+                      size: isDesktop ? 24 : 19,
+                      color: hasAlerts ? AppColors.danger : accentController.value,
+                    ),
+                  ),
+                  if (hasAlerts)
+                    Positioned(
+                      top: -2,
+                      right: -2,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: AppColors.danger,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '$count',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
+        ),
+        const SizedBox(width: 10),
+        StreamBuilder<UserModel?>(
+          stream: AuthService().getUserStream(user.uid),
+          builder: (context, userSnap) {
+            final liveUser = userSnap.data ?? user;
+            final imgUrl = liveUser.profileImageUrl;
+
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AdminProfileScreen(user: liveUser),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: accentController.value.withValues(alpha: 0.35),
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: accentController.value.withValues(alpha: 0.15),
+                      blurRadius: 15,
+                      spreadRadius: 3,
+                    ),
+                  ],
+                ),
+                child: CircleAvatar(
+                  radius: isDesktop ? 26 : 19,
+                  backgroundColor: accentController.value.withValues(
+                    alpha: 0.12,
+                  ),
+                  backgroundImage: imgUrl.isNotEmpty
+                      ? CachedNetworkImageProvider(imgUrl)
+                      : null,
+                  child: imgUrl.isEmpty
+                      ? Text(
+                          liveUser.name.isNotEmpty
+                              ? liveUser.name[0].toUpperCase()
+                              : 'A',
+                          style: TextStyle(
+                            fontSize: isDesktop ? 17 : 13,
+                            fontWeight: FontWeight.bold,
+                            color: accentController.value,
+                          ),
+                        )
+                      : null,
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  void _showAlertsListDialog(BuildContext context, List<UrgentAlertModel> alerts, bool isDark, Color textPrimary, Color textSecondary) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        final cardColor = isDark ? AppColors.darkCard : AppColors.lightCard;
+        final borderColor = isDark ? AppColors.darkBorder : AppColors.lightBorder;
+        return AlertDialog(
+          backgroundColor: cardColor,
+          title: Text(
+            'Urgent Alerts (${alerts.length})',
+            style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold),
+          ),
+          content: alerts.isEmpty
+              ? Text('No active alerts', style: TextStyle(color: textSecondary))
+              : SizedBox(
+                  width: 400,
+                  height: 300,
+                  child: ListView.builder(
+                    itemCount: alerts.length,
+                    itemBuilder: (context, index) {
+                      final alert = alerts[index];
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppColors.danger.withValues(alpha: 0.1),
+                          border: Border.all(color: AppColors.danger.withValues(alpha: 0.3)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              alert.userName,
+                              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.danger),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(alert.message, style: TextStyle(color: textPrimary, fontSize: 13)),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Close'),
+            )
+          ],
+        );
+      },
+    );
   }
 
   //-------------------- DELETE CONFIRMATION --------------------
@@ -145,9 +375,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   );
                 }
 
-                //-------------------- MOBILE: PLAIN SCAFFOLD WITH BACK BUTTON --------------------
+                //-------------------- MOBILE: PLAIN SCAFFOLD WITH BACK & DRAWER BUTTONS --------------------
                 return Scaffold(
                   backgroundColor: bg,
+                  drawer: Drawer(
+                    width: 230,
+                    child: const AdminSidebar(
+                      currentRoute: 'Products',
+                    ),
+                  ),
                   body: SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.all(AppSpacing.sm),
@@ -178,27 +414,42 @@ class _ProductListScreenState extends State<ProductListScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        //-------------------- HEADER: (BACK on mobile) + TITLE + ADD BUTTON --------------------
+        if (!isDesktop) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Builder(
+                builder: (context) => GestureDetector(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: card,
+                      borderRadius: BorderRadius.circular(AppRadius.button),
+                      border: Border.all(
+                        color: accentController.value.withValues(alpha: 0.2),
+                      ),
+                    ),
+                    child: Icon(Icons.menu, size: 20, color: textPrimary),
+                  ),
+                ),
+              ),
+              _buildHeaderActions(
+                context: context,
+                isDesktop: false,
+                isDark: isDark,
+                textPrimary: textPrimary,
+                textSecondary: textSecondary,
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm),
+        ],
+        //-------------------- HEADER: TITLE + ADD BUTTON --------------------
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (!isDesktop)
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  width: 36,
-                  height: 36,
-                  margin: const EdgeInsets.only(right: AppSpacing.xs),
-                  decoration: BoxDecoration(
-                    color: card,
-                    borderRadius: BorderRadius.circular(AppRadius.button),
-                    border: Border.all(
-                      color: accentController.value.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
-                ),
-              ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,8 +582,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     : const Icon(Icons.add, color: Colors.white, size: 20),
               ),
             ),
-            const SizedBox(width: 12),
-            AdminHeaderActions(isDesktop: isDesktop),
+            if (isDesktop) const SizedBox(width: 12),
+            if (isDesktop) AdminHeaderActions(isDesktop: isDesktop),
           ],
         ),
         const SizedBox(height: AppSpacing.sm),

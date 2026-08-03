@@ -1094,6 +1094,20 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                 //-------------------- MOBILE: PLAIN SCAFFOLD --------------------
                 return Scaffold(
                   backgroundColor: bg,
+                  appBar: AppBar(
+                    backgroundColor: bg,
+                    elevation: 0,
+                    iconTheme: IconThemeData(color: textPrimary),
+                    actions: [
+                      AdminHeaderActions(isDesktop: false),
+                    ],
+                  ),
+                  drawer: const Drawer(width: 230, child: AdminSidebar(currentRoute: "Staff")),
+                  floatingActionButton: FloatingActionButton(
+                    onPressed: _showAddStaffDialog,
+                    backgroundColor: accent,
+                    child: const Icon(Icons.add, color: Colors.white),
+                  ),
                   body: SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.all(AppSpacing.sm),
@@ -1126,28 +1140,9 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
       children: [
         //-------------------- HEADER --------------------
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (!isDesktop)
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  width: 36,
-                  height: 36,
-                  margin: const EdgeInsets.only(right: AppSpacing.xs),
-                  decoration: BoxDecoration(
-                    color: card,
-                    borderRadius: BorderRadius.circular(AppRadius.button),
-                    border: Border.all(
-                      color: isDark
-                          ? accentController.value.withValues(alpha: 0.2)
-                          : border,
-                      width: 0.8,
-                    ),
-                  ),
-                  child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
-                ),
-              ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1173,51 +1168,50 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: _showAddStaffDialog,
-              child: Container(
-                height: 38,
-                padding: EdgeInsets.symmetric(horizontal: isDesktop ? 16 : 0),
-                width: isDesktop ? null : 38,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      accentController.value,
-                      Color.lerp(accentController.value, Colors.black, 0.2)!,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(AppRadius.button),
-                  boxShadow: [
-                    BoxShadow(
-                      color: accentController.value.withValues(alpha: 0.3),
-                      blurRadius: 12,
-                      spreadRadius: 2,
+            if (isDesktop) ...[
+              GestureDetector(
+                onTap: _showAddStaffDialog,
+                child: Container(
+                  height: 38,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        accentController.value,
+                        Color.lerp(accentController.value, Colors.black, 0.2)!,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                  ],
+                    borderRadius: BorderRadius.circular(AppRadius.button),
+                    boxShadow: [
+                      BoxShadow(
+                        color: accentController.value.withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.add, color: Colors.white, size: 18),
+                      SizedBox(width: 6),
+                      Text(
+                        'Add staff',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: isDesktop
-                    ? const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.add, color: Colors.white, size: 18),
-                          SizedBox(width: 6),
-                          Text(
-                            'Add staff',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      )
-                    : const Icon(Icons.add, color: Colors.white, size: 20),
               ),
-            ),
-            const SizedBox(width: 12),
-            AdminHeaderActions(isDesktop: isDesktop),
+              const SizedBox(width: 12),
+              AdminHeaderActions(isDesktop: true),
+            ],
           ],
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -1883,68 +1877,124 @@ class _StaffRow extends StatelessWidget {
               ),
             ),
 
-            //-------------------- STATUS TOGGLE BUTTON (Active/Inactive) --------------------
-            Container(
-              margin: const EdgeInsets.only(right: 6),
-              decoration: BoxDecoration(
-                color: (staff.isActive ? const Color(0xFF22C55E) : AppColors.danger)
-                    .withValues(alpha: isDark ? 0.12 : 0.08),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: IconButton(
-                icon: Icon(
-                  staff.isActive ? Icons.toggle_on : Icons.toggle_off_outlined,
-                  size: 20,
-                  color: staff.isActive ? const Color(0xFF22C55E) : AppColors.danger,
-                ),
-                onPressed: onToggleStatus,
-                splashRadius: 20,
-                padding: const EdgeInsets.all(8),
-                constraints: const BoxConstraints(),
-                tooltip: staff.isActive ? 'Disable staff' : 'Enable staff',
-              ),
-            ),
-
-            //-------------------- EDIT STAFF DETAILS BUTTON --------------------
-            Container(
-              margin: const EdgeInsets.only(right: 6),
-              decoration: BoxDecoration(
-                color: isDark
-                    ? accentController.value.withValues(alpha: 0.1)
-                    : accentController.value.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: IconButton(
-                icon: Icon(
-                  Icons.edit_outlined,
-                  size: 18,
-                  color: accentController.value,
-                ),
-                onPressed: onEdit,
-                splashRadius: 20,
-                padding: const EdgeInsets.all(8),
-                constraints: const BoxConstraints(),
-                tooltip: 'Update details',
-              ),
-            ),
-
-            //-------------------- DELETE BUTTON --------------------
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.danger.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.delete_outline,
-                  size: 18,
-                  color: AppColors.danger,
-                ),
-                onPressed: onDelete,
-                splashRadius: 20,
-                padding: const EdgeInsets.all(8),
-                constraints: const BoxConstraints(),
-              ),
+            //-------------------- ACTIONS --------------------
+            Builder(
+              builder: (context) {
+                final isDesktop = MediaQuery.of(context).size.width >= 600;
+                if (isDesktop) {
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // STATUS TOGGLE BUTTON (Active/Inactive)
+                      Container(
+                        margin: const EdgeInsets.only(right: 6),
+                        decoration: BoxDecoration(
+                          color: (staff.isActive ? const Color(0xFF22C55E) : AppColors.danger)
+                              .withValues(alpha: isDark ? 0.12 : 0.08),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            staff.isActive ? Icons.toggle_on : Icons.toggle_off_outlined,
+                            size: 20,
+                            color: staff.isActive ? const Color(0xFF22C55E) : AppColors.danger,
+                          ),
+                          onPressed: onToggleStatus,
+                          splashRadius: 20,
+                          padding: const EdgeInsets.all(8),
+                          constraints: const BoxConstraints(),
+                          tooltip: staff.isActive ? 'Disable staff' : 'Enable staff',
+                        ),
+                      ),
+                      // EDIT STAFF DETAILS BUTTON
+                      Container(
+                        margin: const EdgeInsets.only(right: 6),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? accentController.value.withValues(alpha: 0.1)
+                              : accentController.value.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.edit_outlined,
+                            size: 18,
+                            color: accentController.value,
+                          ),
+                          onPressed: onEdit,
+                          splashRadius: 20,
+                          padding: const EdgeInsets.all(8),
+                          constraints: const BoxConstraints(),
+                          tooltip: 'Update details',
+                        ),
+                      ),
+                      // DELETE BUTTON
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.danger.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.delete_outline,
+                            size: 18,
+                            color: AppColors.danger,
+                          ),
+                          onPressed: onDelete,
+                          splashRadius: 20,
+                          padding: const EdgeInsets.all(8),
+                          constraints: const BoxConstraints(),
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return PopupMenuButton<String>(
+                    icon: Icon(Icons.more_vert, color: textSecondary),
+                    onSelected: (val) {
+                      if (val == 'toggle') onToggleStatus();
+                      if (val == 'edit') onEdit();
+                      if (val == 'delete') onDelete();
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'toggle',
+                        child: Row(
+                          children: [
+                            Icon(
+                              staff.isActive ? Icons.toggle_on : Icons.toggle_off_outlined,
+                              size: 20,
+                              color: staff.isActive ? const Color(0xFF22C55E) : AppColors.danger,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(staff.isActive ? 'Disable' : 'Enable'),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        value: 'edit',
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit_outlined, size: 20),
+                            SizedBox(width: 8),
+                            Text('Edit'),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        value: 'delete',
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete_outline, size: 20, color: Colors.red),
+                            SizedBox(width: 8),
+                            Text('Delete', style: TextStyle(color: Colors.red)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              },
             ),
           ],
         ),

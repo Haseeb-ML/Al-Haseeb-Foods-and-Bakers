@@ -445,19 +445,14 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
 
                 return Scaffold(
                   backgroundColor: bg,
-                  appBar: AppBar(
-                    backgroundColor: bg,
-                    elevation: 0,
-                    centerTitle: true,
-                    title: Text(
-                      'Suppliers & Stock In',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: accent,
-                      ),
+                  drawer: Drawer(
+                    width: 230,
+                    child: AdminSidebar(
+                      currentRoute: 'Suppliers',
+                      user: widget.user,
                     ),
                   ),
+
                   floatingActionButton: FloatingActionButton.extended(
                     backgroundColor: accent,
                     onPressed: () => _showAddSupplierDialog(),
@@ -515,6 +510,32 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (!isDesktop) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Builder(
+                          builder: (context) => GestureDetector(
+                            onTap: () => Scaffold.of(context).openDrawer(),
+                            child: Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: card,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: accent.withValues(alpha: 0.2),
+                                ),
+                              ),
+                              child: Icon(Icons.menu, size: 20, color: textPrimary),
+                            ),
+                          ),
+                        ),
+                        const AdminHeaderActions(isDesktop: false),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   //-------------------- HEADER & ACTION BAR --------------------
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -567,7 +588,7 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
                         ),
                         const SizedBox(width: 12),
                       ],
-                      AdminHeaderActions(isDesktop: isDesktop),
+                      if (isDesktop) AdminHeaderActions(isDesktop: isDesktop),
                     ],
                   ),
                   const SizedBox(height: 16),

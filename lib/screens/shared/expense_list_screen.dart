@@ -215,16 +215,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
           valueListenable: accentController,
           builder: (context, accent, _) => LayoutBuilder(
             builder: (context, constraints) {
-              final content = _buildExpenseScaffold(
-                context,
-                bg: bg,
-                card: card,
-                textPrimary: textPrimary,
-                textSecondary: textSecondary,
-                accent: accent,
-              );
-              if (constraints.maxWidth < 900) return content;
-
+              final isDesktop = constraints.maxWidth >= 900;
               final sidebarUser =
                   widget.user ??
                   UserModel(
@@ -235,22 +226,46 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                     phone: '',
                     createdAt: DateTime.now(),
                   );
+
+              final content = _buildExpenseContent(
+                context,
+                bg: bg,
+                card: card,
+                textPrimary: textPrimary,
+                textSecondary: textSecondary,
+                accent: accent,
+                isDesktop: isDesktop,
+              );
+
+              if (isDesktop) {
+                return Scaffold(
+                  backgroundColor: bg,
+                  body: Row(
+                    children: [
+                      sidebarUser.isAdmin
+                          ? AdminSidebar(currentRoute: 'Expenses', user: sidebarUser)
+                          : StaffSidebar(currentRoute: 'Expenses', user: sidebarUser),
+                      Expanded(child: content),
+                    ],
+                  ),
+                );
+              }
+
               return Scaffold(
                 backgroundColor: bg,
-                body: Row(
-                  children: [
-                    sidebarUser.isAdmin
-                        ? AdminSidebar(
-                            currentRoute: 'Expenses',
-                            user: sidebarUser,
-                          )
-                        : StaffSidebar(
-                            currentRoute: 'Expenses',
-                            user: sidebarUser,
-                          ),
-                    Expanded(child: content),
-                  ],
+                drawer: Drawer(
+                  width: 230,
+                  child: sidebarUser.isAdmin
+                      ? AdminSidebar(currentRoute: 'Expenses', user: sidebarUser)
+                      : StaffSidebar(currentRoute: 'Expenses', user: sidebarUser),
                 ),
+                floatingActionButton: FloatingActionButton.extended(
+                  backgroundColor: accent,
+                  onPressed: _showExpenseDialog,
+                  icon: const Icon(Icons.add, color: Colors.white),
+                  label: const Text('Add Expense', style: TextStyle(color: Colors.white)),
+                ),
+                body: SafeArea(child: content),
               );
             },
           ),
@@ -259,25 +274,23 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
     );
   }
 
-  Widget _buildExpenseScaffold(
+  Widget _buildExpenseContent(
     BuildContext context, {
     required Color bg,
     required Color card,
     required Color textPrimary,
     required Color textSecondary,
     required Color accent,
+    required bool isDesktop,
   }) {
-    return Scaffold(
-      backgroundColor: bg,
-      body: SafeArea(
-        child: StreamBuilder<List<ExpenseModel>>(
-          stream: _expenseService.getExpenses(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  'Expenses load nahi ho sake.',
-                  style: TextStyle(color: textPrimary),
+    return StreamBuilder<List<ExpenseModel>>(
+      stream: _expenseService.getExpenses(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              'Expenses load nahi ho sake.',
+              style: TextStyle(color: textPrimary),
                 ),
               );
             }
@@ -306,7 +319,36 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
             return ListView(
               padding: const EdgeInsets.fromLTRB(24, 22, 24, 32),
               children: [
+                if (!isDesktop) ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Builder(
+                        builder: (context) => GestureDetector(
+                          onTap: () => Scaffold.of(context).openDrawer(),
+                          child: Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color: card,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: accent.withValues(alpha: 0.2),
+                              ),
+                            ),
+                            child: Icon(Icons.menu, size: 20, color: textPrimary),
+                          ),
+                        ),
+                      ),
+                      if (widget.user != null && widget.user!.role == 'admin')
+                        const AdminHeaderActions(isDesktop: false),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                ],
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Column(
@@ -316,7 +358,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                             'Expense Tracking',
                             style: TextStyle(
                               color: textPrimary,
-                              fontSize: 26,
+                              fontSize: isDesktop ? 26 : 20,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -328,23 +370,25 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    FilledButton.icon(
-                      onPressed: _showExpenseDialog,
-                      icon: const Icon(Icons.add),
-                      label: const Text('Add Expense'),
-                      style: FilledButton.styleFrom(
-                        backgroundColor: accent,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 14,
+                    if (isDesktop) ...[
+                      const SizedBox(width: 12),
+                      FilledButton.icon(
+                        onPressed: _showExpenseDialog,
+                        icon: const Icon(Icons.add),
+                        label: const Text('Add Expense'),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: accent,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 18,
+                            vertical: 14,
+                          ),
                         ),
                       ),
-                    ),
-                    if (widget.user != null && widget.user!.role == 'admin') ...[
+                    ],
+                    if (isDesktop && widget.user != null && widget.user!.role == 'admin') ...[
                       const SizedBox(width: 12),
-                      AdminHeaderActions(isDesktop: MediaQuery.of(context).size.width >= 900),
+                      AdminHeaderActions(isDesktop: true),
                     ],
                   ],
                 ),
@@ -358,86 +402,102 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                   ),
                   child: Column(
                     children: [
-                      Row(
+                      TextField(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search),
+                          hintText: 'Search description or amount...',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: textSecondary.withOpacity(0.2)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: textSecondary.withOpacity(0.2)),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        ),
+                        onChanged: (v) => setState(() => _searchQuery = v.trim()),
+                      ),
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Expanded(
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                prefixIcon: Icon(Icons.search),
-                                hintText: 'Search description or amount...',
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: textSecondary.withOpacity(0.2)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: _filterCategory,
+                                items: ['All', ...ExpenseCategories.all]
+                                    .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                                    .toList(),
+                                onChanged: (v) => setState(() => _filterCategory = v ?? 'All'),
                               ),
-                              onChanged: (v) =>
-                                  setState(() => _searchQuery = v.trim()),
                             ),
                           ),
-                          const SizedBox(width: 12),
-                          DropdownButton<String>(
-                            value: _filterCategory,
-                            items: ['All', ...ExpenseCategories.all]
-                                .map(
-                                  (c) => DropdownMenuItem(
-                                    value: c,
-                                    child: Text(c),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (v) =>
-                                setState(() => _filterCategory = v ?? 'All'),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: textSecondary.withOpacity(0.2)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: _filterStatus,
+                                items: const [
+                                  DropdownMenuItem(value: 'all', child: Text('All')),
+                                  DropdownMenuItem(value: 'paid', child: Text('Paid')),
+                                  DropdownMenuItem(value: 'pending', child: Text('Pending')),
+                                ],
+                                onChanged: (v) => setState(() => _filterStatus = v ?? 'all'),
+                              ),
+                            ),
                           ),
-                          const SizedBox(width: 12),
-                          DropdownButton<String>(
-                            value: _filterStatus,
-                            items: const [
-                              DropdownMenuItem(
-                                value: 'all',
-                                child: Text('All'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'paid',
-                                child: Text('Paid'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'pending',
-                                child: Text('Pending'),
-                              ),
-                            ],
-                            onChanged: (v) =>
-                                setState(() => _filterStatus = v ?? 'all'),
-                          ),
-                          const SizedBox(width: 12),
-                          IconButton(
-                            tooltip: 'Filter date range',
-                            onPressed: () async {
-                              final picked = await showDateRangePicker(
-                                context: context,
-                                firstDate: DateTime(2020),
-                                lastDate: DateTime.now().add(
-                                  const Duration(days: 365),
-                                ),
-                                initialDateRange:
-                                    _startDate != null && _endDate != null
-                                    ? DateTimeRange(
-                                        start: _startDate!,
-                                        end: _endDate!,
-                                      )
-                                    : null,
-                              );
-                              if (picked != null)
-                                setState(() {
-                                  _startDate = picked.start;
-                                  _endDate = picked.end;
-                                });
-                            },
-                            icon: const Icon(Icons.date_range_outlined),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: textSecondary.withOpacity(0.2)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: IconButton(
+                              tooltip: 'Filter date range',
+                              onPressed: () async {
+                                final picked = await showDateRangePicker(
+                                  context: context,
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime.now().add(const Duration(days: 365)),
+                                  initialDateRange: _startDate != null && _endDate != null
+                                      ? DateTimeRange(start: _startDate!, end: _endDate!)
+                                      : null,
+                                );
+                                if (picked != null) {
+                                  setState(() {
+                                    _startDate = picked.start;
+                                    _endDate = picked.end;
+                                  });
+                                }
+                              },
+                              icon: Icon(Icons.date_range_outlined, color: textPrimary),
+                            ),
                           ),
                           if (_startDate != null && _endDate != null)
-                            IconButton(
-                              tooltip: 'Clear date filter',
-                              onPressed: () => setState(() {
-                                _startDate = null;
-                                _endDate = null;
-                              }),
-                              icon: const Icon(Icons.clear),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: textSecondary.withOpacity(0.2)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: IconButton(
+                                tooltip: 'Clear date filter',
+                                onPressed: () => setState(() {
+                                  _startDate = null;
+                                  _endDate = null;
+                                }),
+                                icon: Icon(Icons.clear, color: Colors.red),
+                              ),
                             ),
                         ],
                       ),
@@ -497,9 +557,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
               ],
             );
           },
-        ),
-      ),
-    );
+        );
   }
 }
 
@@ -603,10 +661,24 @@ class _ExpenseOverview extends StatelessWidget {
           );
         }
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            totalCard,
+            SizedBox(
+              width: double.infinity,
+              child: totalCard,
+            ),
             const SizedBox(height: 12),
-            Wrap(spacing: 12, runSpacing: 12, children: categoryCards),
+            Builder(
+              builder: (context) {
+                // screen width minus horizontal padding (24*2) minus wrap spacing (12) divided by 2
+                final cardWidth = (MediaQuery.of(context).size.width - 48 - 12) / 2;
+                return Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: categoryCards.map((c) => SizedBox(width: cardWidth, child: c)).toList(),
+                );
+              },
+            ),
           ],
         );
       },
@@ -746,25 +818,111 @@ class _ExpenseTile extends StatelessWidget {
             color: accent,
           ),
         ),
-        title: Text(expense.description, style: TextStyle(color: textPrimary)),
-        subtitle: Text(
-          '${expense.category} - ${formatDate(expense.date)} - ${expense.status}',
-          style: TextStyle(color: textSecondary),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Rs. ${expense.amount.toStringAsFixed(0)}',
-              style: TextStyle(color: textPrimary),
-            ),
-            IconButton(icon: const Icon(Icons.edit_outlined), onPressed: onEdit),
-            if (onDelete != null)
-              IconButton(
-                icon: const Icon(Icons.delete_outline),
-                onPressed: onDelete,
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              backgroundColor: card,
+              title: Text('Expense Details', style: TextStyle(color: textPrimary)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Description: ${expense.description}', style: TextStyle(color: textPrimary)),
+                  const SizedBox(height: 8),
+                  Text('Category: ${expense.category}', style: TextStyle(color: textSecondary)),
+                  const SizedBox(height: 8),
+                  Text('Date: ${formatDate(expense.date)}', style: TextStyle(color: textSecondary)),
+                  const SizedBox(height: 8),
+                  Text('Status: ${expense.status}', style: TextStyle(color: textSecondary)),
+                  const SizedBox(height: 8),
+                  Text('Amount: Rs. ${expense.amount.toStringAsFixed(0)}', style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold)),
+                ],
               ),
-          ],
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Close', style: TextStyle(color: accent)),
+                ),
+              ],
+            ),
+          );
+        },
+        title: Text(
+          expense.description,
+          style: TextStyle(color: textPrimary),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          '${expense.category} • ${formatDate(expense.date)} • ${expense.status}',
+          style: TextStyle(color: textSecondary),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Builder(
+          builder: (context) {
+            final isDesktop = MediaQuery.of(context).size.width >= 600;
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Rs. ${expense.amount.toStringAsFixed(0)}',
+                  style: TextStyle(
+                    color: textPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: isDesktop ? 16 : 14,
+                  ),
+                ),
+                if (isDesktop) ...[
+                  const SizedBox(width: 16),
+                  IconButton(
+                    icon: const Icon(Icons.edit_outlined),
+                    onPressed: onEdit,
+                    tooltip: 'Edit',
+                  ),
+                  if (onDelete != null)
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      onPressed: onDelete,
+                      tooltip: 'Delete',
+                    ),
+                ] else ...[
+                  const SizedBox(width: 8),
+                  PopupMenuButton<String>(
+                    icon: Icon(Icons.more_vert, color: textSecondary),
+                    onSelected: (val) {
+                      if (val == 'edit') onEdit();
+                      if (val == 'delete' && onDelete != null) onDelete!();
+                    },
+                    itemBuilder: (context) => [
+                      const PopupMenuItem(
+                        value: 'edit',
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit_outlined, size: 20),
+                            SizedBox(width: 8),
+                            Text('Edit'),
+                          ],
+                        ),
+                      ),
+                      if (onDelete != null)
+                        const PopupMenuItem(
+                          value: 'delete',
+                          child: Row(
+                            children: [
+                              Icon(Icons.delete_outline, size: 20, color: Colors.red),
+                              SizedBox(width: 8),
+                              Text('Delete', style: TextStyle(color: Colors.red)),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ],
+            );
+          },
         ),
       ),
     ),

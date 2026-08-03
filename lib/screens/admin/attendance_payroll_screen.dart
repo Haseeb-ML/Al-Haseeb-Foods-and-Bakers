@@ -82,6 +82,33 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
               final mainColumn = Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (!isDesktop) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Builder(
+                          builder: (context) => GestureDetector(
+                            onTap: () => Scaffold.of(context).openDrawer(),
+                            child: Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: card,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: isDark ? accentController.value.withOpacity(0.2) : border,
+                                  width: 0.8,
+                                ),
+                              ),
+                              child: Icon(Icons.menu, size: 20, color: textPrimary),
+                            ),
+                          ),
+                        ),
+                        AdminHeaderActions(isDesktop: false),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   // Header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,7 +137,7 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                           ],
                         ),
                       ),
-                      AdminHeaderActions(isDesktop: isDesktop),
+                      if (isDesktop) AdminHeaderActions(isDesktop: true),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -122,6 +149,8 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                     unselectedLabelColor: textSecondary,
                     indicatorColor: accentController.value,
                     dividerColor: Colors.transparent,
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.start,
                     tabs: const [
                       Tab(text: 'Attendance Logs'),
                       Tab(text: 'Leave Requests'),
@@ -166,11 +195,9 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
 
               return Scaffold(
                 backgroundColor: bg,
-                appBar: AppBar(
-                  backgroundColor: bg,
-                  elevation: 0,
-                  foregroundColor: textPrimary,
-                  title: const Text('Attendance & Payroll'),
+                drawer: const Drawer(
+                  width: 230,
+                  child: AdminSidebar(currentRoute: 'Attendance & Payroll'),
                 ),
                 body: SafeArea(
                   child: Padding(
@@ -260,53 +287,71 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: accentController.value.withOpacity(0.1),
-                              child: Text(
-                                record.userName.isNotEmpty ? record.userName[0].toUpperCase() : '?',
-                                style: TextStyle(
-                                  color: accentController.value,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  record.userName,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: accentController.value.withOpacity(0.1),
+                                child: Text(
+                                  record.userName.isNotEmpty ? record.userName[0].toUpperCase() : '?',
                                   style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: textPrimary,
+                                    color: accentController.value,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                Row(
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(Icons.login, size: 12, color: textSecondary),
-                                    const SizedBox(width: 4),
                                     Text(
-                                      'In: ${DateFormat('hh:mm a').format(record.clockIn)}',
-                                      style: TextStyle(fontSize: 12, color: textSecondary),
+                                      record.userName,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: textPrimary,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(width: 12),
-                                    Icon(Icons.logout, size: 12, color: textSecondary),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      record.clockOut != null
-                                          ? 'Out: ${DateFormat('hh:mm a').format(record.clockOut!)}'
-                                          : 'Out: Active',
-                                      style: TextStyle(fontSize: 12, color: textSecondary),
+                                    const SizedBox(height: 4),
+                                    Wrap(
+                                      crossAxisAlignment: WrapCrossAlignment.center,
+                                      spacing: 12,
+                                      runSpacing: 4,
+                                      children: [
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(Icons.login, size: 12, color: textSecondary),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              'In: ${DateFormat('hh:mm a').format(record.clockIn)}',
+                                              style: TextStyle(fontSize: 12, color: textSecondary),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(Icons.logout, size: 12, color: textSecondary),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              record.clockOut != null
+                                                  ? 'Out: ${DateFormat('hh:mm a').format(record.clockOut!)}'
+                                                  : 'Out: Active',
+                                              style: TextStyle(fontSize: 12, color: textSecondary),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -716,38 +761,46 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: accentController.value.withValues(alpha: 0.1),
-                                  child: Text(
-                                    record.userName.isNotEmpty ? record.userName[0].toUpperCase() : '?',
-                                    style: TextStyle(
-                                      color: accentController.value,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      record.userName,
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: accentController.value.withValues(alpha: 0.1),
+                                    child: Text(
+                                      record.userName.isNotEmpty ? record.userName[0].toUpperCase() : '?',
                                       style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: textPrimary,
+                                        color: accentController.value,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      'Month: ${record.month}',
-                                      style: TextStyle(fontSize: 12, color: textSecondary),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          record.userName,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            color: textPrimary,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          'Month: ${record.month}',
+                                          style: TextStyle(fontSize: 12, color: textSecondary),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -784,11 +837,15 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Base: Rs. ${record.baseSalary.toStringAsFixed(0)} | Bonus: Rs. ${record.bonus.toStringAsFixed(0)} | Ded: Rs. ${record.deductions.toStringAsFixed(0)}',
-                              style: TextStyle(fontSize: 11, color: textSecondary),
+                            Expanded(
+                              child: Text(
+                                'Base: Rs. ${record.baseSalary.toStringAsFixed(0)} | Bonus: Rs. ${record.bonus.toStringAsFixed(0)} | Ded: Rs. ${record.deductions.toStringAsFixed(0)}',
+                                style: TextStyle(fontSize: 11, color: textSecondary),
+                              ),
                             ),
+                            const SizedBox(width: 12),
                             Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(Icons.calendar_today_outlined, size: 12, color: textSecondary),
                                 const SizedBox(width: 4),
@@ -924,42 +981,51 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              StreamBuilder<UserModel?>(
-                stream: AuthService().getUserStream(req.userId),
-                builder: (context, userSnap) {
-                  final staffUser = userSnap.data;
-                  final displayName = staffUser != null && staffUser.name.isNotEmpty 
-                      ? staffUser.name 
-                      : (req.userName.isNotEmpty ? req.userName : 'Staff Member');
-                      
-                  return Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 18,
-                        backgroundColor: accentController.value.withValues(alpha: 0.12),
-                        child: Text(
-                          displayName.isNotEmpty ? displayName[0].toUpperCase() : '?',
-                          style: TextStyle(color: accentController.value, fontWeight: FontWeight.bold),
+              Expanded(
+                child: StreamBuilder<UserModel?>(
+                  stream: AuthService().getUserStream(req.userId),
+                  builder: (context, userSnap) {
+                    final staffUser = userSnap.data;
+                    final displayName = staffUser != null && staffUser.name.isNotEmpty 
+                        ? staffUser.name 
+                        : (req.userName.isNotEmpty ? req.userName : 'Staff Member');
+                        
+                    return Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 18,
+                          backgroundColor: accentController.value.withValues(alpha: 0.12),
+                          child: Text(
+                            displayName.isNotEmpty ? displayName[0].toUpperCase() : '?',
+                            style: TextStyle(color: accentController.value, fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            displayName,
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textPrimary),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                displayName,
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textPrimary),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                'Applied on ${DateFormat('dd MMM, hh:mm a').format(req.createdAt)}',
+                                style: TextStyle(fontSize: 10, color: textSecondary),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
                           ),
-                          Text(
-                            'Applied on ${DateFormat('dd MMM, hh:mm a').format(req.createdAt)}',
-                            style: TextStyle(fontSize: 10, color: textSecondary),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
+              const SizedBox(width: 12),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
@@ -978,9 +1044,11 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
             children: [
               Icon(Icons.date_range_outlined, size: 14, color: textSecondary),
               const SizedBox(width: 6),
-              Text(
-                'Leave Duration: $formattedStart to $formattedEnd ($diffDays ${diffDays == 1 ? "day" : "days"})',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: textPrimary),
+              Expanded(
+                child: Text(
+                  'Leave Duration: $formattedStart to $formattedEnd ($diffDays ${diffDays == 1 ? "day" : "days"})',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: textPrimary),
+                ),
               ),
             ],
           ),
@@ -989,9 +1057,11 @@ class _AttendancePayrollScreenState extends State<AttendancePayrollScreen>
             children: [
               Icon(Icons.label_outline_rounded, size: 14, color: textSecondary),
               const SizedBox(width: 6),
-              Text(
-                'Leave Type: ${req.leaveType}',
-                style: TextStyle(fontSize: 12, color: textPrimary),
+              Expanded(
+                child: Text(
+                  'Leave Type: ${req.leaveType}',
+                  style: TextStyle(fontSize: 12, color: textPrimary),
+                ),
               ),
             ],
           ),

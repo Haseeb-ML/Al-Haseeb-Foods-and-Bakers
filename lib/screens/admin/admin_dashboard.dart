@@ -32,6 +32,9 @@ import 'backup_restore_screen.dart';
 import 'attendance_payroll_screen.dart';
 import '../../services/attendance_service.dart';
 import '../../models/attendance_model.dart';
+import '../shared/expense_list_screen.dart';
+import 'financial_reports_screen.dart';
+import 'supplier_list_screen.dart';
 
 //-------------------- DESKTOP BREAKPOINT --------------------
 const double kDesktopBreakpoint = 900;
@@ -574,6 +577,169 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
+  Widget _buildHeaderActions({
+    required BuildContext context,
+    required bool isDesktop,
+    required bool isDark,
+    required Color textPrimary,
+    required Color textSecondary,
+  }) {
+    final user = widget.user;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ThemeSettingsScreen(isAdmin: true),
+              ),
+            );
+          },
+          child: Container(
+            width: isDesktop ? 44 : 36,
+            height: isDesktop ? 44 : 36,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: accentController.value.withValues(alpha: 0.12),
+              border: Border.all(
+                color: accentController.value.withValues(alpha: 0.35),
+                width: 1.5,
+              ),
+            ),
+            child: Icon(
+              Icons.palette_outlined,
+              size: isDesktop ? 26 : 21,
+              color: accentController.value,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        StreamBuilder<List<UrgentAlertModel>>(
+          stream: AlertService().getActiveAlerts(),
+          builder: (context, alertSnap) {
+            final activeAlerts = alertSnap.data ?? [];
+            final count = activeAlerts.length;
+            final hasAlerts = count > 0;
+
+            return GestureDetector(
+              onTap: () => _showAlertsListDialog(context, activeAlerts, isDark, textPrimary, textSecondary),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    width: isDesktop ? 44 : 36,
+                    height: isDesktop ? 44 : 36,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: hasAlerts 
+                          ? AppColors.danger.withValues(alpha: 0.12)
+                          : accentController.value.withValues(alpha: 0.12),
+                      border: Border.all(
+                        color: hasAlerts 
+                            ? AppColors.danger.withValues(alpha: 0.35)
+                            : accentController.value.withValues(alpha: 0.35),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Icon(
+                      hasAlerts ? Icons.notifications_active_outlined : Icons.notifications_outlined,
+                      size: isDesktop ? 24 : 19,
+                      color: hasAlerts ? AppColors.danger : accentController.value,
+                    ),
+                  ),
+                  if (hasAlerts)
+                    Positioned(
+                      top: -2,
+                      right: -2,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: AppColors.danger,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '$count',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
+        ),
+        const SizedBox(width: 10),
+        StreamBuilder<UserModel?>(
+          stream: AuthService().getUserStream(user.uid),
+          builder: (context, userSnap) {
+            final liveUser = userSnap.data ?? user;
+            final imgUrl = liveUser.profileImageUrl;
+
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AdminProfileScreen(user: liveUser),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: accentController.value.withValues(alpha: 0.35),
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: accentController.value.withValues(alpha: 0.15),
+                      blurRadius: 15,
+                      spreadRadius: 3,
+                    ),
+                  ],
+                ),
+                child: CircleAvatar(
+                  radius: isDesktop ? 26 : 19,
+                  backgroundColor: accentController.value.withValues(
+                    alpha: 0.12,
+                  ),
+                  backgroundImage: imgUrl.isNotEmpty
+                      ? CachedNetworkImageProvider(imgUrl)
+                      : null,
+                  child: imgUrl.isEmpty
+                      ? Text(
+                          liveUser.name.isNotEmpty
+                              ? liveUser.name[0].toUpperCase()
+                              : 'A',
+                          style: TextStyle(
+                            fontSize: isDesktop ? 17 : 13,
+                            fontWeight: FontWeight.bold,
+                            color: accentController.value,
+                          ),
+                        )
+                      : null,
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
   //==================== MOBILE LAYOUT ====================
   Widget _buildMobileLayout(
     BuildContext context,
@@ -590,6 +756,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       backgroundColor: bg,
 
       drawer: Drawer(
+        width: 230,
         backgroundColor: card,
         child: ListView(
           padding: EdgeInsets.zero,
@@ -631,7 +798,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ),
             _MobileDrawerItem(
               icon: Icons.inventory_2_outlined,
-              label: 'Products',
+              label: 'Products Catalog',
               isDark: isDark,
               onTap: () {
                 Navigator.pop(context);
@@ -642,22 +809,22 @@ class _AdminDashboardState extends State<AdminDashboard> {
               },
             ),
             _MobileDrawerItem(
-              icon: Icons.people_outline,
-              label: 'Customers',
+              icon: Icons.local_shipping_outlined,
+              label: 'Suppliers & Stock In',
               isDark: isDark,
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const CustomerListScreen(isAdmin: true),
+                    builder: (_) => SupplierListScreen(user: widget.user),
                   ),
                 );
               },
             ),
             _MobileDrawerItem(
               icon: Icons.point_of_sale_outlined,
-              label: 'New Sale',
+              label: 'New Sale (POS)',
               isDark: isDark,
               onTap: () {
                 Navigator.pop(context);
@@ -673,8 +840,62 @@ class _AdminDashboardState extends State<AdminDashboard> {
               },
             ),
             _MobileDrawerItem(
+              icon: Icons.receipt_long_outlined,
+              label: "Today's Sales",
+              isDark: isDark,
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => TodaySalesScreen()),
+                );
+              },
+            ),
+            _MobileDrawerItem(
+              icon: Icons.people_outline,
+              label: 'Customers & Dues',
+              isDark: isDark,
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const CustomerListScreen(isAdmin: true),
+                  ),
+                );
+              },
+            ),
+            _MobileDrawerItem(
+              icon: Icons.account_balance_wallet_outlined,
+              label: 'Store Expenses',
+              isDark: isDark,
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ExpenseListScreen(user: widget.user),
+                  ),
+                );
+              },
+            ),
+            _MobileDrawerItem(
+              icon: Icons.insights_outlined,
+              label: 'Profit & Loss',
+              isDark: isDark,
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => FinancialReportsScreen(user: widget.user),
+                  ),
+                );
+              },
+            ),
+            _MobileDrawerItem(
               icon: Icons.badge_outlined,
-              label: 'Staff',
+              label: 'Staff Management',
               isDark: isDark,
               onTap: () {
                 Navigator.pop(context);
@@ -687,15 +908,43 @@ class _AdminDashboardState extends State<AdminDashboard> {
               },
             ),
             _MobileDrawerItem(
-              icon: Icons.palette_outlined,
-              label: 'Appearance',
+              icon: Icons.calendar_month_outlined,
+              label: 'Attendance & Payroll',
               isDark: isDark,
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const ThemeSettingsScreen(),
+                    builder: (_) => const AttendancePayrollScreen(),
+                  ),
+                );
+              },
+            ),
+            _MobileDrawerItem(
+              icon: Icons.cloud_sync_outlined,
+              label: 'Backup & Restore',
+              isDark: isDark,
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const BackupRestoreScreen(),
+                  ),
+                );
+              },
+            ),
+            _MobileDrawerItem(
+              icon: Icons.palette_outlined,
+              label: 'App Appearance',
+              isDark: isDark,
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ThemeSettingsScreen(isAdmin: true),
                   ),
                 );
               },
@@ -755,70 +1004,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            themeController.value = isDark
-                                ? ThemeMode.light
-                                : ThemeMode.dark;
-                          },
-                          child: Container(
-                            width: 36,
-                            height: 36,
-                            decoration: BoxDecoration(
-                              color: card,
-                              borderRadius: BorderRadius.circular(
-                                AppRadius.button,
-                              ),
-                              border: Border.all(
-                                color: isDark
-                                    ? accentController.value.withValues(
-                                        alpha: 0.2,
-                                      )
-                                    : border,
-                                width: 0.8,
-                              ),
-                            ),
-                            child: Icon(
-                              isDark
-                                  ? Icons.light_mode_outlined
-                                  : Icons.dark_mode_outlined,
-                              size: 18,
-                              color: isDark
-                                  ? accentController.value
-                                  : textSecondary,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
-                        GestureDetector(
-                          onTap: () => _handleLogout(context),
-                          child: Container(
-                            width: 36,
-                            height: 36,
-                            decoration: BoxDecoration(
-                              color: card,
-                              borderRadius: BorderRadius.circular(
-                                AppRadius.button,
-                              ),
-                              border: Border.all(
-                                color: isDark
-                                    ? accentController.value.withValues(
-                                        alpha: 0.2,
-                                      )
-                                    : border,
-                                width: 0.8,
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.logout,
-                              size: 18,
-                              color: AppColors.danger,
-                            ),
-                          ),
-                        ),
-                      ],
+                    _buildHeaderActions(
+                      context: context,
+                      isDesktop: false,
+                      isDark: isDark,
+                      textPrimary: textPrimary,
+                      textSecondary: textSecondary,
                     ),
                   ],
                 ),
@@ -885,158 +1076,15 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 ),
               ],
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ThemeSettingsScreen(isAdmin: true),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    width: isDesktop ? 44 : 36,
-                    height: isDesktop ? 44 : 36,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: accentController.value.withValues(alpha: 0.12),
-                      border: Border.all(
-                        color: accentController.value.withValues(alpha: 0.35),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.palette_outlined,
-                      size: isDesktop ? 26 : 21,
-                      color: accentController.value,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                StreamBuilder<List<UrgentAlertModel>>(
-                  stream: AlertService().getActiveAlerts(),
-                  builder: (context, alertSnap) {
-                    final activeAlerts = alertSnap.data ?? [];
-                    final count = activeAlerts.length;
-                    final hasAlerts = count > 0;
+            if (isDesktop)
+              _buildHeaderActions(
+                context: context,
+                isDesktop: true,
+                isDark: isDark,
+                textPrimary: textPrimary,
+                textSecondary: textSecondary,
+              ),
 
-                    return GestureDetector(
-                      onTap: () => _showAlertsListDialog(context, activeAlerts, isDark, textPrimary, textSecondary),
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Container(
-                            width: isDesktop ? 44 : 36,
-                            height: isDesktop ? 44 : 36,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: hasAlerts 
-                                  ? AppColors.danger.withValues(alpha: 0.12)
-                                  : accentController.value.withValues(alpha: 0.12),
-                              border: Border.all(
-                                color: hasAlerts 
-                                    ? AppColors.danger.withValues(alpha: 0.35)
-                                    : accentController.value.withValues(alpha: 0.35),
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Icon(
-                              hasAlerts ? Icons.notifications_active_outlined : Icons.notifications_outlined,
-                              size: isDesktop ? 24 : 19,
-                              color: hasAlerts ? AppColors.danger : accentController.value,
-                            ),
-                          ),
-                          if (hasAlerts)
-                            Positioned(
-                              top: -2,
-                              right: -2,
-                              child: Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.danger,
-                                  shape: BoxShape.circle,
-                                ),
-                                constraints: const BoxConstraints(
-                                  minWidth: 16,
-                                  minHeight: 16,
-                                ),
-                                child: Text(
-                                  '$count',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(width: 10),
-                StreamBuilder<UserModel?>(
-                  stream: AuthService().getUserStream(user.uid),
-                  builder: (context, userSnap) {
-                    final liveUser = userSnap.data ?? user;
-                    final imgUrl = liveUser.profileImageUrl;
-
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => AdminProfileScreen(user: liveUser),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: accentController.value.withValues(alpha: 0.35),
-                            width: 2,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: accentController.value.withValues(alpha: 0.15),
-                              blurRadius: 15,
-                              spreadRadius: 3,
-                            ),
-                          ],
-                        ),
-                        child: CircleAvatar(
-                          radius: isDesktop ? 26 : 19,
-                          backgroundColor: accentController.value.withValues(
-                            alpha: 0.12,
-                          ),
-                          backgroundImage: imgUrl.isNotEmpty
-                              ? CachedNetworkImageProvider(imgUrl)
-                              : null,
-                          child: imgUrl.isEmpty
-                              ? Text(
-                                  liveUser.name.isNotEmpty
-                                      ? liveUser.name[0].toUpperCase()
-                                      : 'A',
-                                  style: TextStyle(
-                                    fontSize: isDesktop ? 17 : 13,
-                                    fontWeight: FontWeight.bold,
-                                    color: accentController.value,
-                                  ),
-                                )
-                              : null,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
           ],
         ),
         SizedBox(height: isDesktop ? AppSpacing.lg : AppSpacing.md),
@@ -1212,39 +1260,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 18),
-                  SizedBox(
-                    height: isDesktop ? 52 : 36,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: List.generate(7, (index) {
-                        final ratio = maxDay > 0
-                            ? (last7Days[index] / maxDay)
-                            : 0.0;
-                        final isToday = index == 6;
-                        return Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 3),
-                            child: Container(
-                              height: 6 + ((isDesktop ? 44 : 30) * ratio),
-                              decoration: BoxDecoration(
-                                color: isToday
-                                    ? Colors.white
-                                    : Colors.white.withValues(alpha: 0.25),
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
                   ),
                 ],
               ),
-            );
+            ],
+          ),
+        );
 
             //-------------------- TODAY'S SALES CARD (Premium, mobile) --------------------
             final todaysSalesCard = GestureDetector(
@@ -1393,12 +1414,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           ),
                         );
 
+                        final trend = _revenueTrendData(invoices, _revenueRange);
+                        final weeklySales = _weeklySalesThisMonth(invoices);
+                        final totalOrders = invoices.length;
+
                         //==================== DESKTOP: NEW RICH LAYOUT ====================
                         if (isDesktop) {
-                          final trend = _revenueTrendData(invoices, _revenueRange);
-                          final weeklySales = _weeklySalesThisMonth(invoices);
-                          final totalOrders = invoices.length;
-
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
@@ -1609,6 +1630,28 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             ),
                             const SizedBox(height: AppSpacing.xs),
                             staffPresentCard,
+                            const SizedBox(height: AppSpacing.sm),
+                            _RevenueTrendCard(
+                              values: trend.values,
+                              labels: trend.labels,
+                              selectedRange: _revenueRange,
+                              onRangeChanged: (r) =>
+                                  setState(() => _revenueRange = r),
+                              accent: accentController.value,
+                              card: card,
+                              border: border,
+                              textPrimary: textPrimary,
+                              textSecondary: textSecondary,
+                            ),
+                            const SizedBox(height: AppSpacing.sm),
+                            _WeeklyBarChartCard(
+                              values: weeklySales,
+                              accent: const Color(0xFF3B82F6),
+                              card: card,
+                              border: border,
+                              textPrimary: textPrimary,
+                              textSecondary: textSecondary,
+                            ),
                           ],
                         );
                       },
@@ -1621,77 +1664,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ),
         const SizedBox(height: AppSpacing.md),
 
-        //-------------------- QUICK ACTIONS (mobile only) --------------------
-        if (!isDesktop) ...[
-          Text(
-            'Quick actions',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: isDark ? accentController.value : textPrimary,
-              fontFamily: isDark ? 'PlayfairDisplay' : null,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Row(
-            children: [
-              Expanded(
-                child: _QuickActionButton(
-                  icon: Icons.inventory_2_outlined,
-                  label: 'Products',
-                  color: accentController.value,
-                  card: card,
-                  border: border,
-                  textPrimary: textPrimary,
-                  isDark: isDark,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const ProductListScreen(),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              Expanded(
-                child: _QuickActionButton(
-                  icon: Icons.people_outline,
-                  label: 'Customers',
-                  color: const Color(0xFF3B82F6),
-                  card: card,
-                  border: border,
-                  textPrimary: textPrimary,
-                  isDark: isDark,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const CustomerListScreen(isAdmin: true),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              Expanded(
-                child: _QuickActionButton(
-                  icon: Icons.badge_outlined,
-                  label: 'Staff',
-                  color: const Color(0xFF8B5CF6),
-                  card: card,
-                  border: border,
-                  textPrimary: textPrimary,
-                  isDark: isDark,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const StaffManagementScreen(),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.md),
-        ],
+
 
         if (!isDesktop)
           _buildRecentSalesSection(
@@ -1965,10 +1938,15 @@ class _MobileDrawerItem extends StatelessWidget {
         : AppColors.primary;
 
     return ListTile(
-      leading: Icon(icon, color: color),
+      dense: true,
+      visualDensity: const VisualDensity(horizontal: 0, vertical: -3),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+      leading: Icon(icon, color: color, size: 18),
       title: Text(
         label,
         style: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
           color: isDanger
               ? AppColors.danger
               : isDark

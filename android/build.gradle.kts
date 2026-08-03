@@ -18,13 +18,25 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(":app")
 }
+
 subprojects {
-    afterEvaluate {
-        if (plugins.hasPlugin("com.android.application") || plugins.hasPlugin("com.android.library")) {
-            val android = extensions.findByName("android") as? com.android.build.gradle.BaseExtension
-            android?.let {
-                it.compileSdkVersion("android-36")
+    val configureAndroid = {
+        val android = project.extensions.findByName("android")
+        if (android != null) {
+            try {
+                val method = android.javaClass.getMethod("compileSdkVersion", Int::class.javaPrimitiveType)
+                method.invoke(android, 36)
+            } catch (e: java.lang.Exception) {
+                // fallback
             }
+        }
+    }
+
+    if (project.state.executed) {
+        configureAndroid()
+    } else {
+        project.afterEvaluate {
+            configureAndroid()
         }
     }
 }

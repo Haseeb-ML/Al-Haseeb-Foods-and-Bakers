@@ -59,47 +59,49 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
               const Expanded(child: Text('Backup Created Successfully')),
             ],
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Saved to:',
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                result['path'] as String,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Saved to:',
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
                 ),
-              ),
-              const SizedBox(height: 14),
-              Text(
-                'Total records: ${result['totalRecords']}',
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 8),
-              ...counts.entries.map(
-                (e) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(e.key, style: const TextStyle(fontSize: 13)),
-                      Text(
-                        '${e.value}',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
+                const SizedBox(height: 4),
+                Text(
+                  result['path'] as String,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 14),
+                Text(
+                  'Total records: ${result['totalRecords']}',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 8),
+                ...counts.entries.map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(e.key, style: const TextStyle(fontSize: 13)),
+                        Text(
+                          '${e.value}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
             ElevatedButton(
@@ -190,34 +192,36 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
               const Expanded(child: Text('Restore Completed Successfully')),
             ],
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Total restored: $totalRestored',
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 8),
-              ...results.entries.map(
-                (e) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(e.key, style: const TextStyle(fontSize: 13)),
-                      Text(
-                        '${e.value}',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Total restored: $totalRestored',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 8),
+                ...results.entries.map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(e.key, style: const TextStyle(fontSize: 13)),
+                        Text(
+                          '${e.value}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           actions: [
             ElevatedButton(
@@ -330,29 +334,31 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
               Expanded(child: Text('System Reset Complete')),
             ],
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: results.entries
-                .map(
-                  (e) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(e.key, style: const TextStyle(fontSize: 13)),
-                        Text(
-                          '${e.value} deleted',
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: results.entries
+                  .map(
+                    (e) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(e.key, style: const TextStyle(fontSize: 13)),
+                          Text(
+                            '${e.value} deleted',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
+                  )
+                  .toList(),
+            ),
           ),
           actions: [
             ElevatedButton(
@@ -446,6 +452,10 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
                 //-------------------- MOBILE --------------------
                 return Scaffold(
                   backgroundColor: bg,
+                  drawer: const Drawer(
+                    width: 230,
+                    child: AdminSidebar(currentRoute: 'Backup & Restore'),
+                  ),
                   body: SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.all(AppSpacing.sm),
@@ -478,50 +488,58 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
           //-------------------- HEADER --------------------
+          if (!isDesktop) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Builder(
+                  builder: (context) => GestureDetector(
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: card,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: accent.withOpacity(0.2),
+                          width: 0.8,
+                        ),
+                      ),
+                      child: Icon(Icons.menu, size: 20, color: textPrimary),
+                    ),
+                  ),
+                ),
+                AdminHeaderActions(isDesktop: false),
+              ],
+            ),
+            const SizedBox(height: 16),
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (!isDesktop)
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          margin: const EdgeInsets.only(right: AppSpacing.xs),
-                          decoration: BoxDecoration(
-                            color: card,
-                            borderRadius: BorderRadius.circular(AppRadius.button),
-                            border: Border.all(color: border, width: 0.8),
-                          ),
-                          child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
-                        ),
+                    Text(
+                      'Settings',
+                      style: TextStyle(fontSize: 12, color: textSecondary),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'Backup & Restore',
+                      style: TextStyle(
+                        fontSize: isDesktop ? 26 : 19,
+                        fontWeight: FontWeight.w600,
+                        color: textPrimary,
                       ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Settings',
-                          style: TextStyle(fontSize: 12, color: textSecondary),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Backup & Restore',
-                          style: TextStyle(
-                            fontSize: isDesktop ? 26 : 19,
-                            fontWeight: FontWeight.w600,
-                            color: textPrimary,
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
               ),
-              AdminHeaderActions(isDesktop: isDesktop),
+              if (isDesktop) AdminHeaderActions(isDesktop: true),
             ],
           ),
           const SizedBox(height: 6),

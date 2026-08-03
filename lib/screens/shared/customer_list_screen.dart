@@ -921,6 +921,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
 
                 return Scaffold(
                   backgroundColor: bg,
+                  drawer: const Drawer(width: 230, child: AdminSidebar(currentRoute: "Customers")),
                   body: SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.all(AppSpacing.sm),
@@ -964,8 +965,9 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (!isDesktop)
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
+                      Builder(
+                        builder: (context) => GestureDetector(
+                          onTap: () => Scaffold.of(context).openDrawer(),
                 child: Container(
                   width: 36,
                   height: 36,
@@ -980,7 +982,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                       width: 0.8,
                     ),
                   ),
-                  child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
+                  child: Icon(Icons.menu, size: 20, color: textPrimary),
+                        ),
                 ),
               ),
             Expanded(

@@ -200,6 +200,10 @@ class _TodaySalesScreenState extends State<TodaySalesScreen> {
                 //-------------------- MOBILE LAYOUT --------------------
                 return Scaffold(
                   backgroundColor: bg,
+                  drawer: const Drawer(
+                    width: 230,
+                    child: AdminSidebar(currentRoute: "Today's Sales"),
+                  ),
                   appBar: AppBar(
                     backgroundColor: bg,
                     elevation: 0,

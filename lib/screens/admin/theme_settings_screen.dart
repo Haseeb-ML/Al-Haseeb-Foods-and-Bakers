@@ -130,6 +130,10 @@ class ThemeSettingsScreen extends StatelessWidget {
             //-------------------- MOBILE --------------------
             return Scaffold(
               backgroundColor: bg,
+              drawer: const Drawer(
+                width: 230,
+                child: AdminSidebar(currentRoute: 'Appearance'),
+              ),
               body: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(AppSpacing.sm),
@@ -159,50 +163,58 @@ class ThemeSettingsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //-------------------- HEADER --------------------
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    if (!isDesktop || !isAdmin)
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          margin: const EdgeInsets.only(right: AppSpacing.xs),
-                          decoration: BoxDecoration(
-                            color: card,
-                            borderRadius: BorderRadius.circular(AppRadius.button),
-                            border: Border.all(color: border, width: 0.8),
-                          ),
-                          child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
+          if (!isDesktop || !isAdmin) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Builder(
+                  builder: (context) => GestureDetector(
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: card,
+                        borderRadius: BorderRadius.circular(AppRadius.button),
+                        border: Border.all(
+                          color: accent.withOpacity(0.2),
+                          width: 0.8,
                         ),
                       ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Settings',
-                          style: TextStyle(fontSize: 12, color: textSecondary),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Appearance',
-                          style: TextStyle(
-                            fontSize: isDesktop ? 26 : 19,
-                            fontWeight: FontWeight.w600,
-                            color: textPrimary,
-                          ),
-                        ),
-                      ],
+                      child: Icon(Icons.menu, size: 20, color: textPrimary),
+                    ),
+                  ),
+                ),
+                if (isAdmin) AdminHeaderActions(isDesktop: false),
+              ],
+            ),
+            const SizedBox(height: 16),
+          ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Settings',
+                      style: TextStyle(fontSize: 12, color: textSecondary),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'Appearance',
+                      style: TextStyle(
+                        fontSize: isDesktop ? 26 : 19,
+                        fontWeight: FontWeight.w600,
+                        color: textPrimary,
+                      ),
                     ),
                   ],
                 ),
               ),
-              if (isAdmin) AdminHeaderActions(isDesktop: isDesktop),
+              if (isDesktop && isAdmin) AdminHeaderActions(isDesktop: true),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
@@ -277,10 +289,18 @@ class ThemeSettingsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: AppAccentPresets.presets.map((preset) {
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 180,
+              mainAxisExtent: 48,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+            ),
+            itemCount: AppAccentPresets.presets.length,
+            itemBuilder: (context, index) {
+              final preset = AppAccentPresets.presets[index];
               final presetColor = preset['color'] as Color;
               final name = preset['name'] as String;
               final isSelected = presetColor.value == accent.value;
@@ -289,10 +309,8 @@ class ThemeSettingsScreen extends StatelessWidget {
                 onTap: () => accentController.value = presetColor,
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 11,
-                  ),
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                   decoration: BoxDecoration(
                     color: card,
                     borderRadius: BorderRadius.circular(10),
@@ -302,32 +320,33 @@ class ThemeSettingsScreen extends StatelessWidget {
                     ),
                   ),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 12,
-                        height: 12,
+                        width: 16,
+                        height: 16,
                         decoration: BoxDecoration(
                           color: presetColor,
                           shape: BoxShape.circle,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.w400,
-                          color: isSelected ? textPrimary : textSecondary,
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                            color: isSelected ? textPrimary : textSecondary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
                 ),
               );
-            }).toList(),
+            },
           ),
           const SizedBox(height: AppSpacing.md),
 
@@ -341,10 +360,18 @@ class ThemeSettingsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: AppBackgroundPresets.presets.map((preset) {
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 180,
+              mainAxisExtent: 48,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+            ),
+            itemCount: AppBackgroundPresets.presets.length,
+            itemBuilder: (context, index) {
+              final preset = AppBackgroundPresets.presets[index];
               final presetBg = preset['bg'] as Color;
               final name = preset['name'] as String;
               final isSelected = bgPreset != null && bgPreset['name'] == name;
@@ -359,10 +386,8 @@ class ThemeSettingsScreen extends StatelessWidget {
                 },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 11,
-                  ),
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                   decoration: BoxDecoration(
                     color: card,
                     borderRadius: BorderRadius.circular(10),
@@ -372,11 +397,10 @@ class ThemeSettingsScreen extends StatelessWidget {
                     ),
                   ),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 14,
-                        height: 14,
+                        width: 16,
+                        height: 16,
                         decoration: BoxDecoration(
                           color: presetBg,
                           shape: BoxShape.circle,
@@ -388,22 +412,24 @@ class ThemeSettingsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.w400,
-                          color: isSelected ? textPrimary : textSecondary,
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                            color: isSelected ? textPrimary : textSecondary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
                 ),
               );
-            }).toList(),
+            },
           ),
           const SizedBox(height: AppSpacing.sm),
         ],

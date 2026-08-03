@@ -49,6 +49,7 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
 
   String _selectedCategory = 'All';
   String _productSearchQuery = '';
+  TextEditingController? _searchController;
   bool _showCartView = false;
 
   @override
@@ -416,45 +417,50 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            Expanded(
-              flex: 4,
-              child: DropdownButtonFormField<String>(
-                initialValue: _selectedCategory,
-                dropdownColor: isDark ? AppColors.darkCard : Colors.white,
-                style: TextStyle(color: textPrimary, fontSize: 13, fontWeight: FontWeight.bold),
-                decoration: InputDecoration(
-                  labelText: 'Category',
-                  labelStyle: TextStyle(color: textSecondary),
-                  filled: true,
-                  fillColor: isDark ? Colors.black.withValues(alpha: 0.15) : Colors.grey.shade50,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: border),
+        if (isDesktop)
+          Row(
+            children: [
+              Expanded(
+                flex: 4,
+                child: DropdownButtonFormField<String>(
+                  initialValue: _selectedCategory,
+                  dropdownColor: isDark ? AppColors.darkCard : Colors.white,
+                  style: TextStyle(color: textPrimary, fontSize: 13, fontWeight: FontWeight.bold),
+                  decoration: InputDecoration(
+                    labelText: 'Category',
+                    labelStyle: TextStyle(color: textSecondary),
+                    filled: true,
+                    fillColor: isDark ? Colors.black.withValues(alpha: 0.15) : Colors.grey.shade50,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: border),
+                    ),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: border),
-                  ),
+                  items: categories.map((cat) {
+                    return DropdownMenuItem<String>(
+                      value: cat,
+                      child: Text(cat, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    );
+                  }).toList(),
+                  onChanged: (val) {
+                    if (val != null) {
+                      setState(() {
+                        _selectedCategory = val;
+                        _productSearchQuery = '';
+                      });
+                      _searchController?.clear();
+                    }
+                  },
                 ),
-                items: categories.map((cat) {
-                  return DropdownMenuItem<String>(
-                    value: cat,
-                    child: Text(cat),
-                  );
-                }).toList(),
-                onChanged: (val) {
-                  if (val != null) {
-                    setState(() => _selectedCategory = val);
-                  }
-                },
               ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              flex: 6,
+              const SizedBox(width: 10),
+              Expanded(
+                flex: 6,
               child: StreamBuilder<List<ProductModel>>(
                 stream: _productsStream,
                 builder: (context, snapshot) {
@@ -494,12 +500,20 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
                       setState(() {
                         _cartProducts[selection.id] = selection;
                         _cartQty[selection.id] = inCartQty + 1;
+                        _productSearchQuery = '';
                       });
+                      _searchController?.clear();
                     },
                     fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                      _searchController = textEditingController;
                       return TextField(
                         controller: textEditingController,
                         focusNode: focusNode,
+                        onChanged: (val) {
+                          setState(() {
+                            _productSearchQuery = val.toLowerCase();
+                          });
+                        },
                         style: TextStyle(color: textPrimary, fontSize: 13),
                         decoration: InputDecoration(
                           hintText: 'Search/Select Dropdown...',
@@ -577,7 +591,176 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
               ),
             ),
           ],
-        ),
+        )
+        else
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              DropdownButtonFormField<String>(
+                initialValue: _selectedCategory,
+                dropdownColor: isDark ? AppColors.darkCard : Colors.white,
+                style: TextStyle(color: textPrimary, fontSize: 13, fontWeight: FontWeight.bold),
+                decoration: InputDecoration(
+                  labelText: 'Category',
+                  labelStyle: TextStyle(color: textSecondary),
+                  filled: true,
+                  fillColor: isDark ? Colors.black.withValues(alpha: 0.15) : Colors.grey.shade50,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: border),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: border),
+                  ),
+                ),
+                items: categories.map((cat) {
+                  return DropdownMenuItem<String>(
+                    value: cat,
+                    child: Text(cat, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  );
+                }).toList(),
+                onChanged: (val) {
+                  if (val != null) {
+                    setState(() {
+                      _selectedCategory = val;
+                      _productSearchQuery = '';
+                    });
+                    _searchController?.clear();
+                  }
+                },
+              ),
+              const SizedBox(height: 10),
+              StreamBuilder<List<ProductModel>>(
+                stream: _productsStream,
+                builder: (context, snapshot) {
+                  final list = snapshot.data ?? [];
+                  return Autocomplete<ProductModel>(
+                    displayStringForOption: (ProductModel option) => option.name,
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      if (textEditingValue.text.isEmpty) {
+                        return const Iterable<ProductModel>.empty();
+                      }
+                      return list.where((ProductModel option) {
+                        final matchesSearch = option.name.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                        final matchesCategory = _selectedCategory == 'All' || option.category == _selectedCategory;
+                        return matchesSearch && matchesCategory;
+                      });
+                    },
+                    onSelected: (ProductModel selection) {
+                      final inCartQty = _cartQty[selection.id] ?? 0;
+                      if (selection.stockQty <= 0) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('${selection.name} is out of stock!'),
+                            backgroundColor: AppColors.danger,
+                          ),
+                        );
+                        return;
+                      }
+                      if (inCartQty >= selection.stockQty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Cannot add more. Stock limit reached!'),
+                            backgroundColor: AppColors.danger,
+                          ),
+                        );
+                        return;
+                      }
+                      setState(() {
+                        _cartProducts[selection.id] = selection;
+                        _cartQty[selection.id] = inCartQty + 1;
+                        _productSearchQuery = '';
+                      });
+                      _searchController?.clear();
+                    },
+                    fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                      _searchController = textEditingController;
+                      return TextField(
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        onChanged: (val) {
+                          setState(() {
+                            _productSearchQuery = val.toLowerCase();
+                          });
+                        },
+                        style: TextStyle(color: textPrimary, fontSize: 13),
+                        decoration: InputDecoration(
+                          hintText: 'Search Product...',
+                          hintStyle: TextStyle(color: textSecondary.withValues(alpha: 0.6)),
+                          labelText: 'Search Product',
+                          labelStyle: TextStyle(color: textSecondary),
+                          prefixIcon: Icon(Icons.search, color: textSecondary, size: 18),
+                          filled: true,
+                          fillColor: isDark ? Colors.black.withValues(alpha: 0.15) : Colors.grey.shade50,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: border),
+                          ),
+                        ),
+                      );
+                    },
+                    optionsViewBuilder: (context, onSelected, options) {
+                      return Align(
+                        alignment: Alignment.topLeft,
+                        child: Material(
+                          elevation: 4.0,
+                          borderRadius: BorderRadius.circular(10),
+                          color: isDark ? AppColors.darkCard : Colors.white,
+                          child: Container(
+                            width: 320,
+                            constraints: const BoxConstraints(maxHeight: 200),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: border),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              itemCount: options.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final option = options.elementAt(index);
+                                return InkWell(
+                                  onTap: () => onSelected(option),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: border, width: 0.5)),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            option.name,
+                                            style: TextStyle(color: textPrimary, fontSize: 12, fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Rs. ${option.price.toStringAsFixed(0)}',
+                                          style: TextStyle(color: accent, fontSize: 12, fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         const SizedBox(height: 12),
         Expanded(
           child: StreamBuilder<List<ProductModel>>(
@@ -747,14 +930,19 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Rs. ${p.price.toStringAsFixed(0)}',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w700,
-                                        color: accent,
+                                    Expanded(
+                                      child: Text(
+                                        'Rs. ${p.price.toStringAsFixed(0)}',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: accent,
+                                        ),
                                       ),
                                     ),
+                                    const SizedBox(width: 4),
                                     Text(
                                       'Stock: ${p.stockQty}',
                                       style: TextStyle(
@@ -1034,42 +1222,58 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  if (!isDesktop)
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Container(
-                        width: 36,
-                        height: 36,
-                        margin: const EdgeInsets.only(right: AppSpacing.xs),
-                        decoration: BoxDecoration(
-                          color: card,
-                          borderRadius: BorderRadius.circular(AppRadius.button),
-                          border: Border.all(color: border, width: 0.8),
+              Expanded(
+                child: Row(
+                  children: [
+                    if (!isDesktop)
+                        Builder(
+                          builder: (context) => GestureDetector(
+                            onTap: () {
+                              if (_showCartView) {
+                                setState(() => _showCartView = false);
+                              } else {
+                                Scaffold.of(context).openDrawer();
+                              }
+                            },
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          margin: const EdgeInsets.only(right: AppSpacing.xs),
+                          decoration: BoxDecoration(
+                            color: card,
+                            borderRadius: BorderRadius.circular(AppRadius.button),
+                            border: Border.all(color: border, width: 0.8),
+                          ),
+                          child: Icon(_showCartView ? Icons.arrow_back : Icons.menu, size: 20, color: textPrimary),
+                          ),
                         ),
-                        child: Icon(Icons.arrow_back, size: 18, color: textPrimary),
+                      ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Point of Sale',
+                            style: TextStyle(fontSize: 12, color: textSecondary),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'New Sale',
+                            style: TextStyle(
+                              fontSize: isDesktop ? 26 : 19,
+                              fontWeight: FontWeight.w600,
+                              color: textPrimary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                     ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Point of Sale',
-                        style: TextStyle(fontSize: 12, color: textSecondary),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'New Sale',
-                        style: TextStyle(
-                          fontSize: isDesktop ? 26 : 19,
-                          fontWeight: FontWeight.w600,
-                          color: textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
@@ -1200,6 +1404,29 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
                       ),
                       child: Column(
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Product Cart (${_totalItems} items)',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textPrimary),
+                              ),
+                              if (_cartQty.isNotEmpty)
+                                IconButton(
+                                  icon: const Icon(Icons.delete_sweep_outlined, color: AppColors.danger),
+                                  onPressed: () {
+                                    setState(() {
+                                      _cartQty.clear();
+                                      _cartProducts.clear();
+                                      _selectedCustomer = null;
+                                      _discount = 0.0;
+                                      _tax = 0.0;
+                                    });
+                                  },
+                                ),
+                            ],
+                          ),
+                          const Divider(),
                           Expanded(child: cartListWidget),
                           const Divider(height: 20),
                           checkoutSummaryPanel,
@@ -1305,7 +1532,9 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
                 }
 
                 return Scaffold(
+                  resizeToAvoidBottomInset: false,
                   backgroundColor: bg,
+                  drawer: widget.isAdmin ? const Drawer(width: 230, child: AdminSidebar(currentRoute: "New Sale")) : Drawer(width: 230, child: StaffSidebar(currentRoute: "New Sale", user: UserModel(uid: widget.currentUserUid, name: AuthService().currentUser?.displayName ?? "Staff", email: AuthService().currentUser?.email ?? "", role: "staff", phone: "", createdAt: DateTime.now()))),
                   body: SafeArea(
                     child: content,
                   ),
