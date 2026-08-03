@@ -287,6 +287,7 @@ class AdminProfileScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                ),
               ),
             );
           },
