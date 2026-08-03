@@ -126,14 +126,14 @@ class _TodaySalesScreenState extends State<TodaySalesScreen> {
                   isDark,
                   isDesktop,
                 );
-                if (isDesktop) {
-                  final String currentUid = AuthService().currentUser?.uid ?? '';
-                  return StreamBuilder<UserModel?>(
-                    stream: AuthService().getUserStream(currentUid),
-                    builder: (context, userSnap) {
-                      final currentUser = userSnap.data;
-                      final isStaff = currentUser != null && currentUser.role == 'staff';
+                final String currentUid = AuthService().currentUser?.uid ?? '';
+                return StreamBuilder<UserModel?>(
+                  stream: AuthService().getUserStream(currentUid),
+                  builder: (context, userSnap) {
+                    final currentUser = userSnap.data;
+                    final isStaff = currentUser != null && currentUser.role == 'staff';
 
+                    if (isDesktop) {
                       return Scaffold(
                         backgroundColor: bg,
                         body: Row(
@@ -182,7 +182,7 @@ class _TodaySalesScreenState extends State<TodaySalesScreen> {
                                             ),
                                           ],
                                         ),
-                                        if (!isStaff) AdminHeaderActions(isDesktop: isDesktop),
+                                        if (!isStaff) AdminHeaderActions(isDesktop: true),
                                       ],
                                     ),
                                     const SizedBox(height: 16),
@@ -194,78 +194,85 @@ class _TodaySalesScreenState extends State<TodaySalesScreen> {
                           ],
                         ),
                       );
-                    },
-                  );
-                }
-                //-------------------- MOBILE LAYOUT --------------------
-                return Scaffold(
-                  backgroundColor: bg,
-                  drawer: const Drawer(
-                    width: 230,
-                    child: AdminSidebar(currentRoute: "Today's Sales"),
-                  ),
-                  body: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    }
+                    
+                    //-------------------- MOBILE LAYOUT --------------------
+                    return Scaffold(
+                      backgroundColor: bg,
+                      drawer: Drawer(
+                        width: 230,
+                        child: (isStaff || StaffSidebar.adminPreviewMode)
+                            ? StaffSidebar(
+                                currentRoute: "Today's Sales",
+                                user: currentUser,
+                                isAdminPreview: StaffSidebar.adminPreviewMode,
+                              )
+                            : const AdminSidebar(currentRoute: "Today's Sales"),
+                      ),
+                      body: SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Builder(
-                                builder: (context) => GestureDetector(
-                                  onTap: () => Scaffold.of(context).openDrawer(),
-                                  child: Container(
-                                    width: 36,
-                                    height: 36,
-                                    decoration: BoxDecoration(
-                                      color: card,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: border, width: 0.8),
-                                    ),
-                                    child: Icon(Icons.menu, size: 20, color: textPrimary),
-                                  ),
-                                ),
-                              ),
-                              if (!isStaff) AdminHeaderActions(isDesktop: false),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    'Overview',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: accent,
-                                      letterSpacing: 0.5,
+                                  Builder(
+                                    builder: (context) => GestureDetector(
+                                      onTap: () => Scaffold.of(context).openDrawer(),
+                                      child: Container(
+                                        width: 36,
+                                        height: 36,
+                                        decoration: BoxDecoration(
+                                          color: card,
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(color: border, width: 0.8),
+                                        ),
+                                        child: Icon(Icons.menu, size: 20, color: textPrimary),
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    "Today's Sales",
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w600,
-                                      color: textPrimary,
-                                      fontFamily: isDark ? 'PlayfairDisplay' : null,
-                                    ),
+                                  if (!isStaff) AdminHeaderActions(isDesktop: false),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Overview',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: accent,
+                                          letterSpacing: 0.5,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        "Today's Sales",
+                                        style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w600,
+                                          color: textPrimary,
+                                          fontFamily: isDark ? 'PlayfairDisplay' : null,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
+                              const SizedBox(height: 16),
+                              Expanded(child: content),
                             ],
                           ),
-                          const SizedBox(height: 16),
-                          Expanded(child: content),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 );
               },
             );
