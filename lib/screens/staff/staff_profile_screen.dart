@@ -353,7 +353,9 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
                         style: TextStyle(fontSize: 13, color: textSecondary),
                       ),
                       const SizedBox(height: 8),
-                      Row(
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -369,12 +371,16 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
                               children: [
                                 Icon(Icons.badge_outlined, size: 14, color: accentController.value),
                                 const SizedBox(width: 4),
-                                Text(
-                                  'STAFF MEMBER',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: accentController.value,
+                                Flexible(
+                                  child: Text(
+                                    'STAFF MEMBER',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: accentController.value,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -385,14 +391,14 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
                     ],
                   ),
                 ),
-                ElevatedButton.icon(
+                const SizedBox(width: 8),
+                IconButton(
                   onPressed: _handleLogout,
-                  icon: const Icon(Icons.logout_rounded, size: 16),
-                  label: const Text('Logout'),
-                  style: ElevatedButton.styleFrom(
+                  icon: const Icon(Icons.logout_rounded),
+                  tooltip: 'Logout',
+                  style: IconButton.styleFrom(
                     backgroundColor: AppColors.danger.withValues(alpha: 0.12),
                     foregroundColor: AppColors.danger,
-                    elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
