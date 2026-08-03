@@ -204,45 +204,68 @@ class _TodaySalesScreenState extends State<TodaySalesScreen> {
                     width: 230,
                     child: AdminSidebar(currentRoute: "Today's Sales"),
                   ),
-                  appBar: AppBar(
-                    backgroundColor: bg,
-                    elevation: 0,
-                    centerTitle: true,
-                    title: Text(
-                      "Today's Sales",
-                      style: TextStyle(
-                        color: accent,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: isDark ? 'PlayfairDisplay' : null,
+                  body: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Builder(
+                                builder: (context) => GestureDetector(
+                                  onTap: () => Scaffold.of(context).openDrawer(),
+                                  child: Container(
+                                    width: 36,
+                                    height: 36,
+                                    decoration: BoxDecoration(
+                                      color: card,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: border, width: 0.8),
+                                    ),
+                                    child: Icon(Icons.menu, size: 20, color: textPrimary),
+                                  ),
+                                ),
+                              ),
+                              if (!isStaff) AdminHeaderActions(isDesktop: false),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Overview',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: accent,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    "Today's Sales",
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600,
+                                      color: textPrimary,
+                                      fontFamily: isDark ? 'PlayfairDisplay' : null,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Expanded(child: content),
+                        ],
                       ),
                     ),
-                    actions: [
-                      IconButton(
-                        tooltip: 'Toggle Theme',
-                        icon: Icon(
-                          isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
-                          color: textPrimary,
-                        ),
-                        onPressed: () {
-                          themeController.value =
-                              isDark ? ThemeMode.light : ThemeMode.dark;
-                        },
-                      ),
-                      IconButton(
-                        tooltip: 'App Appearance',
-                        icon: Icon(Icons.palette_outlined, color: accent),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const ThemeSettingsScreen(isAdmin: false),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
                   ),
-                  body: SafeArea(child: content),
                 );
               },
             );

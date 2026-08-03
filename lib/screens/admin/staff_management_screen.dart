@@ -1094,14 +1094,6 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                 //-------------------- MOBILE: PLAIN SCAFFOLD --------------------
                 return Scaffold(
                   backgroundColor: bg,
-                  appBar: AppBar(
-                    backgroundColor: bg,
-                    elevation: 0,
-                    iconTheme: IconThemeData(color: textPrimary),
-                    actions: [
-                      AdminHeaderActions(isDesktop: false),
-                    ],
-                  ),
                   drawer: const Drawer(width: 230, child: AdminSidebar(currentRoute: "Staff")),
                   floatingActionButton: FloatingActionButton(
                     onPressed: _showAddStaffDialog,
@@ -1138,6 +1130,30 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (!isDesktop) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Builder(
+                builder: (context) => GestureDetector(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: card,
+                      borderRadius: BorderRadius.circular(AppRadius.button),
+                      border: Border.all(color: border, width: 0.8),
+                    ),
+                    child: Icon(Icons.menu, size: 20, color: textPrimary),
+                  ),
+                ),
+              ),
+              AdminHeaderActions(isDesktop: false),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
         //-------------------- HEADER --------------------
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

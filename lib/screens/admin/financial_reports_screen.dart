@@ -132,20 +132,12 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen> {
                 return Scaffold(
                   backgroundColor: bg,
                   drawer: const Drawer(width: 230, child: AdminSidebar(currentRoute: "Profit & Loss")),
-                  appBar: AppBar(
-                    backgroundColor: bg,
-                    elevation: 0,
-                    centerTitle: true,
-                    title: Text(
-                      'Profit & Loss Report',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: accent,
-                      ),
+                  body: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: content,
                     ),
                   ),
-                  body: SafeArea(child: content),
                 );
               },
             );
@@ -247,6 +239,30 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                   //-------------------- HEADER & FILTER BAR --------------------
+                  if (!isDesktop) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Builder(
+                          builder: (context) => GestureDetector(
+                            onTap: () => Scaffold.of(context).openDrawer(),
+                            child: Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: card,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: border, width: 0.8),
+                              ),
+                              child: Icon(Icons.menu, size: 20, color: textPrimary),
+                            ),
+                          ),
+                        ),
+                        AdminHeaderActions(isDesktop: false),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -270,7 +286,7 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen> {
                           ],
                         ),
                       ),
-                      AdminHeaderActions(isDesktop: isDesktop),
+                      if (isDesktop) AdminHeaderActions(isDesktop: true),
                     ],
                   ),
                   const SizedBox(height: 14),

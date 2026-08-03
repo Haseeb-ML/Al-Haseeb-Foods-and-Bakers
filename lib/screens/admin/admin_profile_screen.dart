@@ -394,20 +394,9 @@ class AdminProfileScreen extends StatelessWidget {
                 //-------------------- MOBILE LAYOUT --------------------
                 return Scaffold(
                   backgroundColor: bg,
-                  appBar: AppBar(
-                    elevation: 0,
-                    centerTitle: true,
-                    backgroundColor: bg,
-                    foregroundColor: textPrimary,
-                    title: Text(
-                      'My Profile',
-                      style: TextStyle(
-                        color: accent,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: isDark ? 'PlayfairDisplay' : null,
-                        fontSize: 18,
-                      ),
-                    ),
+                  drawer: AdminSidebar(
+                    currentRoute: 'Profile',
+                    user: user,
                   ),
                   body: SafeArea(
                     child: SingleChildScrollView(
@@ -450,6 +439,61 @@ class AdminProfileScreen extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (!isDesktop) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Builder(
+                builder: (context) => GestureDetector(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: card,
+                      borderRadius: BorderRadius.circular(AppRadius.button),
+                      border: Border.all(color: border, width: 0.8),
+                    ),
+                    child: Icon(Icons.menu, size: 20, color: textPrimary),
+                  ),
+                ),
+              ),
+              AdminHeaderActions(isDesktop: false),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Administration',
+                    style: TextStyle(fontSize: 12, color: textSecondary),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'My Profile',
+                    style: TextStyle(
+                      fontSize: isDesktop ? 26 : 19,
+                      fontWeight: FontWeight.w600,
+                      color: textPrimary,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            if (isDesktop) AdminHeaderActions(isDesktop: true),
+          ],
+        ),
+        const SizedBox(height: 16),
         //-------------------- PROFILE CARD --------------------
         Container(
           width: double.infinity,

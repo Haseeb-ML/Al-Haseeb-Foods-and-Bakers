@@ -1222,19 +1222,19 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Row(
+              if (!isDesktop) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (!isDesktop)
-                        Builder(
-                          builder: (context) => GestureDetector(
-                            onTap: () {
-                              if (_showCartView) {
-                                setState(() => _showCartView = false);
-                              } else {
-                                Scaffold.of(context).openDrawer();
-                              }
-                            },
+                    Builder(
+                      builder: (context) => GestureDetector(
+                        onTap: () {
+                          if (_showCartView) {
+                            setState(() => _showCartView = false);
+                          } else {
+                            Scaffold.of(context).openDrawer();
+                          }
+                        },
                         child: Container(
                           width: 36,
                           height: 36,
@@ -1245,64 +1245,81 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
                             border: Border.all(color: border, width: 0.8),
                           ),
                           child: Icon(_showCartView ? Icons.arrow_back : Icons.menu, size: 20, color: textPrimary),
-                          ),
                         ),
                       ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Point of Sale',
-                            style: TextStyle(fontSize: 12, color: textSecondary),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            'New Sale',
-                            style: TextStyle(
-                              fontSize: isDesktop ? 26 : 19,
-                              fontWeight: FontWeight.w600,
-                              color: textPrimary,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
+                    ),
+                    StreamBuilder<UserModel?>(
+                      stream: AuthService().getUserStream(widget.currentUserUid),
+                      builder: (context, userSnap) {
+                        final liveUser = userSnap.data;
+                        if (liveUser != null && liveUser.role == 'admin') {
+                          return AdminHeaderActions(isDesktop: false);
+                        }
+                        return const SizedBox.shrink();
+                      },
                     ),
                   ],
                 ),
-              ),
+                const SizedBox(height: 16),
+              ],
               Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (!isDesktop)
-                    TextButton.icon(
-                      onPressed: () {
-                        setState(() {
-                          _showCartView = !_showCartView;
-                        });
-                      },
-                      icon: Icon(_showCartView ? Icons.menu_book : Icons.shopping_cart, size: 18, color: accent),
-                      label: Text(
-                        _showCartView ? 'Show Menu' : 'View Cart (${_totalItems})',
-                        style: TextStyle(color: accent, fontWeight: FontWeight.bold),
-                      ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Point of Sale',
+                          style: TextStyle(fontSize: 12, color: textSecondary),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'New Sale',
+                          style: TextStyle(
+                            fontSize: isDesktop ? 26 : 19,
+                            fontWeight: FontWeight.w600,
+                            color: textPrimary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                  StreamBuilder<UserModel?>(
-                    stream: AuthService().getUserStream(widget.currentUserUid),
-                    builder: (context, userSnap) {
-                      final liveUser = userSnap.data;
-                      if (liveUser != null && liveUser.role == 'admin') {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 12.0),
-                          child: AdminHeaderActions(isDesktop: isDesktop),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (!isDesktop)
+                        TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              _showCartView = !_showCartView;
+                            });
+                          },
+                          icon: Icon(_showCartView ? Icons.menu_book : Icons.shopping_cart, size: 18, color: accent),
+                          label: Text(
+                            _showCartView ? 'Show Menu' : 'View Cart (${_totalItems})',
+                            style: TextStyle(color: accent, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      if (isDesktop)
+                        StreamBuilder<UserModel?>(
+                          stream: AuthService().getUserStream(widget.currentUserUid),
+                          builder: (context, userSnap) {
+                            final liveUser = userSnap.data;
+                            if (liveUser != null && liveUser.role == 'admin') {
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 12.0),
+                                child: AdminHeaderActions(isDesktop: true),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
+                    ],
                   ),
                 ],
               ),

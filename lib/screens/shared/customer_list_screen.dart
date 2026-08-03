@@ -961,31 +961,38 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         //-------------------- HEADER --------------------
+        if (!isDesktop) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Builder(
+                builder: (context) => GestureDetector(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: card,
+                      borderRadius: BorderRadius.circular(AppRadius.button),
+                      border: Border.all(
+                        color: isDark
+                            ? accentController.value.withValues(alpha: 0.2)
+                            : border,
+                        width: 0.8,
+                      ),
+                    ),
+                    child: Icon(Icons.menu, size: 20, color: textPrimary),
+                  ),
+                ),
+              ),
+              if (widget.isAdmin) AdminHeaderActions(isDesktop: false),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (!isDesktop)
-                      Builder(
-                        builder: (context) => GestureDetector(
-                          onTap: () => Scaffold.of(context).openDrawer(),
-                child: Container(
-                  width: 36,
-                  height: 36,
-                  margin: const EdgeInsets.only(right: AppSpacing.xs),
-                  decoration: BoxDecoration(
-                    color: card,
-                    borderRadius: BorderRadius.circular(AppRadius.button),
-                    border: Border.all(
-                      color: isDark
-                          ? accentController.value.withValues(alpha: 0.2)
-                          : border,
-                      width: 0.8,
-                    ),
-                  ),
-                  child: Icon(Icons.menu, size: 20, color: textPrimary),
-                        ),
-                ),
-              ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1011,54 +1018,58 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                 ],
               ),
             ),
-            if (!StaffSidebar.adminPreviewMode)
-              GestureDetector(
-                onTap: () => _showCustomerDialog(),
-                child: Container(
-                  height: 38,
-                  padding: EdgeInsets.symmetric(horizontal: isDesktop ? 16 : 0),
-                  width: isDesktop ? null : 38,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        accentController.value,
-                        Color.lerp(accentController.value, Colors.black, 0.2)!,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(AppRadius.button),
-                    boxShadow: [
-                      BoxShadow(
-                        color: accentController.value.withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: isDesktop
-                      ? const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.add, color: Colors.white, size: 18),
-                            SizedBox(width: 6),
-                            Text(
-                              'Add customer',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+            Row(
+              children: [
+                if (!StaffSidebar.adminPreviewMode)
+                  GestureDetector(
+                    onTap: () => _showCustomerDialog(),
+                    child: Container(
+                      height: 38,
+                      padding: EdgeInsets.symmetric(horizontal: isDesktop ? 16 : 0),
+                      width: isDesktop ? null : 38,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            accentController.value,
+                            Color.lerp(accentController.value, Colors.black, 0.2)!,
                           ],
-                        )
-                      : const Icon(Icons.add, color: Colors.white, size: 20),
-                ),
-              ),
-            if (widget.isAdmin) ...[
-              const SizedBox(width: 12),
-              AdminHeaderActions(isDesktop: isDesktop),
-            ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(AppRadius.button),
+                        boxShadow: [
+                          BoxShadow(
+                            color: accentController.value.withValues(alpha: 0.3),
+                            blurRadius: 12,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: isDesktop
+                          ? const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.add, color: Colors.white, size: 18),
+                                SizedBox(width: 6),
+                                Text(
+                                  'Add customer',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const Icon(Icons.add, color: Colors.white, size: 20),
+                    ),
+                  ),
+                if (isDesktop && widget.isAdmin) ...[
+                  const SizedBox(width: 12),
+                  AdminHeaderActions(isDesktop: true),
+                ],
+              ],
+            ),
           ],
         ),
         const SizedBox(height: AppSpacing.sm),
