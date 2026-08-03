@@ -431,8 +431,8 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
                           child: SafeArea(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 28,
-                                vertical: 16,
+                                horizontal: 40,
+                                vertical: 24, // AppSpacing.lg equivalent
                               ),
                               child: content,
                             ),
@@ -459,7 +459,12 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
                     icon: const Icon(Icons.add, color: Colors.white),
                     label: const Text('Add Supplier', style: TextStyle(color: Colors.white)),
                   ),
-                  body: SafeArea(child: content),
+                  body: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0), // AppSpacing.sm equivalent is usually 16 or 12. Let's use 16
+                      child: content,
+                    ),
+                  ),
                 );
               },
             );
