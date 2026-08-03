@@ -16,6 +16,10 @@ import '../../models/leave_request_model.dart';
 import '../../services/payroll_service.dart';
 import '../../models/payroll_model.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 const double kDesktopBreakpoint = 900;
 
@@ -30,6 +34,80 @@ class StaffProfileScreen extends StatefulWidget {
 
 
 class _StaffProfileScreenState extends State<StaffProfileScreen> {
+  bool _isUploadingImage = false;
+
+  Future<void> _pickAndUploadImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 800,
+      imageQuality: 80,
+    );
+
+    if (image == null) return;
+
+    setState(() {
+      _isUploadingImage = true;
+    });
+
+    try {
+      final bytes = await image.readAsBytes();
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('https://api.cloudinary.com/v1_1/tdkjl9oo/image/upload'),
+      );
+      request.fields['upload_preset'] = 'erp_images';
+      request.files.add(
+        http.MultipartFile.fromBytes('file', bytes, filename: image.name),
+      );
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        final respStr = await response.stream.bytesToString();
+        final jsonResponse = jsonDecode(respStr);
+        final secureUrl = jsonResponse['secure_url'];
+
+        // Update in Firestore
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(widget.user.uid)
+            .update({'profileImageUrl': secureUrl});
+
+        // Update local object
+        setState(() {
+          widget.user.profileImageUrl = secureUrl;
+        });
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Profile picture updated successfully!'),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      } else {
+        throw Exception('Cloudinary upload failed: \${response.statusCode}');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Image upload failed: $e'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isUploadingImage = false;
+        });
+      }
+    }
+  }
   Future<void> _handleLogout() async {
     try {
       await AuthService().logout();
@@ -197,19 +275,60 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
             ),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 36,
-                  backgroundColor: accentController.value.withValues(alpha: 0.15),
-                  backgroundImage: widget.user.profileImageUrl.isNotEmpty
-                      ? CachedNetworkImageProvider(widget.user.profileImageUrl)
-                      : null,
-                  child: widget.user.profileImageUrl.isEmpty
-                      ? Icon(
-                          Icons.person,
-                          size: 36,
-                          color: accentController.value,
-                        )
-                      : null,
+                GestureDetector(
+                  onTap: _pickAndUploadImage,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 36,
+                        backgroundColor: accentController.value.withValues(alpha: 0.15),
+                        backgroundImage: widget.user.profileImageUrl.isNotEmpty
+                            ? CachedNetworkImageProvider(widget.user.profileImageUrl)
+                            : null,
+                        child: widget.user.profileImageUrl.isEmpty
+                            ? Icon(
+                                Icons.person,
+                                size: 36,
+                                color: accentController.value,
+                              )
+                            : null,
+                      ),
+                      if (_isUploadingImage)
+                        Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.5),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Center(
+                            child: SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (!_isUploadingImage)
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: accentController.value,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: card, width: 2),
+                            ),
+                            child: const Icon(Icons.camera_alt, size: 12, color: Colors.white),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -218,6 +337,8 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
                     children: [
                       Text(
                         widget.user.name.isNotEmpty ? widget.user.name : 'Staff Member',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -227,6 +348,8 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
                       const SizedBox(height: 4),
                       Text(
                         widget.user.email,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 13, color: textSecondary),
                       ),
                       const SizedBox(height: 8),
