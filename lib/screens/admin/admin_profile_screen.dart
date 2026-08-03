@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import '../../models/user_model.dart';
 import '../../services/auth_service.dart';
 import '../../theme/app_theme.dart';
@@ -42,6 +45,7 @@ class AdminProfileScreen extends StatelessWidget {
     final photoController = TextEditingController(text: user.profileImageUrl);
     final accent = accentController.value;
     bool isLoading = false;
+    bool isUploadingImage = false;
 
     const sampleAvatars = [
       'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
@@ -89,6 +93,56 @@ class AdminProfileScreen extends StatelessWidget {
 
         return StatefulBuilder(
           builder: (context, setStateDialog) {
+            Future<void> pickAndUploadImage() async {
+              try {
+                final picker = ImagePicker();
+                final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+                if (pickedFile == null) return;
+
+                setStateDialog(() => isUploadingImage = true);
+
+                final bytes = await pickedFile.readAsBytes();
+
+                final request = http.MultipartRequest(
+                  'POST',
+                  Uri.parse('https://api.cloudinary.com/v1_1/tdkjl9oo/image/upload'),
+                );
+                
+                request.fields['upload_preset'] = 'erp_images';
+                request.files.add(
+                  http.MultipartFile.fromBytes(
+                    'file',
+                    bytes,
+                    filename: pickedFile.name,
+                  ),
+                );
+
+                final response = await request.send();
+                final responseData = await response.stream.bytesToString();
+                final jsonMap = json.decode(responseData);
+
+                if (response.statusCode == 200) {
+                  setStateDialog(() {
+                    photoController.text = jsonMap['secure_url'];
+                  });
+                } else {
+                  throw Exception(jsonMap['error']['message'] ?? 'Upload failed');
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Image upload failed: $e'),
+                      backgroundColor: AppColors.danger,
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                }
+              } finally {
+                setStateDialog(() => isUploadingImage = false);
+              }
+            }
+
             return Dialog(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppRadius.card),
@@ -164,11 +218,68 @@ class AdminProfileScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
 
-                          // Profile Picture URL
-                          TextFormField(
-                            controller: photoController,
-                            style: TextStyle(color: textPrimary, fontSize: 14),
-                            decoration: buildDecor(label: 'Profile Picture URL', icon: Icons.link_rounded),
+                          // Profile Picture Selection
+                          GestureDetector(
+                            onTap: pickAndUploadImage,
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: card,
+                                borderRadius: BorderRadius.circular(AppRadius.button),
+                                border: Border.all(color: border),
+                              ),
+                              child: isUploadingImage
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(
+                                          width: 16,
+                                          height: 16,
+                                          child: CircularProgressIndicator(strokeWidth: 2),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Text('Uploading...', style: TextStyle(color: textPrimary)),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: [
+                                        if (photoController.text.isNotEmpty)
+                                          Container(
+                                            width: 40,
+                                            height: 40,
+                                            margin: const EdgeInsets.only(right: 12),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(color: border),
+                                              image: DecorationImage(
+                                                image: CachedNetworkImageProvider(photoController.text),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          )
+                                        else
+                                          const Icon(Icons.image_outlined, size: 28, color: Colors.grey),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Profile Photo',
+                                                style: TextStyle(fontWeight: FontWeight.bold, color: textPrimary),
+                                              ),
+                                              Text(
+                                                'Select from gallery',
+                                                style: TextStyle(fontSize: 12, color: textMuted),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const Icon(Icons.chevron_right, size: 18, color: Colors.grey),
+                                      ],
+                                    ),
+                            ),
                           ),
                         ],
                       ),
