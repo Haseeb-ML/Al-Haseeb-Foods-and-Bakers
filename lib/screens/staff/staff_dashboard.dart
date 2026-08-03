@@ -1602,23 +1602,29 @@ class _StaffDashboardState extends State<StaffDashboard> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Shift Status',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: textSecondary,
-                                      fontWeight: FontWeight.w500,
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Shift Status',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: textSecondary,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 2),
-                                  Text(
-                                    statusText,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: textPrimary,
-                                      fontWeight: FontWeight.bold,
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      statusText,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: textPrimary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -1979,14 +1985,15 @@ class _StatCard extends StatelessWidget {
                     color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Text(
-                    badgeText,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: color,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      badgeText,
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
                     ),
                   ),
                 ),
@@ -1994,26 +2001,30 @@ class _StatCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
-          Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: textPrimary,
-              letterSpacing: -0.5,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: textPrimary,
+                letterSpacing: -0.5,
+              ),
             ),
           ),
           const SizedBox(height: 2),
-          Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: textSecondary,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: textSecondary,
+              ),
             ),
           ),
         ],
