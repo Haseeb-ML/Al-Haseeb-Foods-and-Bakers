@@ -1219,8 +1219,8 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
             AppSpacing.sm,
             0,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (!isDesktop) ...[
                 Row(
