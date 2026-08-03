@@ -1357,9 +1357,10 @@ class _StaffDashboardState extends State<StaffDashboard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                     Text(
                       '${_getGreeting()}, ${widget.user.name.isNotEmpty ? widget.user.name : "Staff"}',
                       style: TextStyle(
@@ -1401,6 +1402,7 @@ class _StaffDashboardState extends State<StaffDashboard> {
                       ),
                     ),
                   ],
+                ),
                 ),
                 Row(
                   children: [
@@ -1785,7 +1787,7 @@ class _StaffDashboardState extends State<StaffDashboard> {
               runSpacing: 12,
               children: [
                 SizedBox(
-                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 48) / 3,
+                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 72) / 3,
                   child: _QuickActionButton(
                     icon: Icons.payments_outlined,
                     label: 'Salary History',
@@ -1800,7 +1802,7 @@ class _StaffDashboardState extends State<StaffDashboard> {
                   ),
                 ),
                 SizedBox(
-                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 48) / 3,
+                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 72) / 3,
                   child: _QuickActionButton(
                     icon: Icons.date_range_outlined,
                     label: 'Attendance Log',
@@ -1815,7 +1817,7 @@ class _StaffDashboardState extends State<StaffDashboard> {
                   ),
                 ),
                 SizedBox(
-                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 48) / 3,
+                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 72) / 3,
                   child: _QuickActionButton(
                     icon: Icons.badge_outlined,
                     label: 'Apply Leave',
@@ -1842,7 +1844,7 @@ class _StaffDashboardState extends State<StaffDashboard> {
                   ),
                 ),
                 SizedBox(
-                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 48) / 3,
+                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 72) / 3,
                   child: _QuickActionButton(
                     icon: Icons.warning_amber_rounded,
                     label: 'Alert Admin',
@@ -1869,7 +1871,7 @@ class _StaffDashboardState extends State<StaffDashboard> {
                   ),
                 ),
                 SizedBox(
-                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 48) / 3,
+                  width: isDesktop ? 180 : (MediaQuery.of(context).size.width - 72) / 3,
                   child: _QuickActionButton(
                     icon: Icons.person_outline_rounded,
                     label: 'My Profile',
