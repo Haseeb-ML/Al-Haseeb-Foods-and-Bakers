@@ -143,7 +143,7 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('https://api.cloudinary.com/v1_1/haseeb/image/upload'),
+        Uri.parse('https://api.cloudinary.com/v1_1/tdkjl9oo/image/upload'),
       );
       
       request.fields['upload_preset'] = 'erp_images';
