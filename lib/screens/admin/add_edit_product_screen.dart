@@ -11,6 +11,9 @@ import '../shared/customer_list_screen.dart';
 import 'theme_settings_screen.dart';
 import 'backup_restore_screen.dart';
 import '../../widgets/admin_sidebar.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 //-------------------- DESKTOP BREAKPOINT --------------------
 const double kDesktopBreakpoint = 900;
@@ -37,6 +40,7 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
   String _selectedCategory = 'Cakes & Sweets';
 
   bool _isLoading = false;
+  bool _isUploadingImage = false;
   bool get _isEditMode => widget.existingProduct != null;
 
   //-------------------- INIT CONTROLLERS --------------------
@@ -123,6 +127,57 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  //-------------------- PICK AND UPLOAD IMAGE --------------------
+  Future<void> _pickAndUploadImage() async {
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile == null) return;
+
+      setState(() => _isUploadingImage = true);
+
+      final bytes = await pickedFile.readAsBytes();
+
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('https://api.cloudinary.com/v1_1/haseeb/image/upload'),
+      );
+      
+      request.fields['upload_preset'] = 'erp_images';
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'file',
+          bytes,
+          filename: pickedFile.name,
+        ),
+      );
+
+      final response = await request.send();
+      final responseData = await response.stream.bytesToString();
+      final jsonMap = json.decode(responseData);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          _imageUrlController.text = jsonMap['secure_url'];
+        });
+      } else {
+        throw Exception(jsonMap['error']['message'] ?? 'Upload failed');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Image upload failed: $e'),
+            backgroundColor: AppColors.danger,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isUploadingImage = false);
     }
   }
 
@@ -324,86 +379,109 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
               ),
             ],
           ),
-          child: Column(
-            children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: accentController.value.withValues(alpha: 0.4),
-                        width: 4,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: accentController.value.withValues(alpha: 0.2),
-                          blurRadius: 40,
-                          spreadRadius: 10,
+          child: GestureDetector(
+            onTap: _isUploadingImage ? null : _pickAndUploadImage,
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: accentController.value.withValues(alpha: 0.4),
+                          width: 4,
                         ),
-                      ],
+                        boxShadow: [
+                          BoxShadow(
+                            color: accentController.value.withValues(alpha: 0.2),
+                            blurRadius: 40,
+                            spreadRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: ClipOval(
+                        child: _isUploadingImage
+                            ? const Center(child: CircularProgressIndicator())
+                            : _imageUrlController.text.isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: _imageUrlController.text,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) => Icon(
+                                      Icons.image_outlined,
+                                      size: 60,
+                                      color: textSecondary.withValues(alpha: 0.5),
+                                    ),
+                                  )
+                                : Container(
+                                    color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.05),
+                                    child: Icon(
+                                      Icons.add_photo_alternate_outlined,
+                                      size: 60,
+                                      color: textSecondary.withValues(alpha: 0.5),
+                                    ),
+                                  ),
+                      ),
                     ),
-                    child: ClipOval(
-                      child: _imageUrlController.text.isNotEmpty
-                          ? CachedNetworkImage(
-                              imageUrl: _imageUrlController.text,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => Icon(
-                                Icons.image_outlined,
-                                size: 60,
-                                color: textSecondary.withValues(alpha: 0.5),
+                    if (_imageUrlController.text.isNotEmpty && !_isUploadingImage)
+                      Positioned(
+                        bottom: 8,
+                        right: 16,
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF22C55E),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF22C55E).withValues(alpha: 0.4),
+                                blurRadius: 10,
                               ),
-                            )
-                          : Container(
-                              color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.05),
-                              child: Icon(
-                                Icons.add_photo_alternate_outlined,
-                                size: 60,
-                                color: textSecondary.withValues(alpha: 0.5),
-                              ),
-                            ),
+                            ],
+                          ),
+                          child: const Icon(Icons.check, color: Colors.white, size: 20),
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.03),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isDark ? accentController.value.withValues(alpha: 0.2) : accentController.value.withValues(alpha: 0.1),
                     ),
                   ),
-                  if (_imageUrlController.text.isNotEmpty)
-                    Positioned(
-                      bottom: 8,
-                      right: 16,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF22C55E),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF22C55E).withValues(alpha: 0.4),
-                              blurRadius: 10,
-                            ),
-                          ],
-                        ),
-                        child: const Icon(Icons.check, color: Colors.white, size: 20),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        _isUploadingImage ? Icons.cloud_upload_outlined : Icons.photo_library_outlined,
+                        color: accentController.value,
+                        size: 20,
                       ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 32),
-              TextFormField(
-                controller: _imageUrlController,
-                style: TextStyle(color: textPrimary),
-                decoration: _buildInputDecoration(
-                  labelText: 'Image URL',
-                  prefixIcon: Icons.link_outlined,
-                  textMuted: textMuted,
-                  card: bg,
-                  border: border,
-                  isDark: isDark,
+                      const SizedBox(width: 10),
+                      Text(
+                        _isUploadingImage 
+                            ? 'Uploading...' 
+                            : (_imageUrlController.text.isNotEmpty ? 'Change Image' : 'Select from Gallery'),
+                        style: TextStyle(
+                          color: isDark ? Colors.white : textPrimary,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                onChanged: (_) => setState(() {}),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
