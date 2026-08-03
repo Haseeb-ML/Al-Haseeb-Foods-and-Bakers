@@ -5,7 +5,7 @@ class UserModel {
   final String email;
   final String role; // "admin" or "staff"
   final String phone;
-  final String profileImageUrl; // optional, empty rehne par fallback avatar dikhega
+  String profileImageUrl; // optional, empty rehne par fallback avatar dikhega
   final bool isActive;
   final double monthlySalary;
   final DateTime createdAt;
