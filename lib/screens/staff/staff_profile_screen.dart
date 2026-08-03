@@ -20,6 +20,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../admin/theme_settings_screen.dart';
 
 const double kDesktopBreakpoint = 900;
 
@@ -389,6 +390,26 @@ class _StaffProfileScreenState extends State<StaffProfileScreen> {
                         ],
                       ),
                     ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ThemeSettingsScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.palette_outlined),
+                  tooltip: 'Appearance',
+                  style: IconButton.styleFrom(
+                    backgroundColor: accentController.value.withValues(alpha: 0.12),
+                    foregroundColor: accentController.value,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8),
