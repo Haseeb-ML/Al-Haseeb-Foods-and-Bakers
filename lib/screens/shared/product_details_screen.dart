@@ -228,41 +228,80 @@ class ProductDetailsScreen extends StatelessWidget {
         if (isAdmin)
           Row(
             children: [
-              OutlinedButton.icon(
-                icon: const Icon(Icons.edit_outlined, size: 16),
-                label: const Text('Edit Product'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: textPrimary,
-                  side: BorderSide(color: border),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.button),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => AddEditProductScreen(existingProduct: product),
+              if (isDesktop)
+                OutlinedButton.icon(
+                  icon: const Icon(Icons.edit_outlined, size: 16),
+                  label: const Text('Edit Product'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: textPrimary,
+                    side: BorderSide(color: border),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.button),
                     ),
-                  );
-                },
-              ),
-              const SizedBox(width: 12),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.delete_outline, size: 16),
-                label: const Text('Delete'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.danger,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.button),
                   ),
-                  elevation: 0,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AddEditProductScreen(existingProduct: product),
+                      ),
+                    );
+                  },
+                )
+              else
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: card,
+                    borderRadius: BorderRadius.circular(AppRadius.button),
+                    border: Border.all(color: border),
+                  ),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: Icon(Icons.edit_outlined, color: textPrimary, size: 18),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => AddEditProductScreen(existingProduct: product),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                onPressed: () => _confirmDelete(context),
-              ),
+              const SizedBox(width: 8),
+              if (isDesktop)
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.delete_outline, size: 16),
+                  label: const Text('Delete'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.danger,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.button),
+                    ),
+                    elevation: 0,
+                  ),
+                  onPressed: () => _confirmDelete(context),
+                )
+              else
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: AppColors.danger.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(AppRadius.button),
+                    border: Border.all(color: AppColors.danger.withValues(alpha: 0.3)),
+                  ),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: const Icon(Icons.delete_outline, color: AppColors.danger, size: 18),
+                    onPressed: () => _confirmDelete(context),
+                  ),
+                ),
             ],
           ),
       ],

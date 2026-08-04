@@ -54,79 +54,81 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
           title: Text(expense == null ? 'Add Expense' : 'Edit Expense'),
           content: SizedBox(
             width: 420,
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  DropdownButtonFormField<String>(
-                    value: category,
-                    decoration: const InputDecoration(labelText: 'Category'),
-                    items: ExpenseCategories.all
-                        .map(
-                          (item) =>
-                              DropdownMenuItem(value: item, child: Text(item)),
-                        )
-                        .toList(),
-                    onChanged: (value) =>
-                        setDialogState(() => category = value!),
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: descriptionController,
-                    decoration: const InputDecoration(labelText: 'Description'),
-                    validator: (value) => value == null || value.trim().isEmpty
-                        ? 'Description required hai'
-                        : null,
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: amountController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DropdownButtonFormField<String>(
+                      value: category,
+                      decoration: const InputDecoration(labelText: 'Category'),
+                      items: ExpenseCategories.all
+                          .map(
+                            (item) =>
+                                DropdownMenuItem(value: item, child: Text(item)),
+                          )
+                          .toList(),
+                      onChanged: (value) =>
+                          setDialogState(() => category = value!),
                     ),
-                    decoration: const InputDecoration(labelText: 'Amount'),
-                    validator: (value) {
-                      final amount = double.tryParse(value ?? '');
-                      return amount == null || amount <= 0
-                          ? 'Valid amount enter karein'
-                          : null;
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(child: Text('Date: ${_formatDate(date)}')),
-                      TextButton(
-                        onPressed: () async {
-                          final selected = await showDatePicker(
-                            context: context,
-                            initialDate: date,
-                            firstDate: DateTime(2020),
-                            lastDate: DateTime.now().add(
-                              const Duration(days: 365),
-                            ),
-                          );
-                          if (selected != null)
-                            setDialogState(() => date = selected);
-                        },
-                        child: const Text('Change'),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: descriptionController,
+                      decoration: const InputDecoration(labelText: 'Description'),
+                      validator: (value) => value == null || value.trim().isEmpty
+                          ? 'Description required hai'
+                          : null,
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: amountController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
                       ),
-                    ],
-                  ),
-                  DropdownButtonFormField<String>(
-                    value: status,
-                    decoration: const InputDecoration(labelText: 'Status'),
-                    items: const [
-                      DropdownMenuItem(value: 'paid', child: Text('Paid')),
-                      DropdownMenuItem(
-                        value: 'pending',
-                        child: Text('Pending'),
-                      ),
-                    ],
-                    onChanged: (value) => setDialogState(() => status = value!),
-                  ),
-                ],
+                      decoration: const InputDecoration(labelText: 'Amount'),
+                      validator: (value) {
+                        final amount = double.tryParse(value ?? '');
+                        return amount == null || amount <= 0
+                            ? 'Valid amount enter karein'
+                            : null;
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(child: Text('Date: ${_formatDate(date)}')),
+                        TextButton(
+                          onPressed: () async {
+                            final selected = await showDatePicker(
+                              context: context,
+                              initialDate: date,
+                              firstDate: DateTime(2020),
+                              lastDate: DateTime.now().add(
+                                const Duration(days: 365),
+                              ),
+                            );
+                            if (selected != null)
+                              setDialogState(() => date = selected);
+                          },
+                          child: const Text('Change'),
+                        ),
+                      ],
+                    ),
+                    DropdownButtonFormField<String>(
+                      value: status,
+                      decoration: const InputDecoration(labelText: 'Status'),
+                      items: const [
+                        DropdownMenuItem(value: 'paid', child: Text('Paid')),
+                        DropdownMenuItem(
+                          value: 'pending',
+                          child: Text('Pending'),
+                        ),
+                      ],
+                      onChanged: (value) => setDialogState(() => status = value!),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

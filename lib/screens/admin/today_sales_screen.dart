@@ -717,37 +717,41 @@ class _TodaySalesScreenState extends State<TodaySalesScreen> {
                                       ],
                                     ),
                                   ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        'Rs. ${invoice.totalAmount.toStringAsFixed(0)}',
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF22C55E),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      _InvoiceIconAction(
-                                        icon: Icons.visibility_outlined,
-                                        accent: accent,
-                                        onTap: () => InvoicePdfService().viewPdf(invoice),
-                                      ),
-                                      const SizedBox(width: 6),
-                                      _InvoiceIconAction(
-                                        icon: Icons.share_outlined,
-                                        accent: accent,
-                                        onTap: () => InvoicePdfService().sharePdf(invoice),
-                                      ),
-                                      const SizedBox(width: 6),
-                                      _InvoiceIconAction(
-                                        icon: Icons.download_outlined,
-                                        accent: accent,
-                                        onTap: () async {
-                                          final path = await InvoicePdfService().downloadPdf(invoice);
-                                          if (context.mounted) {
-                                            ScaffoldMessenger.of(context).showSnackBar(
+                                  Flexible(
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment: Alignment.centerRight,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            'Rs. ${invoice.totalAmount.toStringAsFixed(0)}',
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xFF22C55E),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          _InvoiceIconAction(
+                                            icon: Icons.visibility_outlined,
+                                            accent: accent,
+                                            onTap: () => InvoicePdfService().viewPdf(invoice),
+                                          ),
+                                          const SizedBox(width: 6),
+                                          _InvoiceIconAction(
+                                            icon: Icons.share_outlined,
+                                            accent: accent,
+                                            onTap: () => InvoicePdfService().sharePdf(invoice),
+                                          ),
+                                          const SizedBox(width: 6),
+                                          _InvoiceIconAction(
+                                            icon: Icons.download_outlined,
+                                            accent: accent,
+                                            onTap: () async {
+                                              final path = await InvoicePdfService().downloadPdf(invoice);
+                                              if (context.mounted) {
+                                                ScaffoldMessenger.of(context).showSnackBar(
                                               SnackBar(
                                                 content: Text('Saved to: $path'),
                                                 behavior: SnackBarBehavior.floating,
@@ -758,6 +762,8 @@ class _TodaySalesScreenState extends State<TodaySalesScreen> {
                                         },
                                       ),
                                     ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),

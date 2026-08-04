@@ -743,66 +743,68 @@ class InvoiceDetailScreen extends StatelessWidget {
               ),
             ],
           ),
-          content: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Customer: ${liveInvoice.customerName}',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: isDark ? Colors.grey.shade300 : Colors.grey.shade700,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Remaining Dues: Rs. ${liveInvoice.dueAmount.toStringAsFixed(0)}',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.danger,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: amountController,
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(
-                    color: isDark ? Colors.white : Colors.black,
-                    fontSize: 16,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Amount Paid (Rs.)',
-                    labelStyle: TextStyle(
-                      color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-                    ),
-                    prefixText: 'Rs. ',
-                    prefixStyle: const TextStyle(fontWeight: FontWeight.bold),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: AppColors.danger),
+          content: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Customer: ${liveInvoice.customerName}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: isDark ? Colors.grey.shade300 : Colors.grey.shade700,
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Enter amount';
-                    }
-                    final amt = double.tryParse(value);
-                    if (amt == null || amt <= 0) {
-                      return 'Enter a valid amount';
-                    }
-                    if (amt > liveInvoice.dueAmount) {
-                      return 'Cannot pay more than Rs. ${liveInvoice.dueAmount.toStringAsFixed(0)}';
-                    }
-                    return null;
-                  },
-                ),
-              ],
+                  const SizedBox(height: 4),
+                  Text(
+                    'Remaining Dues: Rs. ${liveInvoice.dueAmount.toStringAsFixed(0)}',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: AppColors.danger,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: amountController,
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black,
+                      fontSize: 16,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Amount Paid (Rs.)',
+                      labelStyle: TextStyle(
+                        color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                      ),
+                      prefixText: 'Rs. ',
+                      prefixStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: AppColors.danger),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Enter amount';
+                      }
+                      final amt = double.tryParse(value);
+                      if (amt == null || amt <= 0) {
+                        return 'Enter a valid amount';
+                      }
+                      if (amt > liveInvoice.dueAmount) {
+                        return 'Cannot pay more than Rs. ${liveInvoice.dueAmount.toStringAsFixed(0)}';
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           actions: [

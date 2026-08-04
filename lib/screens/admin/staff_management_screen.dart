@@ -82,10 +82,11 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                     width: 1,
                   ),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                     //-------------------- DIALOG HEADER --------------------
                     Row(
                       children: [
@@ -354,10 +355,11 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   ],
                 ),
               ),
-            );
-          },
-        );
-      },
+            ),
+          );
+        },
+      );
+    },
     );
   }
 
@@ -393,10 +395,11 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                     width: 1,
                   ),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                     //-------------------- DIALOG HEADER --------------------
                     Row(
                       children: [
@@ -626,10 +629,11 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   ],
                 ),
               ),
-            );
-          },
-        );
-      },
+            ),
+          );
+        },
+      );
+    },
     );
   }
 
@@ -657,9 +661,10 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
               width: 1,
             ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
               //-------------------- PROFILE HEADER --------------------
               Row(
                 children: [
@@ -942,7 +947,8 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   ),
                 ),
               ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
