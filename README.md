@@ -27,11 +27,13 @@ The application helps businesses manage inventory, sales, suppliers, invoices, e
 
 ### 👨‍💻 Staff Panel
 - Secure Login
-- Create New Sales (POS)
-- View Products
-- Check Stock Availability
-- Invoice Generation
-- View Today's Sales
+- Employee Portal
+- Staff Profile
+- Salary History
+- Attendence Log
+- Apply For Leave
+- Aleart Admin
+  
 
 ### 🛒 Point of Sale (POS)
 - Fast Billing System
@@ -124,28 +126,6 @@ lib/
 └── main.dart
 ```
 
----
-
-# 🚀 Getting Started
-
-## 1. Clone the repository
-
-```bash
-git clone https://github.com/Haseeb-ML/Al-Haseeb.git
-```
-
-## 2. Navigate into the project
-
-```bash
-cd erp
-```
-
-## 3. Install dependencies
-
-```bash
-flutter pub get
-```
-
 ## 4. Configure Firebase
 
 - Create a Firebase Project
@@ -153,53 +133,8 @@ flutter pub get
 - Enable Cloud Firestore
 - Generate `firebase_options.dart`
 
-## 5. Run the project
-
-```bash
-flutter run
-```
-
 ---
 
-# 📌 Requirements
-
-- Flutter 3.x+
-- Dart 3.x+
-- Firebase Project
-- Android Studio / VS Code
-
----
-
-# 🔒 User Roles
-
-### Admin
-- Full System Access
-- Manage Products & Inventory
-- Manage Staff Roles & Payroll
-- Manage Suppliers
-- View Global Financial Reports
-- System Settings & Themes
-- Backup & Restore
-
-### Staff
-- Create Sales via POS
-- View Products & Stock
-- Generate Invoices
-- View Own Profile
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome!
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to your branch
-5. Open a Pull Request
-
----
 
 # 📄 License
 
