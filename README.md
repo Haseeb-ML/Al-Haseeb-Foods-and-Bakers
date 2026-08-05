@@ -71,15 +71,19 @@ The application helps businesses manage inventory, sales, suppliers, invoices, e
 
 # 📱 Screens
 
-- Login
-- Dashboard (Admin/Staff)
-- Products Catalog
+- Login / Register
+- Admin Dashboard & Staff Dashboard
 - Point of Sale (New Sale)
-- Suppliers
-- Customers
-- Sales History
-- Expenses
-- Profile
+- Product Catalog (Add/Edit Products)
+- Supplier Management & Stock Procurement
+- Customer Management & Purchase History
+- Staff Management
+- Attendance & Payroll
+- Sales History & Today's Sales
+- Expenses Management
+- Financial Reports
+- Backup & Restore
+- Profile Settings
 - Theme Settings
 - Invoice Details
 
@@ -97,6 +101,7 @@ The application helps businesses manage inventory, sales, suppliers, invoices, e
 | Cached Network Image | Image Caching |
 | PDF | Invoice Generation |
 | Printing | Print Support |
+| Flutter SVG | SVG Icons |
 
 ---
 
@@ -109,11 +114,13 @@ lib/
 ├── services/
 ├── screens/
 │   ├── admin/
-│   ├── staff/
 │   ├── auth/
-│   └── shared/
-├── widgets/
+│   ├── settings/
+│   ├── shared/
+│   └── staff/
 ├── theme/
+├── utils/
+├── widgets/
 └── main.dart
 ```
 
@@ -168,27 +175,17 @@ flutter run
 ### Admin
 - Full System Access
 - Manage Products & Inventory
-- Manage Staff Roles
+- Manage Staff Roles & Payroll
 - Manage Suppliers
-- View Global Reports & Analytics
-- Configure System Themes
+- View Global Financial Reports
+- System Settings & Themes
+- Backup & Restore
 
 ### Staff
 - Create Sales via POS
 - View Products & Stock
 - Generate Invoices
 - View Own Profile
-
----
-
-# 📈 Future Improvements
-
-- Barcode / QR Code Scanner
-- Multi-Store Management
-- Customer Loyalty Program
-- Offline Mode
-- Push Notifications
-- Multi-Language Support
 
 ---
 
