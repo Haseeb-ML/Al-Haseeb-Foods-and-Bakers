@@ -715,10 +715,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     .toList();
               }
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  //-------------------- STAT CARDS ROW --------------------
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    //-------------------- STAT CARDS ROW --------------------
                   Row(
                     children: [
                       Expanded(
@@ -805,8 +806,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   const SizedBox(height: AppSpacing.xs),
 
                   //-------------------- PRODUCT LIST (mobile) / GRID (desktop) --------------------
-                  Expanded(
-                    child: products.isEmpty
+                  products.isEmpty
                         ? Padding(
                             padding: const EdgeInsets.symmetric(vertical: 40),
                             child: Center(
@@ -818,6 +818,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           )
                         : (isDesktop
                             ? GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
                                 padding: EdgeInsets.zero,
                                 itemCount: products.length,
                                 gridDelegate:
@@ -871,6 +873,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(AppRadius.card),
                                   child: ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
                                     padding: EdgeInsets.zero,
                                     itemCount: products.length,
                                     separatorBuilder: (context, index) => Divider(
@@ -911,8 +915,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   ),
                                 ),
                               )),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ),

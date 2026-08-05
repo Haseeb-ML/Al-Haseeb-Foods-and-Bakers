@@ -12,6 +12,7 @@ import '../screens/admin/product_list_screen.dart';
 import '../screens/admin/staff_management_screen.dart';
 import '../screens/admin/backup_restore_screen.dart';
 import '../screens/admin/today_sales_screen.dart';
+import '../screens/admin/sales_history_screen.dart';
 import '../screens/admin/theme_settings_screen.dart';
 import '../screens/shared/new_sale_screen.dart';
 import '../screens/shared/customer_list_screen.dart';
@@ -246,6 +247,19 @@ class AdminSidebar extends StatelessWidget {
                         border: border,
                       ),
 
+                      // 4b. Sales History
+                      _buildNavItem(
+                        context,
+                        icon: Icons.history_outlined,
+                        activeIcon: Icons.history_rounded,
+                        label: 'Sales History',
+                        targetRoute: 'Sales History',
+                        screen: const SalesHistoryScreen(),
+                        textPrimary: textPrimary,
+                        textSecondary: textSecondary,
+                        border: border,
+                      ),
+
                       // 5. Customers & Dues
                       _buildNavItem(
                         context,
@@ -346,64 +360,7 @@ class AdminSidebar extends StatelessWidget {
               Divider(color: border, height: 1),
               const SizedBox(height: 12),
 
-              //-------------------- SWITCH TO STAFF VIEW --------------------
-              GestureDetector(
-                onTap: () {
-                  StaffSidebar.adminPreviewMode = true;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => StaffDashboard(
-                        user: currentUser,
-                        isAdminPreview: true,
-                        previewLabel: 'Admin Preview: General Staff View',
-                      ),
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        accentController.value.withValues(alpha: 0.15),
-                        accentController.value.withValues(alpha: 0.05),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: accentController.value.withValues(alpha: 0.25),
-                      width: 0.8,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.swap_horiz_rounded,
-                        size: 18,
-                        color: accentController.value,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'Switch to Staff View',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: accentController.value,
-                          ),
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 12,
-                        color: accentController.value.withValues(alpha: 0.6),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
+
 
               //-------------------- BOTTOM ADMIN PROFILE CARD & LOGOUT --------------------
               Container(

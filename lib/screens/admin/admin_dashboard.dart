@@ -16,6 +16,7 @@ import '../../models/invoice_model.dart';
 import '../auth/login_screen.dart';
 import 'staff_management_screen.dart';
 import 'today_sales_screen.dart';
+import 'sales_history_screen.dart';
 import 'admin_profile_screen.dart';
 import 'product_list_screen.dart';
 import '../shared/customer_list_screen.dart';
@@ -242,7 +243,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => TodaySalesScreen()),
+                  MaterialPageRoute(builder: (_) => const SalesHistoryScreen()),
                 );
               },
               child: Row(

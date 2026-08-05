@@ -78,6 +78,9 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
                       const SizedBox(height: 10),
                       TextFormField(
                         controller: contactController,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                        ],
                         decoration: const InputDecoration(
                           labelText: 'Contact Person Name',
                           prefixIcon: Icon(Icons.person_outline),
@@ -207,7 +210,12 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
                 children: [
                   Icon(Icons.inventory_2_outlined, color: accent),
                   const SizedBox(width: 8),
-                  const Text('New Stock-In Entry'),
+                  const Expanded(
+                    child: Text(
+                      'New Stock-In Entry',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
               content: SingleChildScrollView(
@@ -223,7 +231,14 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
                       items: suppliers.map((sup) {
                         return DropdownMenuItem(
                           value: sup,
-                          child: Text(sup.companyName),
+                          child: SizedBox(
+                            width: 180, // Hard limit to prevent popup intrinsic width overflow
+                            child: Text(
+                              sup.companyName,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
                         );
                       }).toList(),
                       onChanged: (val) => setDialogState(() => chosenSupplier = val),
@@ -238,7 +253,14 @@ class _SupplierListScreenState extends State<SupplierListScreen> {
                       items: products.map((prod) {
                         return DropdownMenuItem(
                           value: prod,
-                          child: Text('${prod.name} (Current Stock: ${prod.stockQty})'),
+                          child: SizedBox(
+                            width: 180, // Hard limit to prevent popup intrinsic width overflow
+                            child: Text(
+                              '${prod.name} (Current Stock: ${prod.stockQty})',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
                         );
                       }).toList(),
                       onChanged: (val) {

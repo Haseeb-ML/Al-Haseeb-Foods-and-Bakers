@@ -7,6 +7,7 @@ import '../../models/invoice_model.dart';
 import '../../services/invoice_service.dart';
 import '../../services/product_service.dart';
 import 'customer_picker_screen.dart';
+import 'product_details_screen.dart';
 import '../../services/invoice_pdf_service.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/accent_controller.dart';
@@ -808,158 +809,195 @@ class _NewSaleScreenState extends State<NewSaleScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      if (p.stockQty <= 0) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('${p.name} is out of stock!'),
-                            backgroundColor: AppColors.danger,
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ProductDetailsScreen(
+                            product: p,
+                            isAdmin: widget.isAdmin,
                           ),
-                        );
-                        return;
-                      }
-                      if (inCartQty >= p.stockQty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Cannot add more. Stock limit reached!'),
-                            backgroundColor: AppColors.danger,
-                          ),
-                        );
-                        return;
-                      }
-                      setState(() {
-                        _cartProducts[p.id] = p;
-                        _cartQty[p.id] = inCartQty + 1;
-                      });
+                        ),
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(
                         color: card,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: inCartQty > 0 ? accent : border,
-                          width: inCartQty > 0 ? 1.5 : 0.8,
-                        ),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: inCartQty > 0 ? accent : border,
+                        width: inCartQty > 0 ? 1.5 : 0.8,
                       ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Expanded(
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                p.imageUrl.isNotEmpty
-                                    ? CachedNetworkImage(
-                                        imageUrl: p.imageUrl,
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) => Container(
-                                          color: bgFor(textMuted),
-                                          child: const Center(
-                                            child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(strokeWidth: 1.5),
-                                            ),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              p.imageUrl.isNotEmpty
+                                  ? CachedNetworkImage(
+                                      imageUrl: p.imageUrl,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Container(
+                                        color: bgFor(textMuted),
+                                        child: const Center(
+                                          child: SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: CircularProgressIndicator(strokeWidth: 1.5),
                                           ),
                                         ),
-                                        errorWidget: (context, url, error) => Container(
-                                          color: bgFor(textMuted),
-                                          child: Icon(Icons.bakery_dining_outlined, color: textSecondary, size: 28),
-                                        ),
-                                      )
-                                    : Container(
+                                      ),
+                                      errorWidget: (context, url, error) => Container(
                                         color: bgFor(textMuted),
                                         child: Icon(Icons.bakery_dining_outlined, color: textSecondary, size: 28),
                                       ),
-                                if (isLow || p.stockQty == 0)
-                                  Positioned(
-                                    top: 6,
-                                    left: 6,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                                      decoration: BoxDecoration(
-                                        color: p.stockQty == 0 ? AppColors.danger : Colors.orange,
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
-                                      child: Text(
-                                        p.stockQty == 0 ? 'Out of Stock' : 'Low Stock',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    )
+                                  : Container(
+                                      color: bgFor(textMuted),
+                                      child: Icon(Icons.bakery_dining_outlined, color: textSecondary, size: 28),
+                                    ),
+                              if (isLow || p.stockQty == 0)
+                                Positioned(
+                                  top: 6,
+                                  left: 6,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                                    decoration: BoxDecoration(
+                                      color: p.stockQty == 0 ? AppColors.danger : Colors.orange,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      p.stockQty == 0 ? 'Out of Stock' : 'Low Stock',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ),
-                                if (inCartQty > 0)
-                                  Positioned(
-                                    top: 6,
-                                    right: 6,
-                                    child: CircleAvatar(
-                                      radius: 10,
-                                      backgroundColor: accent,
-                                      child: Text(
-                                        '$inCartQty',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  p.name,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: textPrimary,
                                   ),
                                 ),
-                                const SizedBox(height: 2),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'Rs. ${p.price.toStringAsFixed(0)}',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w700,
-                                          color: accent,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      'Stock: ${p.stockQty}',
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                p.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Rs. ${p.price.toStringAsFixed(0)}',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        fontSize: 10,
-                                        color: textSecondary,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w700,
+                                        color: accent,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    'Stock: ${p.stockQty - inCartQty}',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Minus Button
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (inCartQty > 0) {
+                                        setState(() {
+                                          if (inCartQty == 1) {
+                                            _cartQty.remove(p.id);
+                                            _cartProducts.remove(p.id);
+                                          } else {
+                                            _cartQty[p.id] = inCartQty - 1;
+                                          }
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: inCartQty > 0 ? AppColors.danger.withValues(alpha: 0.1) : border,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Icon(Icons.remove, size: 16, color: inCartQty > 0 ? AppColors.danger : textMuted),
+                                    ),
+                                  ),
+                                  // Quantity Text
+                                  Text(
+                                    '$inCartQty',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: inCartQty > 0 ? accent : textPrimary,
+                                    ),
+                                  ),
+                                  // Plus Button
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (p.stockQty <= 0) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('${p.name} is out of stock!'), backgroundColor: AppColors.danger),
+                                        );
+                                        return;
+                                      }
+                                      if (inCartQty >= p.stockQty) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(content: Text('Stock limit reached!'), backgroundColor: AppColors.danger),
+                                        );
+                                        return;
+                                      }
+                                      setState(() {
+                                        _cartProducts[p.id] = p;
+                                        _cartQty[p.id] = inCartQty + 1;
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: inCartQty < p.stockQty ? accent.withValues(alpha: 0.1) : border,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Icon(Icons.add, size: 16, color: inCartQty < p.stockQty ? accent : textMuted),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  );
-                },
+                  ),
+                );
+              },
               );
             },
           ),
